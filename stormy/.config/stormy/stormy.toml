@@ -1,0 +1,8 @@
+provider = "OpenMeteo"
+api_key = ""
+city = "Cugnaux"
+units = "metric"
+showcityname = true
+use_colors = true
+live_mode = false
+compact = false

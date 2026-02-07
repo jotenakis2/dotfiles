@@ -1,0 +1,22 @@
+{
+    "*.qml": {
+        "filetype": "javascript"
+    },
+    "auto_complete": true,
+    "autosu": true,
+    "clipboard_control": "write-clipboard,write-primary,read-clipboard,read-primary",
+    "colorscheme": "catppuccin-mocha",
+    "hlsearch": true,
+    "linters": {
+        "sh": {
+            "args": [
+                "--format=json"
+            ],
+            "command": "shellcheck",
+            "pattern": "^(.*?):(\\d+):(\\d+):\\s(.*)$",
+            "severity": "warning"
+        }
+    },
+    "mkparents": true,
+    "savecursor": true
+}

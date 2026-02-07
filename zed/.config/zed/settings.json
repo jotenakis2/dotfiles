@@ -1,0 +1,78 @@
+{
+  "ui_font_weight": 400.0,
+  "ui_font_family": "JetBrainsMono Nerd Font Mono",
+  "buffer_font_size": 16.0,
+  "disable_ai": true,
+  "buffer_font_family": ".ZedMono",
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font Mono"
+  },
+  "auto_install_extensions": {
+    "basher": true,
+    "catppuccin-icons": true,
+    "nix": true,
+    "toml": true
+  },
+  "auto_update": false,
+  "formatter": {
+    "language_servers": [
+      "nixd"
+    ],
+    "name": "nixd",
+    "language_server": {
+      "name": "nixd"
+    }
+  },
+  "hour_format": "hour24",
+  "icon_theme": "Catppuccin Mocha",
+  "load_direnv": "shell_hook",
+  "lsp": {
+    "bash-language-server": {
+      "binary": {
+        "path_lookup": true
+      }
+    },
+    "nixd": {
+      "binary": {
+        "path_lookup": true
+      }
+    },
+    "pyright": {
+      "binary": {
+        "path_lookup": true
+      }
+    },
+    "taplo": {
+      "binary": {
+        "path_lookup": true
+      }
+    },
+    "yaml-language-server": {
+      "binary": {
+        "path_lookup": true
+      }
+    }
+  },
+  "theme": {
+    "dark": "Catppuccin Mocha (lavender)",
+    "light": "Catppuccin Mocha (lavender)"
+  },
+  "languages": {
+    "JSON": {
+      "language_servers": [
+        "!package-version-server"
+      ]
+    },
+    "Nix": {
+      "language_servers": [
+        "nixd",
+        "!nil"
+      ]
+    }
+  },
+  "restore_on_startup": "last_workspace"
+}
