@@ -1,0 +1,241 @@
+#!/usr/bin/env bash
+
+# gestionnaire de fichier fzf avec previsualisation
+
+preview_file() {
+    local file="$1"
+    local original_file="$1"
+    
+    # Clear les images kitty précédentes
+    printf '\x1b_Ga=d,d=A\x1b\\'
+    
+    # Gestion des symlinks
+    if [[ -L "$file" ]]; then
+        local target
+        target=$(readlink -f "$file" 2>/dev/null)
+        if [[ -n "$target" ]]; then
+            echo -e "\e[1;36mSymlink\e[0m → \e[1;32m$target\e[0m"
+            echo ""
+            file="$target"
+        else
+            echo -e "\e[1;31mSymlink cassé\e[0m"
+            return
+        fi
+    fi
+    
+    # Si c'est un directory
+    if [[ -d "$file" ]]; then
+        eza -T -L 3 --color=always --icons --all --group-directories-first "$file"
+        return
+    fi
+    
+    # Détection du type MIME et charset
+    local mime_type charset
+    mime_type=$(file --mime-type -b "$file")
+    charset=$(file --mime-encoding -b "$file")
+    
+    # Archives
+    case "$file" in
+        *.tar.gz|*.tgz)
+            tar -tzf "$file" 2>/dev/null
+            return
+            ;;
+        *.tar.bz2|*.tbz2)
+            tar -tjf "$file" 2>/dev/null
+            return
+            ;;
+        *.tar.xz|*.txz)
+            tar -tJf "$file" 2>/dev/null
+            return
+            ;;
+        *.tar)
+            tar -tf "$file" 2>/dev/null
+            return
+            ;;
+        *.zip)
+            unzip -l "$file" 2>/dev/null
+            return
+            ;;
+        *.7z)
+            7z l "$file" 2>/dev/null
+            return
+            ;;
+        *.rar)
+            unrar l "$file" 2>/dev/null
+            return
+            ;;
+        *.md|*.markdown)
+            if command -v glow &>/dev/null; then
+                glow -s dark "$file" 2>/dev/null
+            else
+                bat --color=always --style=numbers,changes --file-name="$original_file" "$file"
+            fi
+            return
+            ;;
+        *.svg|*.svgz)
+            if [[ "$TERM" == "xterm-kitty" ]]; then
+                kitty icat --clear --transfer-mode=memory --stdin=no \
+                --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" \
+                    "$file" 2>/dev/null
+            else
+                chafa -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" "$file" 2>/dev/null
+            fi
+            return
+            ;;
+        *.json|*.lock|*.nix|*.yaml|*.yml|*.toml|*.xml)
+            if command -v bat &>/dev/null; then
+                bat --color=always --style=numbers,changes --line-range=:500 --file-name="$original_file" "$file"
+            else
+                cat "$file"
+            fi
+            return
+            ;;
+    esac
+    
+    # Images
+    if [[ "$mime_type" =~ ^image/ ]]; then
+        if [[ "$TERM" == "xterm-kitty" ]]; then
+            kitty icat --clear --transfer-mode=memory --stdin=no \
+                --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" \
+                "$file" 2>/dev/null
+        else
+            chafa -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" "$file" 2>/dev/null
+        fi
+        return
+    fi
+    
+    # PDFs
+    if [[ "$mime_type" == "application/pdf" ]]; then
+        if command -v pdftoppm &>/dev/null; then
+            pdftoppm -f 1 -l 1 -png "$file" 2>/dev/null | \
+            if [[ "$TERM" == "xterm-kitty" ]]; then
+                kitty icat --clear --transfer-mode=memory --stdin=yes \
+                    --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" 2>/dev/null
+            else
+                chafa -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" 2>/dev/null
+            fi
+        elif command -v pdftotext &>/dev/null; then
+            pdftotext -l 5 "$file" - 2>/dev/null
+        fi
+        return
+    fi
+    
+    # Fichiers texte
+    if [[ "$mime_type" =~ ^text/ ]] && [[ "$charset" != "binary" ]]; then
+        if command -v bat &>/dev/null; then
+            bat --color=always --style=numbers,changes --line-range=:500 --file-name="$original_file" "$file"
+        else
+            cat "$file"
+        fi
+        return
+    fi
+    
+    # Binaires
+    if command -v hexyl &>/dev/null; then
+        hexyl -n 512 "$file" 2>/dev/null
+    else
+        xxd -l 512 "$file" 2>/dev/null
+    fi
+}
+
+export -f preview_file
+
+# Gestion des options
+SHOW_HIDDEN=""
+while getopts "a" opt; do
+    case $opt in
+        a)
+            SHOW_HIDDEN="--hidden"
+            ;;
+        \?)
+            echo "Usage: $0 [-a] [directory]"
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+# Utilise le paramètre restant comme dossier, sinon PWD
+SEARCH_DIR="$(readlink -f "${1:-.}")"
+
+# Fonction récursive pour naviguer
+fzf_navigate() {
+    local current_dir="$1"
+    local show_hidden="$2"
+    
+    while true; do
+        # Couleur peach ANSI: \e[38;5;217m
+        local header_text=$(echo -e "\e[38;5;217m📁 $current_dir\e[0m | ENTER/→: entrer | ←: remonter | ESC: quitter")
+        
+        local selected action
+        # Ajouter le dossier parent si on n'est pas à la racine
+        if [[ "$current_dir" != "/" ]]; then
+            selected=$({ echo ".."; fd --type f --type d $show_hidden --max-depth 1 --follow --exclude .git --color=always . "$current_dir"; } | \
+                fzf --ansi \
+                    --header="$header_text" \
+                    --preview 'bash -c "preview_file {}"' \
+                    --preview-window=right:60%:wrap \
+                    --bind 'ctrl-/:change-preview-window(down|hidden|)' \
+                    --bind 'ctrl-d:half-page-down' \
+                    --bind 'ctrl-u:half-page-up' \
+                    --bind 'enter:accept' \
+                    --bind 'right:accept' \
+                    --bind 'left:become:echo __LEFT__' \
+                    --expect=enter,right,left)
+        else
+            selected=$(fd --type f --type d $show_hidden --max-depth 1 --follow --exclude .git --color=always . "$current_dir" | \
+                fzf --ansi \
+                    --header="$header_text" \
+                    --preview 'bash -c "preview_file {}"' \
+                    --preview-window=right:60%:wrap \
+                    --bind 'ctrl-/:change-preview-window(down|hidden|)' \
+                    --bind 'ctrl-d:half-page-down' \
+                    --bind 'ctrl-u:half-page-up' \
+                    --bind 'enter:accept' \
+                    --bind 'right:accept' \
+                    --bind 'left:become:echo __LEFT__' \
+                    --expect=enter,right,left)
+        fi
+        
+        # Parse résultat
+        action=$(echo "$selected" | head -1)
+        selected=$(echo "$selected" | tail -1)
+        
+        # Gestion du ".." ou flèche gauche
+        if [[ "$selected" == ".." ]] || [[ "$selected" == "__LEFT__" ]] || [[ "$action" == "left" ]]; then
+            local parent
+            parent=$(dirname "$current_dir")
+            if [[ "$parent" != "$current_dir" ]]; then
+                current_dir="$parent"
+                continue
+            else
+                return
+            fi
+        fi
+        
+        # Si vide (ESC), sortir
+        if [[ -z "$selected" ]]; then
+            return
+        fi
+        
+        # Gestion selon le type
+        if [[ -d "$selected" ]]; then
+            # Dossier: changer current_dir et reboucler
+            current_dir="$selected"
+        elif [[ -f "$selected" ]]; then
+            local mime_type charset
+            mime_type=$(file --mime-type -b "$selected")
+            charset=$(file --mime-encoding -b "$selected")
+            
+            # Fichiers texte uniquement
+            if [[ "$mime_type" =~ ^text/ ]] && [[ "$charset" != "binary" ]]; then
+                ${EDITOR:-vim} "$selected"
+            else
+                # Binaires, images, PDF: ouvrir avec xdg-open
+                xdg-open "$selected" 2>/dev/null &
+            fi
+        fi
+    done
+}
+
+fzf_navigate "$SEARCH_DIR" "$SHOW_HIDDEN"

@@ -1,0 +1,132 @@
+[3m19:49:39, 7 February 2026[0m
+/usr/local/bin/fedupdate  (v2.23)
+
+----------------------
+dnf /usr/bin/dnf, dnf5, version :
+dnf5 version 5.2.17.0
+dnf5 plugin API version 2.0
+libdnf5 version 5.2.17.0
+libdnf5 plugin API version 2.2
+
+Loaded dnf5 plugins:
+  name: builddep
+  version: 1.0.0
+  API version: 2.0
+
+  name: changelog
+  version: 1.0.0
+  API version: 2.0
+
+  name: config-manager
+  version: 0.1.0
+  API version: 2.0
+
+  name: copr
+  version: 0.1.0
+  API version: 2.0
+
+  name: needs_restarting
+  version: 1.0.0
+  API version: 2.0
+
+  name: repoclosure
+  version: 1.0.0
+  API version: 2.0
+
+  name: repomanage
+  version: 1.0.0
+  API version: 2.0
+
+  name: reposync
+  version: 1.0.0
+  API version: 2.0
+----------------------
+
+Removed 74 files, 34 directories (total of 92 MiB). 0 errors occurred.
+Metadata cache created.
+distribution-gpg-keys.noarch   1.117-1.fc43                     updates
+edk2-aarch64.noarch            20251119-5.fc43                  updates
+edk2-ovmf.noarch               20251119-5.fc43                  updates
+edk2-riscv64.noarch            20251119-5.fc43                  updates
+edk2-shell-aa64.noarch         20251119-5.fc43                  updates
+edk2-shell-x64.noarch          20251119-5.fc43                  updates
+kitty.x86_64                   0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty
+kitty-kitten.x86_64            0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty
+kitty-shell-integration.noarch 0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty
+kitty-terminfo.noarch          0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty
+libwacom.x86_64                2.18.0-1.fc43                    updates
+libwacom-data.noarch           2.18.0-1.fc43                    updates
+open-vm-tools.x86_64           13.0.10-2.fc43                   updates
+open-vm-tools-desktop.x86_64   13.0.10-2.fc43                   updates
+pulseaudio-libs.x86_64         17.0-9.fc43                      updates
+pulseaudio-libs-glib2.x86_64   17.0-9.fc43                      updates
+pulseaudio-utils.x86_64        17.0-9.fc43                      updates
+python3-boto3.noarch           1.42.40-1.fc43                   updates
+python3-botocore.noarch        1.42.40-1.fc43                   updates
+qatlib.x86_64                  25.08.0-4.fc43                   updates
+qatlib-service.x86_64          25.08.0-4.fc43                   updates
+selinux-policy.noarch          42.23-1.fc43                     updates
+selinux-policy-targeted.noarch 42.23-1.fc43                     updates
+vim-data.noarch                2:9.1.2128-2.fc43                updates
+vim-minimal.x86_64             2:9.1.2128-2.fc43                updates
+Package                              Arch   Version                          Repository                                            Size
+Upgrading:
+ distribution-gpg-keys               noarch 1.117-1.fc43                     updates                                            1.0 MiB
+   replacing distribution-gpg-keys   noarch 1.116-1.fc43                     updates                                          996.8 KiB
+ edk2-aarch64                        noarch 20251119-5.fc43                  updates                                          271.6 MiB
+   replacing edk2-aarch64            noarch 20251119-3.fc43                  updates                                          271.6 MiB
+ edk2-ovmf                           noarch 20251119-5.fc43                  updates                                           45.2 MiB
+   replacing edk2-ovmf               noarch 20251119-3.fc43                  updates                                           45.2 MiB
+ edk2-riscv64                        noarch 20251119-5.fc43                  updates                                           17.6 MiB
+   replacing edk2-riscv64            noarch 20251119-3.fc43                  updates                                           17.6 MiB
+ edk2-shell-aa64                     noarch 20251119-5.fc43                  updates                                            1.1 MiB
+   replacing edk2-shell-aa64         noarch 20251119-3.fc43                  updates                                            1.1 MiB
+ edk2-shell-x64                      noarch 20251119-5.fc43                  updates                                            1.1 MiB
+   replacing edk2-shell-x64          noarch 20251119-3.fc43                  updates                                            1.1 MiB
+ kitty                               x86_64 0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty  13.9 MiB
+   replacing kitty                   x86_64 0.46.0.future.151.856e568-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty  13.8 MiB
+ kitty-kitten                        x86_64 0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty  23.8 MiB
+   replacing kitty-kitten            x86_64 0.46.0.future.151.856e568-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty  23.8 MiB
+ kitty-shell-integration             noarch 0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty 119.6 KiB
+   replacing kitty-shell-integration noarch 0.46.0.future.151.856e568-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty 119.6 KiB
+ kitty-terminfo                      noarch 0.46.0.future.162.19f24f2-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty  38.0 KiB
+   replacing kitty-terminfo          noarch 0.46.0.future.151.856e568-1.fc43 copr:copr.fedorainfracloud.org:rivenirvana:kitty  38.0 KiB
+ libwacom                            x86_64 2.18.0-1.fc43                    updates                                          114.0 KiB
+   replacing libwacom                x86_64 2.17.0-1.fc43                    <unknown>                                        110.0 KiB
+ libwacom-data                       noarch 2.18.0-1.fc43                    updates                                            1.4 MiB
+   replacing libwacom-data           noarch 2.17.0-1.fc43                    <unknown>                                          1.4 MiB
+ open-vm-tools                       x86_64 13.0.10-2.fc43                   updates                                            3.0 MiB
+   replacing open-vm-tools           x86_64 13.0.0-1.fc43                    d15e557246b143e68b4d7cf7c8078e9c                   3.0 MiB
+ open-vm-tools-desktop               x86_64 13.0.10-2.fc43                   updates                                          446.4 KiB
+   replacing open-vm-tools-desktop   x86_64 13.0.0-1.fc43                    d15e557246b143e68b4d7cf7c8078e9c                 446.4 KiB
+ pulseaudio-libs                     x86_64 17.0-9.fc43                      updates                                            3.4 MiB
+   replacing pulseaudio-libs         x86_64 17.0-7.fc43                      d15e557246b143e68b4d7cf7c8078e9c                   3.4 MiB
+ pulseaudio-libs-glib2               x86_64 17.0-9.fc43                      updates                                           19.7 KiB
+   replacing pulseaudio-libs-glib2   x86_64 17.0-7.fc43                      d15e557246b143e68b4d7cf7c8078e9c                  19.7 KiB
+ pulseaudio-utils                    x86_64 17.0-9.fc43                      updates                                          259.2 KiB
+   replacing pulseaudio-utils        x86_64 17.0-7.fc43                      d15e557246b143e68b4d7cf7c8078e9c                 259.2 KiB
+ python3-boto3                       noarch 1.42.40-1.fc43                   updates                                            2.4 MiB
+   replacing python3-boto3           noarch 1.42.39-1.fc43                   updates                                            2.4 MiB
+ python3-botocore                    noarch 1.42.40-1.fc43                   updates                                          109.0 MiB
+   replacing python3-botocore        noarch 1.42.39-1.fc43                   updates                                          109.0 MiB
+ qatlib                              x86_64 25.08.0-4.fc43                   updates                                          659.3 KiB
+   replacing qatlib                  x86_64 25.08.0-2.fc43                   fedora                                           657.8 KiB
+ qatlib-service                      x86_64 25.08.0-4.fc43                   updates                                           68.8 KiB
+   replacing qatlib-service          x86_64 25.08.0-2.fc43                   fedora                                            68.8 KiB
+ selinux-policy                      noarch 42.23-1.fc43                     updates                                           32.0 KiB
+   replacing selinux-policy          noarch 42.22-1.fc43                     <unknown>                                         32.0 KiB
+ selinux-policy-targeted             noarch 42.23-1.fc43                     updates                                           18.5 MiB
+   replacing selinux-policy-targeted noarch 42.22-1.fc43                     <unknown>                                         18.5 MiB
+ vim-data                            noarch 2:9.1.2128-2.fc43                updates                                           10.2 KiB
+   replacing vim-data                noarch 2:9.1.2114-1.fc43                updates                                           10.2 KiB
+ vim-minimal                         x86_64 2:9.1.2128-2.fc43                updates                                            1.7 MiB
+   replacing vim-minimal             x86_64 2:9.1.2114-1.fc43                updates                                            1.7 MiB
+
+Transaction Summary:
+ Upgrading:         25 packages
+ Replacing:         25 packages
+
+
+[3m19:50:47, 7 February 2026[0m
+Le système va maintenant redémarrer pour effectuer la transaction hors ligne amorcée par la commande suivante :
+	/usr/bin/dnf -y offline-upgrade download

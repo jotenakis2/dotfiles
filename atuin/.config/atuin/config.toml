@@ -1,0 +1,8 @@
+enter_accept = true
+exit_mode = "return-original"
+inline_height = 30
+search_mode = "fuzzy"
+style = "full"
+
+[theme]
+name = "catppuccin-mocha-lavender"
