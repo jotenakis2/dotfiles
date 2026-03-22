@@ -55,13 +55,6 @@ nonnumeric_search = false
 align = "Right"
 
 [[columns]]
-kind = "Threads"
-style = "BrightYellow|Yellow"
-numeric_search = false
-nonnumeric_search = false
-align = "Right"
-
-[[columns]]
 kind = "MultiSlot"
 style = "ByUnit"
 numeric_search = false
@@ -77,7 +70,7 @@ align = "Left"
 
 [[columns]]
 kind = "FileName"
-style = "BrightWhite|Black"
+style = "BrightYellow|Yellow"
 numeric_search = false
 nonnumeric_search = true
 align = "Left"
