@@ -10,3 +10,4 @@ enable=check-unassigned-uppercase
 enable=quote-safe-variables
 enable=require-double-brackets
 enable=require-variable-braces
+external-sources=true

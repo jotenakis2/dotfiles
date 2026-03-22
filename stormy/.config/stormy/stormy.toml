@@ -1,6 +1,6 @@
 provider = "OpenMeteo"
 api_key = ""
-city = "Cugnaux"
+city = "colleville-montgomery"
 units = "metric"
 showcityname = true
 use_colors = true

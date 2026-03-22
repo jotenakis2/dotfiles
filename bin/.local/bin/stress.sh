@@ -147,8 +147,6 @@ display_metrics_ram() {
     "(${swap_used_percent}%)" \
     "${zswap}Go" \
     "${zswapped}Go"
-
-  sleep 3
 }
 
 ################################################
@@ -171,6 +169,7 @@ run_stress_phase_ram() {
     local color
     color=$(get_color_for_percent "$percent")
     display_metrics_ram "$percent" "$target_usage" "$stress_gb" "$color"
+    sleep 5
   done
 }
 
@@ -200,8 +199,6 @@ display_metrics_cpu() {
   printf "${color}%-10s${Reset} %-20s\n" \
     "${percent}%" \
     "${active_cores}/${ncores}"
-
-  sleep 5
 }
 
 ################################################
@@ -224,6 +221,7 @@ run_stress_phase_cpu() {
     local color
     color=$(get_color_for_percent "$percent")
     display_metrics_cpu "$percent" "$active_cores" "$color"
+    sleep 5
   done
 }
 
@@ -278,7 +276,7 @@ benchmark_ram() {
 
   trap cleanup_ram EXIT INT TERM
 
-  gum spin --spinner dot --title "Démarrage du stress..." -- sleep 2
+  gum spin --spinner dot --title "Démarrage du stress..." -- sleep 1
 
   display_table_header_ram
 
@@ -314,8 +312,7 @@ benchmark_cpu() {
   gum style \
     --border double \
     --border-foreground $BleuGum \
-    --padding "0 4" \
-    --margin "1 0" \
+    --padding "0 4" \    --margin "1 0" \
     --align center \
     "$(gum style --foreground $VertGum --bold ' Stress CPU')"
 
@@ -344,7 +341,7 @@ benchmark_cpu() {
 
   trap cleanup_cpu EXIT INT TERM
 
-  gum spin --spinner dot --title "Démarrage du stress..." -- sleep 2
+  gum spin --spinner dot --title "Démarrage du stress..." -- sleep 1
 
   display_table_header_cpu
 
@@ -386,12 +383,13 @@ main_menu() {
       "$(gum style --foreground $VertGum --bold '󰍜 Menu principal') $(gum style --foreground $NoirGum '(󰹺 naviguer • ⏎ valider • 󱊷 quitter)')" \
       "  Stress RAM" \
       "  Stress CPU" \
-      "󰩈 Quitter") || break
+      "󰩈  Quitter") || break
 
     case "${choice}" in
       "  Stress RAM") benchmark_ram ;;
       "  Stress CPU") benchmark_cpu ;;
-      "󰩈 Quitter") break ;;
+      "󰩈  Quitter") break ;;
+      *) exit 1;;
     esac
   done
 }
