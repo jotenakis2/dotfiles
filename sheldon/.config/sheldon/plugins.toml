@@ -1,0 +1,72 @@
+shell = "zsh"
+
+[plugins]
+
+# pour déférer les plugins et accélérer le chargement initial
+[plugins.zsh-defer] 
+github = "romkatv/zsh-defer"
+[templates] 
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+# mise en cache des plugins compatibles
+[plugins.evalcache]
+github = "mroth/evalcache"
+
+# autocompletion
+[plugins.compinit] 
+inline = 'autoload -Uz compinit && zsh-defer compinit'
+
+# fzf-tab affiche l'autocompletion avec fzf
+[plugins.fzf-tab] 
+github = "Aloxaf/fzf-tab"
+apply = ["defer"]
+
+# suggestions automatiques grises au bout de la commande prétapée
+[plugins.zsh-autosuggestions] 
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+# double ECHAP rappelle dernière commande et ajoute sudo devant
+[plugins.sudo] 
+github = "zap-zsh/sudo"
+apply = ["defer"]
+
+# remplace cd
+[plugins.zsh-zoxide] 
+github = "z-shell/zsh-zoxide"
+apply = ["defer"]
+
+#[plugins.zsh-ssh-agent] 
+#github = "sdiebolt/zsh-ssh-agent"
+#apply = ["defer"]
+
+# chargement alias & function perso
+[plugins.aliases]
+local = "~/.config/sheldon/olivier"
+use = ["*"]
+apply = ["defer"]
+
+# colorisation des commandes (ne supporte pas 'defer')
+[plugins.grc]
+local = "~/.config/sheldon/grc"
+use = ["*"]
+
+# coloration syntaxique ultra-rapide
+[plugins.zsh-patina] 
+inline = 'zsh-defer _evalcache eval "$(zsh-patina activate)"'
+
+# pour pages de man en couleur
+[plugins.batman] 
+inline = 'zsh-defer _evalcache batman --export-env'
+
+# prompt
+[plugins.oh-my-posh] 
+inline = '_evalcache oh-my-posh init zsh --config $HOME/.config/ohmyposh/config.json'
+
+
+
+
+# benchmark zsh
+#[plugins.zsh-bench] 
+#github = "romkatv/zsh-bench"
+#apply = ["PATH"]
