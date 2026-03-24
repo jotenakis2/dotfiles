@@ -1,0 +1,17 @@
+theme = catppuccin-mocha.conf
+font-family = "Iosevka Nerd Font"
+font-size = 13
+background-opacity = 0.92
+#
+adjust-cell-width = 0
+env = IMSETTINGS_INTEGRATE_DESKTOP=no
+#
+maximize
+window-width = 200
+window-height = 45
+window-position-x = 10
+window-position-y = 0
+#
+gtk-tabs-location = bottom
+shell-integration-features = no-cursor
+#cursor-style=underline
