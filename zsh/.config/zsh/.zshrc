@@ -8,14 +8,10 @@ SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B
 # sheldon zsh plugin manager (cf ~/.config/sheldon/plugins.toml)
 eval "$(sheldon source)"
 
-# conf fzf-tab
+# config fzf-tab
 zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zsh-defer zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
 zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
-
-# dedup PATH
-typeset -U path
-
 
 
 
