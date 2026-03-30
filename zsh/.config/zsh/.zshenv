@@ -10,8 +10,27 @@ export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export GOBIN="${XDG_BIN_HOME:-$HOME/.local/bin}"
 
 # PATH
-export PATH="$GOBIN:$CARGO_HOME/bin:/usr/local/bin:/usr/bin:/bin"
-typeset -U path
+typeset -U PATH
+export PATH="$GOBIN:$CARGO_HOME/bin:$PATH"
 
 # ENV
 . "$ZDOTDIR/.exports"
+
+# recompilation toutes les 2880 min (2 jours)
+compinit_with_ttl() {
+        setopt local_options
+        local zcompdump="$ZDOTDIR/.zcompdump"
+        local zcomp_ttl=2880
+
+        if [[ ! -f "$zcompdump" ]]; then # n'existe pas
+                compinit -d "$zcompdump"
+                return 0
+        fi
+        if [[ -n "$(find "$zcompdump" -mmin "+$zcomp_ttl" -print -quit 2>/dev/null)" ]]; then # trop vieux
+                rm -f "$zcompdump"
+                compinit -d "$zcompdump"
+                return 0
+        fi
+        compinit -C -D -d "$zcompdump" # on charge au plus rapide
+		return 0
+}

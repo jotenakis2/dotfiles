@@ -79,30 +79,31 @@ internet() {
 # ----------------------------------------------------------------------------------------------------------
 fzf-history() {
   setopt localoptions noglobsubst noposixstrings pipefail
-  local raw key selected num cmd                            # sortie brute de fzf, touche frappée, ligne choisie, index de la ligne choisie, commande choisie
+  local raw key selected num cmd                              # sortie brute de fzf, touche frappée, ligne choisie, index de la ligne choisie, commande choisie
   
-  # j'affiche une liste fzf qui liste les dernières commande de l'historique et fzf attend TAB, ENTREE ou ESC
-  raw=$(fc -rl 1 | fzf --exact -n2..,.. --tiebreak=index --toggle-sort=ctrl-r --expect=tab,enter --query="${BUFFER}" +m --height=60% --no-scrollbar)												
-
+  # j'affiche une liste fzf qui liste les dernières commande de l'historique et fzf attend TAB, ENTREE (ou ECHAP)
+  # fzf "exact" pas "fuzzy", sans tri, cherche à partir du 2ème champ (le 1er est l'index), refuse la multi sélection 
+  raw=$(fc -rl 1 | fzf --no-sort --exact -n2..,.. --bind='ctrl-r:toggle-sort' --expect=tab,enter --query="${BUFFER}" +m --height=60% --no-scrollbar || true)												
+ 
   # récupèration des données et préparation
-  key=$(head -1 <<<"$raw")                                  # je récupère la touche tapée (TAB ou ENTREE)
-  selected=$(tail -1 <<<"$raw")                             # je récupère la ligne choisie
-  zle reset-prompt                                          # je force la réinitialisation du prompt (prompt OK même si ESC)
+  key=$(head -1 <<<"${raw}")                                  # je récupère la touche tapée (TAB ou ENTREE)
+  selected=$(tail -1 <<<"${raw}")                             # je récupère la ligne choisie
+  zle reset-prompt                                            # je force la réinitialisation du prompt (prompt OK même si ESC)
 
   # traitement de la sélection si non vide
-  if [ -n "$selected" ]; then												
-    num=$(echo "$selected" | awk '{print $1}')              # je récupère l'index de la commande choisie,
-    cmd=$(fc -ln $num $num | sed 's/[[:space:]]*$//')       # je récupère la commande choisie uniquement et je dégage les espaces en bout de commande,
-    BUFFER="${cmd} "                                        # le buffer est maintenant ma commande avec un espace,
-    zle end-of-line                                         # je force le déplacement du curseur à la fin du buffer par sécurité pour éviter incompatibilité avec autres plugins,
-    CURSOR=${#BUFFER}                                       # je déplace le curseur à la fin du buffer,
-    zle redisplay                                           # je rafraichit l'affichage,
-    [[ $key = enter ]] && zle accept-line                   # si ENTREE alors j'accepte la commande et l'éxécute.
+  if [[ -n "${selected}" ]]; then												
+    num=$(awk '{print $1}' <<< "${selected}")                 # je récupère l'index de la commande choisie,
+    cmd=$(fc -ln "${num}" "${num}" | sed 's/[[:space:]]*$//' || true) # je récupère la commande choisie uniquement et je dégage les espaces en bout de commande,
+    BUFFER="${cmd} "                                          # le buffer est maintenant ma commande avec un espace,
+    zle end-of-line                                           # je force le déplacement du curseur à la fin du buffer par sécurité pour éviter incompatibilité avec autres plugins,
+    #CURSOR=${#BUFFER}                                         # je déplace le curseur à la fin du buffer,
+    zle redisplay                                             # je rafraichit l'affichage,
+    [[ ${key} = enter ]] && zle accept-line                   # si ENTREE alors j'accepte la commande et l'éxécute.
   fi
 }
-zle -N fzf-history          # définit la fonction fzf-history comme un widget ZSH
-bindkey '^R' fzf-history    # bind sur CTRL R
-bindkey '^[[A' fzf-history  # et bind sur Flèche haut
+zle -N fzf-history                                            # définit la fonction fzf-history comme un widget ZSH
+bindkey '^R' fzf-history                                      # bind sur CTRL R
+bindkey '^[[A' fzf-history                                    # et bind sur Flèche haut
 
 
 # ----------------------------------------------------------------------------------------------------------
