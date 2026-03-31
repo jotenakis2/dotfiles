@@ -7,8 +7,8 @@
 # Example: export DRIFT_TIMEOUT=120
 
 [engine]
-fps           = 30     # target frames per second
-cycle_seconds = 60     # seconds per scene, 0 = stay on one scene
+fps           = 15     # target frames per second
+cycle_seconds = 120     # seconds per scene, 0 = stay on one scene
 scenes        = "rain,waveform,pipes,orrery"  # comma-separated list or "all"
 theme         = "dracula" # cosmic | nord | dracula | catppuccin | gruvbox | forest | wildberries | mono | rosepine
 shuffle       = true   # randomise scene order
