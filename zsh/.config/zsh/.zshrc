@@ -9,14 +9,18 @@ setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE cor
 SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
 
 # sheldon plugin manager (cf ~/.config/sheldon/plugins.toml)
-eval "$(sheldon source)"
+if command -v sheldon >/dev/null 2>&1; then
+	eval "$(sheldon source)"
+fi
 
 # autocompletion
 autoload -Uz compinit
 zsh-defer compinit_with_ttl
 
 # terminal screen saver
-_evalcache drift shell-init zsh
+if command -v drift >/dev/null 2>&1; then
+    _evalcache drift shell-init zsh
+fi
 
 # config fzf-tab
 zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes

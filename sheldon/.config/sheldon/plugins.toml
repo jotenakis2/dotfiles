@@ -52,7 +52,7 @@ apply = ["defer"]
 
 # coloration syntaxique ultra-rapide
 [plugins.zsh-patina] 
-inline = 'zsh-defer _evalcache zsh-patina activate'
+inline = '_evalcache zsh-patina activate'
 
 # pour pages de man en couleur
 [plugins.batman] 
