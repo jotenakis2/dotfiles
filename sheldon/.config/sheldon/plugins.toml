@@ -51,8 +51,8 @@ use = ["*"]
 apply = ["defer"]
 
 # coloration syntaxique ultra-rapide
-[plugins.zsh-patina] 
-inline = '_evalcache zsh-patina activate'
+#[plugins.zsh-patina] 
+#inline = '_evalcache zsh-patina activate'
 
 # pour pages de man en couleur
 [plugins.batman] 
