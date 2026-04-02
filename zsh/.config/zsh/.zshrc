@@ -13,6 +13,11 @@ if command -v sheldon >/dev/null 2>&1; then
 	eval "$(sheldon source)"
 fi
 
+# coloration syntaxique 
+if command -v zsh-patina >/dev/null 2>&1; then
+	eval "$(zsh-patina activate)"
+fi
+
 # autocompletion
 autoload -Uz compinit
 zsh-defer compinit_with_ttl
