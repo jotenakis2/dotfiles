@@ -2,7 +2,8 @@
 fpath=(~/.local/share/zsh/completions $fpath)
 
 # History & correct
-HISTFILE="$HOME"/.local/share/zsh/.zsh_history
+[[ -d "${HOME}/.local/share/zsh" ]] || mkdir -p "${HOME}/.local/share/zsh"
+HISTFILE="$HOME/.local/share/zsh/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE correct
