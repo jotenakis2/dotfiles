@@ -1,0 +1,24 @@
+language: en
+theme:
+    textColor: '#ffffff'
+    primaryColor: '#5a4f9f'
+    secondaryColor: '#8b77db'
+    tertiaryColor: '#4e4e4e'
+    errorColor: '#ff0000'
+keybindings:
+    quit: q
+    search: s
+    record: r
+    bookmarkToggle: b
+    bookmarksView: B
+    hideStation: h
+    manageHidden: H
+    changeLanguage: L
+    volumeDown: "9"
+    volumeUp: "0"
+    navigateDown: j
+    navigateUp: k
+    stopPlayback: ctrl+k
+    vote: v
+playerPreferences:
+    defaultVolume: 80

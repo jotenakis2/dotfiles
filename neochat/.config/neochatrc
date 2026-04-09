@@ -1,0 +1,14 @@
+[General]
+AllRoomsInHome=true
+RoomDrawerWidth=360
+
+[RoomDrawer]
+ShowAvatarInRoomDrawer=false
+
+[Timeline]
+CompactLayout=true
+CompactRoomList=true
+FontScale=1.3
+
+[UiSettings]
+ColorScheme=CatppuccinMocha

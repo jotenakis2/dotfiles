@@ -281,6 +281,50 @@ totalSensors=["memory/physical/usedPercent"]
 immutability=1
 plugin=org.kde.plasma.pager
 
+[Containments][2][Applets][40]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][2][Applets][40][Configuration][General]
+expanding=false
+length=20
+
+[Containments][2][Applets][41]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][2][Applets][41][Configuration][General]
+expanding=false
+length=20
+
+[Containments][2][Applets][42]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][2][Applets][42][Configuration][General]
+expanding=false
+length=20
+
+[Containments][2][Applets][43]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][2][Applets][43][Configuration][General]
+expanding=false
+length=20
+
+[Containments][2][Applets][44]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
+[Containments][2][Applets][44][Configuration][General]
+expanding=false
+length=40
+
+[Containments][2][Applets][45]
+immutability=1
+plugin=org.kde.plasma.panelspacer
+
 [Containments][2][Applets][5]
 immutability=1
 plugin=org.kde.plasma.icontasks
@@ -290,11 +334,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.mozilla.firefox.desktop,virt-manager.desktop,kitty.desktop,org.kde.konsole.desktop,com.mitchellh.ghostty.desktop
-groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:org.mozilla.firefox.desktop,applications:org.kde.konsole.desktop,applications:kitty.desktop,applications:virt-manager.desktop
+groupingAppIdBlacklist=virt-manager.desktop,com.mitchellh.ghostty.desktop,org.kde.konsole.desktop,kitty.desktop,org.mozilla.firefox.desktop
+groupingLauncherUrlBlacklist=applications:virt-manager.desktop,applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop,applications:kitty.desktop,applications:com.mitchellh.ghostty.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,preferred://filemanager,applications:org.kde.kate.desktop,applications:com.mitchellh.ghostty.desktop,preferred://browser,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop
+launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,applications:org.kde.kate.desktop,preferred://browser,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:helium.desktop
 showToolTips=false
 tooltipControls=false
 
@@ -416,7 +460,7 @@ hiddenItems=Konversation,org.kde.plasma.bluetooth,org.kde.plasma.brightness,org.
 knownItems=org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.printmanager,org.kde.plasma.vault,org.kde.plasma.weather,org.kde.kscreen,org.kde.plasma.mediacontroller,org.kde.plasma.volume
 
 [Containments][2][General]
-AppletOrder=3;4;5;35;39;36;38;37;6;7;21;22
+AppletOrder=3;4;5;45;35;40;39;41;36;42;38;43;37;44;6;7;21;22
 
 [ScreenMapping]
 itemsOnDisabledScreens=

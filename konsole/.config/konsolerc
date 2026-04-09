@@ -1,0 +1,12 @@
+[Desktop Entry]
+DefaultProfile=OLo.profile
+
+[General]
+ConfigVersion=1
+
+[Notification Messages]
+CloseAllEmptyTabs=true
+CloseAllTabs=true
+
+[UiSettings]
+ColorScheme=
