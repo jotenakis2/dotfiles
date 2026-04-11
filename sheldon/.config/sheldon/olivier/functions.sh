@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------------------------------------
 distrodate() {
-  \ls -lct /etc | tail -1 | awk '{print $6, $7, $8}'
+  /usr/bin/ls -lct /etc | tail -1 | awk '{print $6, $7, $8}'
 }
 
 # ----------------------------------------------------------------------------------------------------------
@@ -96,7 +96,6 @@ fzf-history() {
     cmd=$(fc -ln "${num}" "${num}" | sed 's/[[:space:]]*$//' || true) # je récupère la commande choisie uniquement et je dégage les espaces en bout de commande,
     BUFFER="${cmd} "                                          # le buffer est maintenant ma commande avec un espace,
     zle end-of-line                                           # je force le déplacement du curseur à la fin du buffer par sécurité pour éviter incompatibilité avec autres plugins,
-    #CURSOR=${#BUFFER}                                         # je déplace le curseur à la fin du buffer,
     zle redisplay                                             # je rafraichit l'affichage,
     [[ ${key} = enter ]] && zle accept-line                   # si ENTREE alors j'accepte la commande et l'éxécute.
   fi

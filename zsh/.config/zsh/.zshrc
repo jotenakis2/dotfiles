@@ -14,20 +14,20 @@ if command -v sheldon >/dev/null 2>&1; then
 	eval "$(sheldon source)"
 fi
 
+# terminal screen saver
+if command -v drift >/dev/null 2>&1; then
+    _evalcache drift shell-init zsh
+fi
+
 # coloration syntaxique 
 if command -v zsh-patina >/dev/null 2>&1; then
-	#zsh-defer eval "$(zsh-patina activate)"
-	zsh-defer _evalcache zsh-patina activate
+	#zsh-defer 
+	_evalcache zsh-patina activate
 fi
 
 # autocompletion
 autoload -Uz compinit
 zsh-defer compinit_with_ttl
-
-# terminal screen saver
-if command -v drift >/dev/null 2>&1; then
-    _evalcache drift shell-init zsh
-fi
 
 # config fzf-tab
 zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes

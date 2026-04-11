@@ -13,7 +13,7 @@ immutability=1
 lastScreen=0
 location=0
 plugin=org.kde.plasma.folder
-wallpaperplugin=com.plasma.wallpaper.wallhaven
+wallpaperplugin=org.kde.image
 
 [Containments][1][Applets][33]
 immutability=1
@@ -59,6 +59,9 @@ currentWallpaperThumbnail=https://th.wallhaven.cc/small/nr/nr62l1.jpg
 [Containments][1][Wallpaper][kde.wallhaven.wallpaper][General]
 categories=custom
 forzeUpdate=2
+
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///home/mbanjieu/.local/share/wallpapers/SpacePlasma.jpg
 
 [Containments][1][Wallpaper][org.kde.potd][General]
 Provider=bing
@@ -192,16 +195,16 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][37][Configuration][SensorColors]
-lmsensors/acpitz-acpi-0/temp1=85,171,101
-lmsensors/acpitz-acpi-0/temp2=171,140,85
+lmsensors/acpitz-acpi-0/temp1=0,0,127
+lmsensors/acpitz-acpi-0/temp2=170,0,127
 lmsensors/acpitz-acpi-0/temp3=171,105,85
 lmsensors/acpitz-acpi-0/temp4=85,171,89
 lmsensors/acpitz-acpi-0/temp5=171,111,85
-lmsensors/ath11k_hwmon-pci-0200/temp1=171,165,85
-lmsensors/nvme-pci-0400/temp1=171,139,85
+lmsensors/ath11k_hwmon-pci-0200/temp1=0,170,127
+lmsensors/nvme-pci-0400/temp1=170,85,127
 
 [Containments][2][Applets][37][Configuration][SensorLabels]
-lmsensors/acpitz-acpi-0/temp1=1
+lmsensors/acpitz-acpi-0/temp1=CPU
 lmsensors/acpitz-acpi-0/temp2=2
 lmsensors/acpitz-acpi-0/temp3=3
 lmsensors/acpitz-acpi-0/temp4=4
@@ -210,7 +213,7 @@ lmsensors/ath11k_hwmon-pci-0200/temp1=Wifi
 lmsensors/nvme-pci-0400/temp1=NVMe
 
 [Containments][2][Applets][37][Configuration][Sensors]
-highPrioritySensorIds=["lmsensors/acpitz-acpi-0/temp1","lmsensors/acpitz-acpi-0/temp2","lmsensors/acpitz-acpi-0/temp3","lmsensors/acpitz-acpi-0/temp4","lmsensors/acpitz-acpi-0/temp5","lmsensors/ath11k_hwmon-pci-0200/temp1","lmsensors/nvme-pci-0400/temp1"]
+highPrioritySensorIds=["lmsensors/acpitz-acpi-0/temp1","lmsensors/ath11k_hwmon-pci-0200/temp1","lmsensors/nvme-pci-0400/temp1"]
 lowPrioritySensorIds=[]
 
 [Containments][2][Applets][37][Configuration][org.kde.ksysguard.linechart][General]
@@ -334,11 +337,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=virt-manager.desktop,com.mitchellh.ghostty.desktop,org.kde.konsole.desktop,kitty.desktop,org.mozilla.firefox.desktop
-groupingLauncherUrlBlacklist=applications:virt-manager.desktop,applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop,applications:kitty.desktop,applications:com.mitchellh.ghostty.desktop
+groupingAppIdBlacklist=org.kde.konsole.desktop,org.mozilla.firefox.desktop,com.mitchellh.ghostty.desktop,virt-manager.desktop,kitty.desktop
+groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:org.mozilla.firefox.desktop,applications:kitty.desktop,applications:org.kde.konsole.desktop,applications:virt-manager.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,applications:org.kde.kate.desktop,preferred://browser,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:helium.desktop
+launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,preferred://browser,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:helium.desktop
 showToolTips=false
 tooltipControls=false
 
