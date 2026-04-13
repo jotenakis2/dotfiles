@@ -5,7 +5,7 @@
     "auto_complete": true,
     "autosu": true,
     "clipboard_control": "write-clipboard,write-primary,read-clipboard,read-primary",
-    "colorscheme": "catppuccin-mocha",
+    "colorscheme": "tokyonight",
     "hlsearch": true,
     "linters": {
         "sh": {

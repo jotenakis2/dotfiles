@@ -1,8 +1,25 @@
 # COULEURS
 export MICRO_TRUECOLOR=1
 export GREP_COLORS="mt=1;38;2;180;190;254"
-export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info --color=bg+:#313244,bg:#1E1E2E,spinner:#B4BEFE,hl:#B4BEFE --color=fg:#CDD6F4,header:#B4BEFE,info:#CBA6F7,pointer:#B4BEFE --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#B4BEFE --color=selected-bg:#45475A --color=border:#6C7086,label:#CDD6F4"
-
+#export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info --color=bg+:#313244,bg:#1E1E2E,spinner:#B4BEFE,hl:#B4BEFE --color=fg:#CDD6F4,header:#B4BEFE,info:#CBA6F7,pointer:#B4BEFE --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#B4BEFE --color=selected-bg:#45475A --color=border:#6C7086,label:#CDD6F4"
+export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info  --highlight-line \
+  --color=bg+:#283457 \
+  --color=bg:#16161e \
+  --color=border:#27a1b9 \
+  --color=fg:#c0caf5 \
+  --color=gutter:#16161e \
+  --color=header:#ff9e64 \
+  --color=hl+:#2ac3de \
+  --color=hl:#2ac3de \
+  --color=info:#545c7e \
+  --color=marker:#ff007c \
+  --color=pointer:#ff007c \
+  --color=prompt:#2ac3de \
+  --color=query:#c0caf5:regular \
+  --color=scrollbar:#27a1b9 \
+  --color=separator:#ff9e64 \
+  --color=spinner:#ff007c "
+  
 # EDITEUR
 export VISUAL="/usr/bin/micro"
 export EDITOR="$VISUAL"

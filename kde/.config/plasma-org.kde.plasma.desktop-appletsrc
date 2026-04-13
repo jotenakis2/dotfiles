@@ -337,11 +337,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.kde.konsole.desktop,org.mozilla.firefox.desktop,com.mitchellh.ghostty.desktop,virt-manager.desktop,kitty.desktop
-groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:org.mozilla.firefox.desktop,applications:kitty.desktop,applications:org.kde.konsole.desktop,applications:virt-manager.desktop
+groupingAppIdBlacklist=org.mozilla.firefox.desktop,com.mitchellh.ghostty.desktop,kitty.desktop,virt-manager.desktop,org.kde.konsole.desktop
+groupingLauncherUrlBlacklist=applications:kitty.desktop,applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop,applications:virt-manager.desktop,applications:com.mitchellh.ghostty.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,preferred://browser,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:helium.desktop
+launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,preferred://browser,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:helium.desktop
 showToolTips=false
 tooltipControls=false
 
