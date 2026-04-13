@@ -21,8 +21,8 @@ fi
 
 # coloration syntaxique 
 if command -v zsh-patina >/dev/null 2>&1; then
-	#zsh-defer 
-	_evalcache zsh-patina activate
+	zsh-defer eval "$(zsh-patina activate)" 
+	#_evalcache zsh-patina activate
 fi
 
 # autocompletion
