@@ -94,7 +94,7 @@ Word Wrap Column=80
 [KTextEditor Renderer]
 Animate Bracket Matching=false
 Auto Color Theme Selection=false
-Color Theme=Dracula
+Color Theme=Tokyo Night
 Line Height Multiplier=1
 Show Indentation Lines=false
 Show Whole Bracket Expression=false
