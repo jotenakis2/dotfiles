@@ -50,6 +50,10 @@ local = "~/.config/sheldon/olivier"
 use = ["*"]
 apply = ["defer"]
 
+# coloration syntaxique
+[plugins.zsh-patina]
+inline = 'zsh-defer eval "$(zsh-patina activate)"'
+
 # pour pages de man en couleur
 [plugins.batman] 
 inline = 'zsh-defer _evalcache batman --export-env'

@@ -11,13 +11,13 @@ password="***EnCrYpTed***"
 #changelog="yes"
 
 # option -s : (décommentez ci-dessous pour activer) INFO : le mode "-v" permet de passer outre ce réglage.
-silent="yes"
+#silent="yes"
 
 # option -F : (décommentez ci-dessous pour activer)
 #noflatpak="yes"
 
 # option -l : (décommentez ci-dessous pour activer)
-limitlog="yes"
+#limitlog="yes"
 
 # option -p : (décommentez ci-dessous pour activer) INFO : le mode "-P" permet de passer outre ce réglage.
 #poweroff="yes"
