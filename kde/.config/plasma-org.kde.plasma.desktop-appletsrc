@@ -341,7 +341,7 @@ groupingAppIdBlacklist=com.mitchellh.ghostty.desktop,kitty.desktop,org.kde.konso
 groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:kitty.desktop,applications:org.mozilla.firefox.desktop,applications:org.kde.konsole.desktop,applications:virt-manager.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,preferred://browser,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:helium.desktop,applications:iptvnator.desktop
+launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,preferred://browser,applications:helium.desktop,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
 showToolTips=false
 tooltipControls=false
 
