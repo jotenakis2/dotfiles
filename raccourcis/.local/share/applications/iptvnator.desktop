@@ -1,0 +1,15 @@
+[Desktop Entry]
+Comment=
+Exec=/home/mbanjieu/AppImages/iptvnator
+GenericName=IPTVnator
+Icon=xawtv
+Name=iptvnator
+NoDisplay=false
+Path=
+PrefersNonDefaultGPU=false
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=
