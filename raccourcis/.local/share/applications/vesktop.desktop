@@ -1,0 +1,18 @@
+[Desktop Entry]
+Categories=Network;InstantMessaging;
+Comment=Vesktop is a cross platform desktop app aiming to give you a snappier Discord experience with Vencord pre-installed
+Exec=/usr/bin/vesktop --disable-features=WaylandWpColorManagerV1 %U
+GenericName=Internet Messenger
+Icon=discord
+Keywords=discord;vesktop;vencord;shelter;armcord;electron;
+Name=Vesktop
+NoDisplay=false
+Path=
+PrefersNonDefaultGPU=false
+StartupNotify=true
+StartupWMClass=vesktop
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=
