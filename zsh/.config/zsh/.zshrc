@@ -16,9 +16,12 @@ fi
 
 # autocompletion
 autoload -Uz compinit
-zsh-defer compinit_with_ttl
+zsh-defer _compinit_with_ttl
 
 # config fzf-tab
 zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zsh-defer zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
 zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
+
+# mode vconsole (prompt basic, pas d'icones)
+zsh-defer _vconsole
