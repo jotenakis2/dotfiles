@@ -17,7 +17,7 @@ export PATH="$HOME/scripts:$GOBIN:$CARGO_HOME/bin:/usr/local/go/bin:$PATH"
 . "$ZDOTDIR/.exports"
 
 # recompilation toutes les 2880 min (2 jours)
-compinit_with_ttl() {
+_compinit_with_ttl() {
         setopt local_options
         local zcompdump="$ZDOTDIR/.zcompdump"
         local zcomp_ttl=2880
@@ -33,4 +33,18 @@ compinit_with_ttl() {
         fi
         compinit -C -D -d "$zcompdump" # on charge au plus rapide
 		return 0
+}
+
+# en VCONSOLE pas d'icones, prompt basic sans ohmyposh
+_vconsole() {
+	if [[ "$TERM" = "linux" ]]; then
+		alias ls='eza --git --header --group-directories-first --color=always'
+		alias lt='eza -T --color -L 4'
+		precmd() { echo }
+		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'
+''%F{blue}>%F{reset} '
+	else
+		alias ls='eza --git --header --group-directories-first --color-scale all --color=always --icons'
+		alias lt='eza -T --color --icons -L 4'	
+	fi
 }
