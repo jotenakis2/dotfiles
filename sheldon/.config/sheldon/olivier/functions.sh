@@ -1,23 +1,28 @@
+
 # ----------------------------------------------------------------------------------------------------------
 distrodate() {
-  /usr/bin/ls -lct /etc | tail -1 | awk '{print $6, $7, $8}'
+	ls -lct /etc | tail -1 | awk '{print $6, $7, $8}'
 }
 
 # ----------------------------------------------------------------------------------------------------------
 heure() {
-  echo "$(\date '+%T'), le $(date '+%A %d %B %Y')"
+	local hr
+	local date
+	hr=$(date '+%T')
+	date=$(date '+%A %d %B %Y')
+	echo "${hr}, le ${date}"
 }
 
 # ----------------------------------------------------------------------------------------------------------
 nocomm() {
-  \rg -v "^\s*(#|//|;)" --color=never "$1" | bat -p --file-name "$1"
+  rg -v "^\s*(#|//|;)" --color=never "$@" | rg . | bat -p --file-name "$@"
 }
 
 # ----------------------------------------------------------------------------------------------------------
 path() {
     local p="$1"
-    [ -z "$p" ] && p="$PATH"
-    echo "$p" | tr ':' '\n'
+    [[ -z "${p}" ]] && p="${PATH}"
+    echo "${p}" | tr ':' '\n'
 }
 
 # ----------------------------------------------------------------------------------------------------------
@@ -42,8 +47,7 @@ logfwRT() {
 
 # ----------------------------------------------------------------------------------------------------------
 logerror() { # erreurs dédupliquées sur le boot en cours
-  journalctl --no-hostname -b 0 -p3 --no-pager -q 2>&1 |
-    awk '{key=substr($0,index($0,$4)); if(!seen[key]++) print $0}'
+  journalctl --no-hostname -b 0 -p3 --no-pager -q 2>&1 | awk '{key=substr($0,index($0,$4)); if(!seen[key]++) print $0}'
 }
 
 # ----------------------------------------------------------------------------------------------------------
@@ -56,8 +60,8 @@ myip() {
   local ipv4 ipv6
   ipv4=$(curl --silent -4 https://icanhazip.com/)
   ipv6=$(curl --silent -6 https://icanhazip.com/)
-  [[ -z $ipv4 ]] && echo "No IPv4 internet connectivity" || echo "IPv4: $ipv4"
-  [[ -z $ipv6 ]] &&	echo "No IPv6 internet connectivity" || echo "IPv6: $ipv6"
+  [[ -z ${ipv4} ]] && echo "No IPv4 internet connectivity" || echo "IPv4: ${ipv4}"
+  [[ -z ${ipv6} ]] &&	echo "No IPv6 internet connectivity" || echo "IPv6: ${ipv6}"
 }
 
 # ----------------------------------------------------------------------------------------------------------
