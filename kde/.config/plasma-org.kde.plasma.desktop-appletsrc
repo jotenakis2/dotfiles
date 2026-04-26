@@ -337,8 +337,8 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.kde.konsole.desktop,com.mitchellh.ghostty.desktop,kitty.desktop,virt-manager.desktop,org.mozilla.firefox.desktop
-groupingLauncherUrlBlacklist=applications:virt-manager.desktop,applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop,applications:kitty.desktop,applications:com.mitchellh.ghostty.desktop
+groupingAppIdBlacklist=virt-manager.desktop,kitty.desktop,com.mitchellh.ghostty.desktop,org.mozilla.firefox.desktop,org.kde.konsole.desktop
+groupingLauncherUrlBlacklist=applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop,applications:com.mitchellh.ghostty.desktop,applications:virt-manager.desktop,applications:kitty.desktop
 iconSpacing=3
 indicateAudioStreams=false
 launchers=applications:systemsettings.desktop,preferred://filemanager,applications:com.mitchellh.ghostty.desktop,preferred://browser,applications:helium.desktop,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
