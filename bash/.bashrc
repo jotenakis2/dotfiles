@@ -7,8 +7,22 @@ HISTFILESIZE=10000
 shopt -s histappend
 mkdir -p -- "${HISTFILE%/*}"
 
+if [[ "$TERM" = "linux" ]]; then
+	alias eza='eza --git --header --group-directories-first --color=always':
+	alias ls='eza'
+	alias ll='ls -lh'
+	alias la='ls -alh'
+	alias lt='\eza -T --color -L 4'
+else
+	alias eza='eza --git --header --group-directories-first --color-scale all --color=always --icons'
+	alias ls='eza'
+	alias ll='ls -lh'
+	alias la='ls -alh'
+	alias lt='\eza -T --color --icons -L 4'
+fi
+
 source "$HOME/.local/share/blesh/ble.sh" --noattach
-source "$HOME/.config/sheldon/olivier/aliases"
+source "$HOME/.config/sheldon/olivier/aliases.sh"
 
 eval "$(zoxide init bash)"
 
