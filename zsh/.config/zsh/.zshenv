@@ -1,3 +1,5 @@
+setopt +o nomatch
+
 # evalcache
 ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/evalcache"
 
