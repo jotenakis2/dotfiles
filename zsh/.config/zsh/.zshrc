@@ -24,5 +24,5 @@ zsh-defer zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $rea
 zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
 
 # mode vconsole (prompt basic, pas d'icones)
-#zsh-defer _vconsole
-_vconsole
+zsh-defer _vconsole
+#_vconsole

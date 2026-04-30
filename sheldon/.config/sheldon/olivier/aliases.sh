@@ -45,3 +45,4 @@ alias gdu='gdu -x -c'
 alias du='gdu'
 alias timezsh="hyperfine --warmup 10 'zsh -i -c exit'"
 alias uname='uname -r'
+alias jctl='journalctl'
