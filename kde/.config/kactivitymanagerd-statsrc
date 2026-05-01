@@ -1,0 +1,5 @@
+[Favorites-org.kde.plasma.kickoff.favorites.instance-3-5a8d684e-2ea6-4e95-91e1-d9b78c370d15]
+ordering=preferred://browser,applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.kwrite.desktop,applications:dev.zed.Zed.desktop,applications:org.kde.kcalc.desktop,applications:org.telegram.desktop.desktop,applications:vesktop.desktop,applications:org.kde.kate.desktop,applications:iptvnator.desktop
+
+[Favorites-org.kde.plasma.kickoff.favorites.instance-3-global]
+ordering=preferred://browser,applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.kwrite.desktop,applications:dev.zed.Zed.desktop,applications:org.kde.kcalc.desktop,applications:org.telegram.desktop.desktop,applications:vesktop.desktop,applications:org.kde.kate.desktop,applications:iptvnator.desktop
