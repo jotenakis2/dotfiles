@@ -5,7 +5,7 @@ switch-to-activity-5a8d684e-2ea6-4e95-91e1-d9b78c370d15=none,none,Passer à l'ac
 [KDE Keyboard Layout Switcher]
 Switch to Last-Used Keyboard Layout=Meta+Alt+L,Meta+Alt+L,Basculer vers la dernière disposition de clavier
 Switch to Next Keyboard Layout=Meta+Alt+K,Meta+Alt+K,Passer à la disposition de clavier suivante
-_k_friendly_name=Changeur de disposition de clavier
+_k_friendly_name=Commutateur de dispositions de clavier
 
 [kaccess]
 Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Activer ou désactiver le lecteur d'écran
@@ -274,5 +274,5 @@ toggle do not disturb=none,,Basculer « Ne pas déranger »
 [services][com.mitchellh.ghostty.desktop]
 _launch=
 
-[services][foot.desktop]
+[services][footclient.desktop]
 _launch=Meta+T
