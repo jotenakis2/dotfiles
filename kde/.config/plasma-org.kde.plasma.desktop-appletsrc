@@ -337,11 +337,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.mozilla.firefox.desktop,helium.desktop,org.kde.konsole.desktop,kitty.desktop,footclient.desktop,foot.desktop,virt-manager.desktop,com.mitchellh.ghostty.desktop
-groupingLauncherUrlBlacklist=applications:footclient.desktop,applications:kitty.desktop,applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop,applications:virt-manager.desktop,applications:com.mitchellh.ghostty.desktop,applications:helium.desktop,applications:foot.desktop
+groupingAppIdBlacklist=com.mitchellh.ghostty.desktop,org.kde.konsole.desktop,helium.desktop,foot.desktop,org.mozilla.firefox.desktop,kitty.desktop,virt-manager.desktop,footclient.desktop
+groupingLauncherUrlBlacklist=applications:footclient.desktop,applications:kitty.desktop,applications:com.mitchellh.ghostty.desktop,applications:org.mozilla.firefox.desktop,applications:foot.desktop,applications:org.kde.konsole.desktop,applications:helium.desktop,applications:virt-manager.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,applications:footclient.desktop,applications:helium.desktop,preferred://browser,preferred://filemanager,applications:org.kde.kate.desktop,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
+launchers=applications:systemsettings.desktop,applications:helium.desktop,applications:footclient.desktop,preferred://browser,preferred://filemanager,applications:org.telegram.desktop.desktop,applications:org.kde.kate.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
 showToolTips=false
 tooltipControls=false
 
