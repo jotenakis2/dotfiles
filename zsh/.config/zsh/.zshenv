@@ -1,4 +1,5 @@
-setopt +o nomatch
+setopt +o nomatch interactive_comments
+zmodload zsh/parameter
 
 # evalcache
 ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/evalcache"
@@ -40,7 +41,7 @@ _compinit_with_ttl() {
 # en VCONSOLE pas d'icones, prompt basic sans ohmyposh
 _vconsole() {
 	if [[ "$TERM" = "linux" ]]; then
-		alias eza='eza --git --header --group-directories-first --color=always':
+		alias eza='eza --git --header --group-directories-first --color'
 		alias ls='eza'
 		alias ll='ls -lh'
 		alias la='ls -alh'
@@ -49,7 +50,7 @@ _vconsole() {
 		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'
 ''%F{blue}>%F{reset} '
 	else
-		alias eza='eza --git --header --group-directories-first --color-scale all --color=always --icons'
+		alias eza='eza --git --header --group-directories-first --color-scale all --color --icons'
 		alias ls='eza'
 		alias ll='ls -lh'
 		alias la='ls -alh'
