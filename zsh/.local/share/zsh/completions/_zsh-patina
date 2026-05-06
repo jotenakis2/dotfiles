@@ -1,0 +1,303 @@
+#compdef zsh-patina
+
+autoload -U is-at-least
+
+_zsh-patina() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_zsh-patina_commands" \
+"*::: :->zsh-patina" \
+&& ret=0
+    case $state in
+    (zsh-patina)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:zsh-patina-command-$line[1]:"
+        case $line[1] in
+            (activate)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(completion)
+_arguments "${_arguments_options[@]}" : \
+'--output-file=[Output file to write the completion script to. If not provided, the script is written to stdout]:OUTPUT_FILE:_default' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(start)
+_arguments "${_arguments_options[@]}" : \
+'--no-daemon[Start the highlighter in foreground mode]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(restart)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(check)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(tokenize)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+'::input_file -- The input file to tokenize. If this parameter is not provided, the command will be read from stdin:_default' \
+&& ret=0
+;;
+(list-scopes)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(list-themes)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_zsh-patina__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:zsh-patina-help-command-$line[1]:"
+        case $line[1] in
+            (activate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(completion)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(start)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(restart)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(check)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(tokenize)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list-scopes)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list-themes)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_zsh-patina_commands] )) ||
+_zsh-patina_commands() {
+    local commands; commands=(
+'activate:Initialize zsh-patina in the current shell session' \
+'completion:Generate shell completions for zsh-patina' \
+'start:Start the highlighter daemon if it'\''s not already running' \
+'stop:Stop the highlighter daemon if it'\''s not already stopped' \
+'restart:Restart the highlighter daemon or make sure it is started if it'\''s not running' \
+'status:Check whether the highlighter daemon is running' \
+'check:Check user configuration and custom theme (if applicable) for errors' \
+'tokenize:Tokenize a command (from a file or from stdin) and print the identified tokens' \
+'list-scopes:List all scopes that can be used in a theme for highlighting (sorted alphabetically)' \
+'list-themes:List available themes with small examples for preview' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'zsh-patina commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__activate_commands] )) ||
+_zsh-patina__subcmd__activate_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina activate commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__check_commands] )) ||
+_zsh-patina__subcmd__check_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina check commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__completion_commands] )) ||
+_zsh-patina__subcmd__completion_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina completion commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help_commands] )) ||
+_zsh-patina__subcmd__help_commands() {
+    local commands; commands=(
+'activate:Initialize zsh-patina in the current shell session' \
+'completion:Generate shell completions for zsh-patina' \
+'start:Start the highlighter daemon if it'\''s not already running' \
+'stop:Stop the highlighter daemon if it'\''s not already stopped' \
+'restart:Restart the highlighter daemon or make sure it is started if it'\''s not running' \
+'status:Check whether the highlighter daemon is running' \
+'check:Check user configuration and custom theme (if applicable) for errors' \
+'tokenize:Tokenize a command (from a file or from stdin) and print the identified tokens' \
+'list-scopes:List all scopes that can be used in a theme for highlighting (sorted alphabetically)' \
+'list-themes:List available themes with small examples for preview' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'zsh-patina help commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__activate_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__activate_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help activate commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__check_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__check_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help check commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__completion_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__completion_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help completion commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__help_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help help commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__list-scopes_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__list-scopes_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help list-scopes commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__list-themes_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__list-themes_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help list-themes commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__restart_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__restart_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help restart commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__start_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help start commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__status_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help status commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__stop_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help stop commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__help__subcmd__tokenize_commands] )) ||
+_zsh-patina__subcmd__help__subcmd__tokenize_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina help tokenize commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__list-scopes_commands] )) ||
+_zsh-patina__subcmd__list-scopes_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina list-scopes commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__list-themes_commands] )) ||
+_zsh-patina__subcmd__list-themes_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina list-themes commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__restart_commands] )) ||
+_zsh-patina__subcmd__restart_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina restart commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__start_commands] )) ||
+_zsh-patina__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina start commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__status_commands] )) ||
+_zsh-patina__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina status commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__stop_commands] )) ||
+_zsh-patina__subcmd__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina stop commands' commands "$@"
+}
+(( $+functions[_zsh-patina__subcmd__tokenize_commands] )) ||
+_zsh-patina__subcmd__tokenize_commands() {
+    local commands; commands=()
+    _describe -t commands 'zsh-patina tokenize commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_zsh-patina" ]; then
+    _zsh-patina "$@"
+else
+    compdef _zsh-patina zsh-patina
+fi

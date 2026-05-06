@@ -1,4 +1,9 @@
 {
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 2000
+    }
+  },
   "project_panel": {
     "dock": "left"
   },
@@ -18,7 +23,7 @@
   },
   "buffer_line_height": "standard",
   "text_rendering_mode": "platform_default",
-  "ui_font_size": 18.0,
+  "ui_font_size": 19.0,
   "icon_theme": {
     "mode": "dark",
     "light": "Catppuccin Mocha",
@@ -29,16 +34,16 @@
   },
   "theme": {
     "mode": "system",
-    "light": "Catppuccin Latte (lavender)",
-    "dark": "Catppuccin Mocha (lavender)"
+    "light": "Tokyo Night Light",
+    "dark": "Tokyo Night"
   },
   "agent_buffer_font_size": 18.0,
   "agent_ui_font_size": 18.0,
   "ui_font_weight": 400.0,
   "ui_font_family": ".ZedMono",
-  "buffer_font_size": 18.0,
+  "buffer_font_size": 20.0,
   "disable_ai": true,
-  "buffer_font_family": ".ZedMono",
+  "buffer_font_family": "Iosevka Nerd Font Mono",
   "telemetry": {
     "diagnostics": false,
     "metrics": false,

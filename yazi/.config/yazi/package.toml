@@ -8,5 +8,7 @@ use = "yazi-rs/plugins:piper"
 rev = "1962818"
 hash = "384464b6df8cb807425c521f8cd790f3"
 
-[flavor]
-deps = []
+[[flavor.deps]]
+use = "BennyOe/tokyo-night"
+rev = "8e6296f"
+hash = "d9da921c3bd37ba32ee27a8a7a40461f"
