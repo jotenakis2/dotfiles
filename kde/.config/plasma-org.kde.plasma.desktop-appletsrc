@@ -337,8 +337,8 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.mozilla.firefox.desktop,foot.desktop,footclient.desktop,kitty.desktop,helium.desktop,virt-manager.desktop,com.mitchellh.ghostty.desktop,org.kde.konsole.desktop
-groupingLauncherUrlBlacklist=applications:helium.desktop,applications:foot.desktop,applications:virt-manager.desktop,applications:kitty.desktop,applications:org.kde.konsole.desktop,applications:footclient.desktop,applications:com.mitchellh.ghostty.desktop,applications:org.mozilla.firefox.desktop
+groupingAppIdBlacklist=org.mozilla.firefox.desktop,org.kde.konsole.desktop,foot.desktop,kitty.desktop,footclient.desktop,com.mitchellh.ghostty.desktop,virt-manager.desktop,helium.desktop
+groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:org.kde.konsole.desktop,applications:footclient.desktop,applications:org.mozilla.firefox.desktop,applications:foot.desktop,applications:helium.desktop,applications:virt-manager.desktop,applications:kitty.desktop
 iconSpacing=3
 indicateAudioStreams=false
 launchers=applications:systemsettings.desktop,preferred://browser,applications:footclient.desktop,preferred://filemanager,applications:org.telegram.desktop.desktop,applications:org.kde.kate.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
