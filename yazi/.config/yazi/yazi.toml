@@ -1,14 +1,14 @@
-[[plugin.prepend_previewers]]
-url = "*/"
-run = 'piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'
-
-[[plugin.prepend_previewers]]
-url = "*.md"
-run = 'faster-piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'
-
-[[plugin.prepend_previewers]]
-mime = "text/*"
-run = 'faster-piper -- bat --color=always --paging=never --style=plain "$1"'
+# [[plugin.prepend_previewers]]
+# url = "*/"
+# run = 'piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'
+# 
+# [[plugin.prepend_previewers]]
+# url = "*.md"
+# run = 'faster-piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'
+# 
+# [[plugin.prepend_previewers]]
+# mime = "text/*"
+# run = 'faster-piper -- bat --color=always --paging=never --style=plain "$1"'
 
 [preview]
 image_delay = 0

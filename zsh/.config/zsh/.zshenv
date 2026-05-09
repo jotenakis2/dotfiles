@@ -14,7 +14,7 @@ export GOBIN="${XDG_BIN_HOME:-$HOME/.local/bin}"
 
 # PATH
 typeset -U PATH
-export PATH="$HOME/scripts:$GOBIN:$CARGO_HOME/bin:/usr/local/go/bin:$PATH"
+export PATH="$HOME/git/scripts:$GOBIN:$CARGO_HOME/bin:/usr/local/go/bin:$PATH"
 
 # ENV
 . "$ZDOTDIR/.exports"
