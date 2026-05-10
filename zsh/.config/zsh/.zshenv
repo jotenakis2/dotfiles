@@ -5,16 +5,17 @@ zmodload zsh/parameter
 ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/evalcache"
 
 # RUST
-export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export RUSTUP_HOME="/opt/rustup"
+export CARGO_HOME="/opt/cargo"
 
 # GO
-export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
-export GOBIN="${XDG_BIN_HOME:-$HOME/.local/bin}"
+export GOROOT=/opt/go
+export GOPATH=/opt/go/workspace
+export GOBIN=/opt/go/workspace/bin
 
 # PATH
 typeset -U PATH
-export PATH="$HOME/git/scripts:$GOBIN:$CARGO_HOME/bin:/usr/local/go/bin:$PATH"
+export PATH="$HOME/git/scripts:$PATH"
 
 # ENV
 . "$ZDOTDIR/.exports"
@@ -37,7 +38,7 @@ _compinit_with_ttl() {
         compinit -C -D -d "$zcompdump" # on charge au plus rapide
 		return 0
 }
-
+	
 # en VCONSOLE pas d'icones, prompt basic sans ohmyposh
 _vconsole() {
 	if [[ "$TERM" = "linux" ]]; then

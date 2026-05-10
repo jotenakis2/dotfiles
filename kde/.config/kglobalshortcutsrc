@@ -276,3 +276,7 @@ _launch=
 
 [services][footclient.desktop]
 _launch=Meta+T
+
+[services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=
+OpenWithoutScreenshot=
