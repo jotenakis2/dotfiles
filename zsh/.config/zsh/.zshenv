@@ -15,7 +15,7 @@ export GOBIN=/opt/go/workspace/bin
 
 # PATH
 typeset -U PATH
-export PATH="$HOME/git/scripts:$PATH"
+export PATH="$HOME/git/scripts:$GOROOT/bin:$GOBIN:$CARGO_HOME/bin:${PATH}"
 
 # ENV
 . "$ZDOTDIR/.exports"
