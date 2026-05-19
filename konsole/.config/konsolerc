@@ -1,12 +1,42 @@
+MenuBar=Disabled
+
 [Desktop Entry]
 DefaultProfile=OLo.profile
 
 [General]
 ConfigVersion=1
 
+[KonsoleWindow]
+RemoveWindowTitleBarAndFrame=true
+
+[MainWindow]
+ToolBarsMovable=Enabled
+
+[MainWindow][Toolbar mainToolBar]
+IconSize=16
+ToolButtonStyle=IconOnly
+
+[MainWindow][Toolbar sessionToolbar]
+ToolButtonStyle=IconOnly
+
 [Notification Messages]
 CloseAllEmptyTabs=true
 CloseAllTabs=true
+
+[SplitView]
+SplitViewVisibility=AlwaysHideSplitHeader
+
+[TabBar]
+NewTabButton=true
+TabBarPosition=Bottom
+TabBarVisibility=AlwaysShowTabBar
+
+[Toolbar mainToolBar]
+IconSize=16
+ToolButtonStyle=IconOnly
+
+[Toolbar sessionToolbar]
+ToolButtonStyle=IconOnly
 
 [UiSettings]
 ColorScheme=
