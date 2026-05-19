@@ -101,7 +101,7 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][2][Applets][3][Configuration]
 popupHeight=580
-popupWidth=755
+popupWidth=1625
 
 [Containments][2][Applets][3][Configuration][ConfigDialog]
 DialogHeight=630
@@ -337,11 +337,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=foot.desktop,footclient.desktop,org.mozilla.firefox.desktop,helium.desktop,virt-manager.desktop,com.mitchellh.ghostty.desktop,org.kde.konsole.desktop,kitty.desktop
-groupingLauncherUrlBlacklist=applications:kitty.desktop,applications:footclient.desktop,applications:foot.desktop,applications:helium.desktop,applications:com.mitchellh.ghostty.desktop,applications:virt-manager.desktop,applications:org.kde.konsole.desktop,applications:org.mozilla.firefox.desktop
+groupingAppIdBlacklist=com.mitchellh.ghostty.desktop,footclient.desktop,kitty.desktop,helium.desktop,org.mozilla.firefox.desktop,org.kde.konsole.desktop,Alacritty.desktop,virt-manager.desktop,foot.desktop
+groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:virt-manager.desktop,applications:helium.desktop,applications:Alacritty.desktop,applications:org.mozilla.firefox.desktop,applications:org.kde.konsole.desktop,applications:kitty.desktop,applications:footclient.desktop,applications:foot.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,applications:footclient.desktop,preferred://browser,applications:org.kde.kate.desktop,preferred://filemanager,applications:org.telegram.desktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
+launchers=applications:systemsettings.desktop,applications:org.kde.konsole.desktop,applications:org.kde.kate.desktop,preferred://browser,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop,applications:org.mozilla.firefox.desktop,applications:chrome-agimnkijcaahngcdmfeangaknmldooml-Default.desktop
 showToolTips=false
 tooltipControls=false
 
@@ -434,9 +434,6 @@ plugin=org.kde.plasma.bluetooth
 [Containments][2][Applets][7][Applets][26]
 immutability=1
 plugin=org.kde.plasma.networkmanagement
-
-[Containments][2][Applets][7][Applets][26][Configuration][General]
-currentDetailsTab=details
 
 [Containments][2][Applets][7][Applets][27]
 immutability=1

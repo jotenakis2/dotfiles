@@ -42,19 +42,31 @@ _compinit_with_ttl() {
 # en VCONSOLE pas d'icones, prompt basic sans ohmyposh
 _vconsole() {
 	if [[ "$TERM" = "linux" ]]; then
-		alias eza='eza --git --header --group-directories-first --color'
-		alias ls='eza'
+		if command -v eza &>/dev/null; then 
+			alias eza='eza --git --header --group-directories-first --color'
+			alias ls='eza'
+			alias lt='\eza -T --color -L 4'
+		else
+			alias ls='ls --color=always --group-directories-first'
+			alias lt='tree -L 4'
+		fi
 		alias ll='ls -lh'
 		alias la='ls -alh'
-		alias lt='\eza -T --color -L 4'
+	
 		precmd() { echo }
 		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'
 ''%F{blue}>%F{reset} '
+
 	else
-		alias eza='eza --git --header --group-directories-first --color-scale all --color --icons'
-		alias ls='eza'
+		if command -v eza &>/dev/null; then
+			alias eza='eza --git --header --group-directories-first --color-scale all --color'
+			alias ls='eza'
+			alias lt='\eza -T --color -L 4'
+		else
+			alias ls='ls --color=always --group-directories-first'
+			alias lt='tree -L 4'
+		fi		
 		alias ll='ls -lh'
 		alias la='ls -alh'
-		alias lt='\eza -T --color --icons -L 4'	
 	fi
 }
