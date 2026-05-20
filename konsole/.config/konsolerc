@@ -22,6 +22,7 @@ ToolButtonStyle=IconOnly
 [Notification Messages]
 CloseAllEmptyTabs=true
 CloseAllTabs=true
+CloseSingleTab=true
 
 [SplitView]
 SplitViewVisibility=AlwaysHideSplitHeader
