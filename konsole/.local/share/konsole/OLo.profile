@@ -1,7 +1,7 @@
 [Appearance]
 AntiAliasFonts=true
 BoldIntense=true
-ColorScheme=TokyoNight Night
+ColorScheme=TokyoNight_Night
 Font=Iosevka Nerd Font Propo,16,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 
 [Cursor Options]

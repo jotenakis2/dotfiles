@@ -1,0 +1,7 @@
+[Libinput][1267][12869][ELAN077E:00 04F3:3245 Mouse]
+NaturalScroll=true
+PointerAccelerationProfile=1
+ScrollFactor=2
+
+[Mouse]
+cursorSize=30

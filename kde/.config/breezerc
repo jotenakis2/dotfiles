@@ -1,0 +1,8 @@
+[Common]
+OutlineCloseButton=true
+
+[Style]
+MenuOpacity=90
+
+[Windeco]
+ButtonSize=ButtonSmall
