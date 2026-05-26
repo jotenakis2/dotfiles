@@ -74,7 +74,7 @@ internet() {
 	echo ""
 	dnsleaktest.sh
 	echo ""
-	speedtest-cli
+	speedtest-go
 	echo ""
 	ip a
 	echo ""

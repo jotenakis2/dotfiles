@@ -134,7 +134,7 @@ ForegroundVisited=173,142,230
 
 [General]
 BrowserApplication=helium.desktop
-ColorSchemeHash=a3c40d4f1c26436e52377bcebcc80ac0d9ad73b9
+ColorSchemeHash=d7bb305b91e7dd55dd16808f6dbc4c8d48b8d305
 LastUsedCustomAccentColor=146,110,228
 XftAntialias=true
 XftHintStyle=hintslight
@@ -146,15 +146,14 @@ smallestReadableFont=Comfortaa Light,8,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,
 toolBarFont=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 
 [Icons]
-Theme=Tela-orange-dark
+Theme=Tela-purple-dark
 
 [KDE]
 AnimationDurationFactor=0.125
-LookAndFeelPackage=olo2
+LookAndFeelPackage=OLO
 ShowDeleteCommand=true
 contrast=4
 frameContrast=0.2
-widgetStyle=Breeze
 
 [KFileDialog Settings]
 Allow Expansion=false

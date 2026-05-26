@@ -7,13 +7,13 @@ RightButton;NoModifier=org.kde.contextmenu
 [Containments][1]
 ItemGeometries-1920x1080=Applet-33:1232,0,688,368,0;
 ItemGeometriesHorizontal=Applet-33:1232,0,688,368,0;
-activityId=5a8d684e-2ea6-4e95-91e1-d9b78c370d15
+activityId=e07efeaf-9b7d-496d-9acd-116798777c76
 formfactor=0
 immutability=1
 lastScreen=0
 location=0
 plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.potd
+wallpaperplugin=org.kde.image
 
 [Containments][1][Applets][33]
 immutability=1
@@ -64,6 +64,7 @@ forzeUpdate=2
 Image=file:///home/mbanjieu/.local/share/wallpapers/SpacePlasma.jpg
 
 [Containments][1][Wallpaper][org.kde.potd][General]
+FillMode=1
 Provider=bing
 
 [Containments][2]
@@ -91,7 +92,7 @@ showDate=false
 DialogHeight=630
 DialogWidth=810
 
-[Containments][2][Applets][22]
+[Containments][2][Applets][23]
 immutability=1
 plugin=org.kde.plasma.showdesktop
 
@@ -101,7 +102,7 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][2][Applets][3][Configuration]
 popupHeight=580
-popupWidth=1625
+popupWidth=1209
 
 [Containments][2][Applets][3][Configuration][ConfigDialog]
 DialogHeight=630
@@ -187,7 +188,7 @@ popupWidth=560
 
 [Containments][2][Applets][37][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
-title=TEMP
+title=Température
 updateRateLimit=2000
 
 [Containments][2][Applets][37][Configuration][ConfigDialog]
@@ -195,6 +196,7 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][37][Configuration][SensorColors]
+gpu/gpu1/temperature=164,172,239
 lmsensors/acpitz-acpi-0/temp1=0,0,127
 lmsensors/acpitz-acpi-0/temp2=170,0,127
 lmsensors/acpitz-acpi-0/temp3=171,105,85
@@ -204,6 +206,7 @@ lmsensors/ath11k_hwmon-pci-0200/temp1=0,170,127
 lmsensors/nvme-pci-0400/temp1=170,85,127
 
 [Containments][2][Applets][37][Configuration][SensorLabels]
+gpu/gpu1/temperature=GPU
 lmsensors/acpitz-acpi-0/temp1=CPU
 lmsensors/acpitz-acpi-0/temp2=2
 lmsensors/acpitz-acpi-0/temp3=3
@@ -213,7 +216,7 @@ lmsensors/ath11k_hwmon-pci-0200/temp1=Wifi
 lmsensors/nvme-pci-0400/temp1=NVMe
 
 [Containments][2][Applets][37][Configuration][Sensors]
-highPrioritySensorIds=["lmsensors/acpitz-acpi-0/temp1","lmsensors/ath11k_hwmon-pci-0200/temp1","lmsensors/nvme-pci-0400/temp1"]
+highPrioritySensorIds=["lmsensors/acpitz-acpi-0/temp1","lmsensors/ath11k_hwmon-pci-0200/temp1","lmsensors/nvme-pci-0400/temp1","gpu/gpu1/temperature"]
 lowPrioritySensorIds=[]
 
 [Containments][2][Applets][37][Configuration][org.kde.ksysguard.linechart][General]
@@ -228,8 +231,8 @@ plugin=org.kde.plasma.systemmonitor.diskactivity
 
 [Containments][2][Applets][38][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
-popupHeight=227
-popupWidth=525
+popupHeight=367
+popupWidth=533
 
 [Containments][2][Applets][38][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -328,6 +331,26 @@ length=40
 immutability=1
 plugin=org.kde.plasma.panelspacer
 
+[Containments][2][Applets][46]
+immutability=1
+plugin=org.kde.plasma.weather
+
+[Containments][2][Applets][46][Configuration]
+popupHeight=338
+popupWidth=623
+
+[Containments][2][Applets][46][Configuration][Appearance]
+showTemperatureInCompactMode=true
+
+[Containments][2][Applets][46][Configuration][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
+
+[Containments][2][Applets][46][Configuration][WeatherStation]
+placeDisplayName=Ouistreham, France, FR
+placeInfo=Ouistreham, France, FR|2989013
+provider=bbcukmet
+
 [Containments][2][Applets][5]
 immutability=1
 plugin=org.kde.plasma.icontasks
@@ -337,11 +360,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.mozilla.firefox.desktop,kitty.desktop,helium.desktop,virt-manager.desktop,org.kde.konsole.desktop,Alacritty.desktop,com.mitchellh.ghostty.desktop,foot.desktop,footclient.desktop
-groupingLauncherUrlBlacklist=applications:Alacritty.desktop,applications:kitty.desktop,applications:footclient.desktop,applications:foot.desktop,applications:helium.desktop,applications:org.mozilla.firefox.desktop,applications:virt-manager.desktop,applications:com.mitchellh.ghostty.desktop,applications:org.kde.konsole.desktop
+groupingAppIdBlacklist=virt-manager.desktop,org.kde.konsole.desktop,footclient.desktop,helium.desktop,org.mozilla.firefox.desktop,Alacritty.desktop,foot.desktop,kitty.desktop,com.mitchellh.ghostty.desktop
+groupingLauncherUrlBlacklist=applications:org.mozilla.firefox.desktop,applications:helium.desktop,applications:org.kde.konsole.desktop,applications:foot.desktop,applications:Alacritty.desktop,applications:footclient.desktop,applications:virt-manager.desktop,applications:kitty.desktop,applications:com.mitchellh.ghostty.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,applications:org.kde.konsole.desktop,applications:helium.desktop,applications:org.mozilla.firefox.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:com.ktechpit.whatsie.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop,applications:chrome-agimnkijcaahngcdmfeangaknmldooml-Default.desktop
+launchers=applications:systemsettings.desktop,applications:org.kde.konsole.desktop,applications:helium.desktop,applications:org.mozilla.firefox.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
 showToolTips=false
 tooltipControls=false
 
@@ -362,39 +385,54 @@ wallpaperplugin=org.kde.image
 
 [Containments][2][Applets][7][Applets][10]
 immutability=1
-plugin=org.kde.plasma.clipboard
+plugin=org.kde.plasma.networkmanagement
+
+[Containments][2][Applets][7][Applets][10][Configuration][General]
+currentDetailsTab=details
 
 [Containments][2][Applets][7][Applets][11]
 immutability=1
-plugin=org.kde.plasma.devicenotifier
+plugin=org.kde.plasma.clipboard
 
 [Containments][2][Applets][7][Applets][12]
 immutability=1
-plugin=org.kde.plasma.keyboardindicator
+plugin=org.kde.plasma.devicenotifier
 
 [Containments][2][Applets][7][Applets][13]
 immutability=1
-plugin=org.kde.plasma.keyboardlayout
+plugin=org.kde.plasma.notifications
 
 [Containments][2][Applets][7][Applets][14]
 immutability=1
-plugin=org.kde.plasma.manage-inputmethod
+plugin=org.kde.kscreen
 
 [Containments][2][Applets][7][Applets][15]
 immutability=1
-plugin=org.kde.plasma.notifications
+plugin=org.kde.plasma.weather
+
+[Containments][2][Applets][7][Applets][15][Configuration][Appearance]
+showPressureInTooltip=true
+
+[Containments][2][Applets][7][Applets][15][Configuration][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
+
+[Containments][2][Applets][7][Applets][15][Configuration][WeatherStation]
+placeDisplayName=Caen, France, FR
+placeInfo=Caen, France, FR|3029241
+provider=bbcukmet
 
 [Containments][2][Applets][7][Applets][16]
 immutability=1
-plugin=org.kde.plasma.printmanager
+plugin=org.kde.plasma.keyboardlayout
 
 [Containments][2][Applets][7][Applets][17]
 immutability=1
-plugin=org.kde.plasma.vault
+plugin=org.kde.plasma.keyboardindicator
 
 [Containments][2][Applets][7][Applets][18]
 immutability=1
-plugin=org.kde.plasma.weather
+plugin=org.kde.plasma.volume
 
 [Containments][2][Applets][7][Applets][18][Configuration][Appearance]
 showPressureInTooltip=true
@@ -403,6 +441,9 @@ showPressureInTooltip=true
 DialogHeight=630
 DialogWidth=810
 
+[Containments][2][Applets][7][Applets][18][Configuration][General]
+migrated=true
+
 [Containments][2][Applets][7][Applets][18][Configuration][WeatherStation]
 placeDisplayName=Ouistreham, France, FR
 placeInfo=Ouistreham, France, FR|2989013
@@ -410,14 +451,18 @@ provider=bbcukmet
 
 [Containments][2][Applets][7][Applets][19]
 immutability=1
-plugin=org.kde.kscreen
+plugin=org.kde.plasma.manage-inputmethod
 
 [Containments][2][Applets][7][Applets][20]
 immutability=1
-plugin=org.kde.plasma.volume
+plugin=org.kde.plasma.cameraindicator
 
 [Containments][2][Applets][7][Applets][20][Configuration][General]
 migrated=true
+
+[Containments][2][Applets][7][Applets][21]
+immutability=1
+plugin=org.kde.plasma.printmanager
 
 [Containments][2][Applets][7][Applets][23]
 immutability=1
@@ -425,15 +470,15 @@ plugin=org.kde.plasma.brightness
 
 [Containments][2][Applets][7][Applets][24]
 immutability=1
-plugin=org.kde.plasma.battery
+plugin=org.kde.plasma.brightness
 
 [Containments][2][Applets][7][Applets][25]
 immutability=1
-plugin=org.kde.plasma.bluetooth
+plugin=org.kde.plasma.battery
 
 [Containments][2][Applets][7][Applets][26]
 immutability=1
-plugin=org.kde.plasma.networkmanagement
+plugin=org.kde.plasma.bluetooth
 
 [Containments][2][Applets][7][Applets][27]
 immutability=1
@@ -443,25 +488,22 @@ plugin=org.kde.plasma.mediacontroller
 immutability=1
 plugin=org.kde.kdeconnect
 
-[Containments][2][Applets][7][Applets][8][Configuration]
-PreloadWeight=55
-
 [Containments][2][Applets][7][Applets][9]
 immutability=1
-plugin=org.kde.plasma.cameraindicator
+plugin=org.kde.plasma.vault
 
 [Containments][2][Applets][7][ConfigDialog]
 DialogHeight=813
 DialogWidth=980
 
 [Containments][2][Applets][7][General]
-extraItems=org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.printmanager,org.kde.plasma.vault,org.kde.plasma.weather,org.kde.kscreen,org.kde.plasma.mediacontroller,org.kde.plasma.volume,org.kde.plasma.bluetooth,org.kde.plasma.brightness,org.kde.plasma.clipboard,org.kde.plasma.battery
-hiddenItems=Konversation,org.kde.plasma.bluetooth,org.kde.plasma.brightness,org.kde.plasma.clipboard
+extraItems=org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.vault,org.kde.kscreen,org.kde.plasma.mediacontroller,org.kde.plasma.volume,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.battery,org.kde.plasma.printmanager,org.kde.plasma.brightness,org.kde.plasma.weather
+hiddenItems=Konversation,org.kde.plasma.bluetooth,org.kde.plasma.clipboard,org.kde.plasma.printmanager,org.kde.plasma.weather
 knownItems=org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.plasma.clipboard,org.kde.plasma.devicenotifier,org.kde.plasma.keyboardindicator,org.kde.plasma.keyboardlayout,org.kde.plasma.manage-inputmethod,org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.printmanager,org.kde.plasma.vault,org.kde.plasma.weather,org.kde.kscreen,org.kde.plasma.mediacontroller,org.kde.plasma.volume
 shownItems=org.kde.plasma.battery
 
 [Containments][2][General]
-AppletOrder=3;4;5;45;35;40;39;41;36;42;38;43;37;44;6;7;21;22
+AppletOrder=3;4;5;45;35;40;39;41;36;42;38;43;37;44;6;7;46;21;23
 
 [ScreenMapping]
 itemsOnDisabledScreens=

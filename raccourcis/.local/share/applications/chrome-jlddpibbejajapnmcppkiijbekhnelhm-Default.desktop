@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Perplexity
+Exec=/usr/bin/helium-browser-bin --profile-directory=Default --app-id=jlddpibbejajapnmcppkiijbekhnelhm
+Icon=chrome-jlddpibbejajapnmcppkiijbekhnelhm-Default
+NoDisplay=true
+StartupWMClass=crx_jlddpibbejajapnmcppkiijbekhnelhm

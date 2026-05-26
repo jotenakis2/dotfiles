@@ -1,0 +1,28 @@
+[Desktop Entry]
+Actions=Session 833ab49c5bf448463e44d0538163f528;Session 6e4d216b7f7cab617e092e9473dd8246;
+Categories=Qt;KDE;Development;TextEditor;
+Comment[fr_FR]=Éditeur de texte avancé de KDE
+Comment=KDE Advanced Text Editor
+Exec=kate -b %U
+GenericName[fr_FR]=Éditeur de texte avancé
+GenericName=Advanced Text Editor
+Icon=kate
+InitialPreference=9
+Keywords[fr_FR]=texte;txt;éditeur;programmation;programmeur;programmeuse;développement;développeur;développeuse;code;
+Keywords=text;txt;editor;programming;programmer;development;developer;code;
+MimeType=text/plain;inode/directory;
+Name[fr_FR]=Kate
+Name=Kate
+StartupNotify=true
+StartupWMClass=kate
+Type=Application
+X-DocPath=kate/index.html
+X-KDE-HasTempFileOption=true
+
+[Desktop Action Session 6e4d216b7f7cab617e092e9473dd8246]
+Exec=kate -n -s post-install
+Name=post-install
+
+[Desktop Action Session 833ab49c5bf448463e44d0538163f528]
+Exec=kate -n -s fedupdate
+Name=fedupdate
