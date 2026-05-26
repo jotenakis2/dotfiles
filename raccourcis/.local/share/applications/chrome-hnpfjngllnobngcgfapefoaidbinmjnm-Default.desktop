@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=WhatsApp Web
+Exec=/usr/bin/helium-browser-bin --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm
+Icon=chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default
+StartupWMClass=crx_hnpfjngllnobngcgfapefoaidbinmjnm

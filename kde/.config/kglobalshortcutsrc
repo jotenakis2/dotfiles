@@ -1,6 +1,7 @@
 [ActivityManager]
 _k_friendly_name=Gestion des activités
 switch-to-activity-5a8d684e-2ea6-4e95-91e1-d9b78c370d15=none,none,Passer à l'activité « Défaut »
+switch-to-activity-e07efeaf-9b7d-496d-9acd-116798777c76=none,none,Passer à l'activité « Défaut »
 
 [KDE Keyboard Layout Switcher]
 Switch to Last-Used Keyboard Layout=Meta+Alt+L,Meta+Alt+L,Basculer vers la dernière disposition de clavier
@@ -276,3 +277,7 @@ _launch=
 
 [services][footclient.desktop]
 _launch=Meta+T
+
+[services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=
+OpenWithoutScreenshot=

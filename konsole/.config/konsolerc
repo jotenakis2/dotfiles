@@ -7,17 +7,12 @@ DefaultProfile=OLo.profile
 ConfigVersion=1
 
 [KonsoleWindow]
+ForceNewTabs=true
 RemoveWindowTitleBarAndFrame=true
+ShowProgressInTaskBar=false
 
 [MainWindow]
 ToolBarsMovable=Enabled
-
-[MainWindow][Toolbar mainToolBar]
-IconSize=16
-ToolButtonStyle=IconOnly
-
-[MainWindow][Toolbar sessionToolbar]
-ToolButtonStyle=IconOnly
 
 [Notification Messages]
 CloseAllEmptyTabs=true
@@ -25,10 +20,13 @@ CloseAllTabs=true
 CloseSingleTab=true
 
 [SplitView]
+SplitDragHandleSize=SplitDragHandleLarge
 SplitViewVisibility=AlwaysHideSplitHeader
 
 [TabBar]
+CloseTabButton=OnTabBar
 NewTabButton=true
+SearchTabsButton=HideSearchTabsButton
 TabBarPosition=Bottom
 TabBarVisibility=AlwaysShowTabBar
 
@@ -40,4 +38,4 @@ ToolButtonStyle=IconOnly
 ToolButtonStyle=IconOnly
 
 [UiSettings]
-ColorScheme=
+ColorScheme=TokyoNight

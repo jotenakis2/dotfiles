@@ -10,6 +10,10 @@ Active=true
 padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
+[Tiling][5139df8b-33a4-485c-8e25-72c24f680d86][eeb61c59-ab3e-4b52-8a22-d1510be418c9]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Wayland]
 InputMethod=
 InputMethod\x5b$e\x5d=
@@ -17,7 +21,3 @@ VirtualKeyboardEnabled=false
 
 [Xwayland]
 Scale=1
-
-[org.kde.kdecoration2]
-library=org.kde.breeze
-theme=Breeze

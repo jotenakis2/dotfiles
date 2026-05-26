@@ -3,5 +3,9 @@ NaturalScroll=true
 PointerAccelerationProfile=1
 ScrollFactor=2
 
+[Libinput][1267][12869][ELAN077E:00 04F3:3245 Touchpad]
+PointerAcceleration=0.400
+PointerAccelerationProfile=1
+
 [Mouse]
 cursorSize=30
