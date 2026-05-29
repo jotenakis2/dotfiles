@@ -177,6 +177,7 @@ EnableRemoteFolderThumbnail=false
 MaximumRemoteSize=0
 
 [Sounds]
+Enable=false
 Theme=freedesktop
 
 [WM]

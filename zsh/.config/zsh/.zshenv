@@ -43,7 +43,7 @@ _compinit_with_ttl() {
 _vconsole() {
 	if [[ "$TERM" = "linux" ]]; then
 		if command -v eza &>/dev/null; then 
-			alias eza='eza --git --header --group-directories-first --color'
+			alias eza='eza --git --header --group-directories-first --color --group'
 			alias ls='eza'
 			alias lt='\eza -T --color -L 4'
 		else
@@ -59,7 +59,7 @@ _vconsole() {
 
 	else
 		if command -v eza &>/dev/null; then
-			alias eza='eza --git --header --group-directories-first --color-scale all --color'
+			alias eza='eza --git --header --group-directories-first --color-scale all --color --icons --group'
 			alias ls='eza'
 			alias lt='\eza -T --color -L 4'
 		else

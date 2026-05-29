@@ -51,3 +51,6 @@ alias wifistab='journalctl -u wpa_supplicant | grep -E '\''CONNECTED|DISCONNECTE
 alias check='~/Projects/fedupdate/fedupdate -c0Is'
 alias maj='~/Projects/fedupdate/fedupdate -Isd'
 alias type='type -a'
+alias _e='sudo -e '
+alias _='sudo '
+
