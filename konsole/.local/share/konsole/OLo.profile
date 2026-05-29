@@ -2,7 +2,7 @@
 AntiAliasFonts=true
 BoldIntense=true
 ColorScheme=TokyoNight_Night
-Font=Iosevka Nerd Font Propo,16,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
+Font=Iosevka Nerd Font Propo,17,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 
 [Cursor Options]
 CursorShape=2
@@ -21,5 +21,5 @@ ScrollBarPosition=2
 
 [Terminal Features]
 AnimatingCursorEnabled=true
-BellMode=2
+BellMode=1
 BlinkingCursorEnabled=true

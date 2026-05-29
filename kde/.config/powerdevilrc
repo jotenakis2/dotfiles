@@ -14,7 +14,7 @@ DisplayBrightness=75
 UseProfileSpecificDisplayBrightness=true
 
 [Battery][Performance]
-PowerProfile=power-saver
+PowerProfile=balanced
 
 [Battery][SuspendAndShutdown]
 AutoSuspendIdleTimeoutSec=900

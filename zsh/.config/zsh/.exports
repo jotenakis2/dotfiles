@@ -20,7 +20,7 @@ export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info  --highlight-lin
   --color=spinner:#ff007c "
   
 # EDITEUR
-export VISUAL="/usr/bin/micro"
+export VISUAL="vim"
 export EDITOR="$VISUAL"
 
 # DIVERS
