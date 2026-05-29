@@ -364,7 +364,7 @@ groupingAppIdBlacklist=helium.desktop,com.mitchellh.ghostty.desktop,org.kde.kons
 groupingLauncherUrlBlacklist=applications:Alacritty.desktop,applications:org.mozilla.firefox.desktop,applications:kitty.desktop,applications:foot.desktop,applications:com.mitchellh.ghostty.desktop,applications:helium.desktop,applications:org.kde.konsole.desktop,applications:footclient.desktop,applications:virt-manager.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:systemsettings.desktop,applications:org.kde.konsole.desktop,applications:helium.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
+launchers=applications:org.kde.konsole.desktop,applications:helium.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
 showToolTips=false
 tooltipControls=false
 
