@@ -40,9 +40,9 @@ github = "zap-zsh/sudo"
 apply = ["defer"]
 
 # remplace cd
-[plugins.zsh-zoxide] 
-github = "z-shell/zsh-zoxide"
-apply = ["defer"]
+# [plugins.zsh-zoxide] 
+# github = "z-shell/zsh-zoxide"
+# apply = ["defer"]
 
 # chargement alias & function perso
 [plugins.aliases]
