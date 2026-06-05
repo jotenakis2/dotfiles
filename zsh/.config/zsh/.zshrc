@@ -3,16 +3,17 @@ fpath=(~/.local/share/zsh/completions $fpath)
 
 # History & correct
 [[ -d "${HOME}/.local/share/zsh" ]] || mkdir -p "${HOME}/.local/share/zsh"
-HISTFILE="$HOME/.local/share/zsh/.zsh_history"
+HISTFILE="$HOME/.local/share/zsh/zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
-setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE correct
+setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE correct autocd
 SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
 
 # sheldon plugin manager (cf ~/.config/sheldon/plugins.toml)
 if command -v sheldon >/dev/null 2>&1; then
 	eval "$(sheldon source)"
 fi
+
 
 # autocompletion
 autoload -Uz compinit
@@ -26,5 +27,3 @@ zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $r
 # mode vconsole (prompt basic, pas d'icones)
 zsh-defer _vconsole
 
-# test zoxide replacement
-eval "$(/opt/cargo/bin/_xerxes init zsh)"

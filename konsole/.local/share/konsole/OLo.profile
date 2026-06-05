@@ -2,7 +2,8 @@
 AntiAliasFonts=true
 BoldIntense=true
 ColorScheme=TokyoNight_Night
-Font=Iosevka Nerd Font Propo,17,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
+Font=Maple Mono NF Light,15,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+UseFontLineChararacters=true
 
 [Cursor Options]
 CursorShape=2

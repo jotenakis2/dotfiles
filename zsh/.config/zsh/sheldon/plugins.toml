@@ -7,7 +7,7 @@ fpath = 'fpath=( "{{ dir }}" $fpath )'
 [plugins]
 # colorisation des commandes (ne supporte pas 'defer')
 [plugins.grc]
-local = "~/.config/sheldon/grc"
+local = "~/.config/zsh/sheldon/grc"
 use = ["*"]
 
 # pour déférer les plugins et accélérer le chargement initial
@@ -40,13 +40,13 @@ github = "zap-zsh/sudo"
 apply = ["defer"]
 
 # remplace cd
-# [plugins.zsh-zoxide] 
-# github = "z-shell/zsh-zoxide"
-# apply = ["defer"]
+[plugins.zsh-zoxide] 
+github = "z-shell/zsh-zoxide"
+apply = ["defer"]
 
 # chargement alias & function perso
 [plugins.aliases]
-local = "~/.config/sheldon/olivier"
+local = "~/.config/zsh/sheldon/alias"
 use = ["*"]
 apply = ["defer"]
 
@@ -54,10 +54,6 @@ apply = ["defer"]
 [plugins.zsh-patina]
 inline = 'zsh-defer eval "$(zsh-patina activate)"'
 
-# pour pages de man en couleur
-[plugins.batman] 
-inline = 'zsh-defer _evalcache batman --export-env'
-
 # prompt
 [plugins.oh-my-posh] 
-inline = '[[ $TERM != "linux" ]] && zsh-defer _evalcache oh-my-posh init zsh --config $HOME/.config/ohmyposh/config.json'
+inline = '[[ $TERM != "linux" ]] && zsh-defer _evalcache oh-my-posh init zsh --config $HOME/.config/zsh/ohmyposh/config.json'

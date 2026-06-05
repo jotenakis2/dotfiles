@@ -1,0 +1,50 @@
+# COULEURS
+
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANROFFOPT="-c"
+
+export MICRO_TRUECOLOR=1
+export GREP_COLORS="mt=1;38;2;180;190;254"
+export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info  --highlight-line \
+  --color=bg+:#283457 \
+  --color=bg:#16161e \
+  --color=border:#27a1b9 \
+  --color=fg:#c0caf5 \
+  --color=gutter:#16161e \
+  --color=header:#ff9e64 \
+  --color=hl+:#2ac3de \
+  --color=hl:#2ac3de \
+  --color=info:#545c7e \
+  --color=marker:#ff007c \
+  --color=pointer:#ff007c \
+  --color=prompt:#2ac3de \
+  --color=query:#c0caf5:regular \
+  --color=scrollbar:#27a1b9 \
+  --color=separator:#ff9e64 \
+  --color=spinner:#ff007c "
+  
+# EDITEUR
+export VISUAL="vim"
+export EDITOR="$VISUAL"
+
+# DIVERS
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export POSH_NO_UPDATECHECK=1
+export IMSETTINGS_INTEGRATE_DESKTOP=no
+export IMSETTINGS_DISABLE_DESKTOP_CHECK=1
+export GTK_IM_MODULE=simple 
+export QT_IM_MODULE=wayland
+
+# DOCUMENTATIONS :
+# ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+#      désactive le re-binding automatique des widgets zsh-autosuggestions à chaque precmd. Gain de perf notable au démarrage et entre chaque commande.
+# POSH_NO_UPDATECHECK=1
+#      désactive la vérification de mise à jour d'oh-my-posh au démarrage, évite une requête réseau et accélère l'init du prompt.
+# IMSETTINGS_INTEGRATE_DESKTOP=no
+#      empêche le démon imsettings de forcer l'intégration du gestionnaire de méthode de saisie (IBus, SCIM…) imposée par le bureau. Utile si tu veux gérer l'IM toi-même.
+# IMSETTINGS_DISABLE_DESKTOP_CHECK=1
+#      désactive la vérification du bureau par imsettings, évite qu'il écrase tes variables IM selon l'environnement détecté. 
+# GTK_IM_MODULE=simple
+#      force les applis GTK à utiliser le module de saisie basique (pas d'IBus/Fcitx). Pratique si tu n'utilises pas de langue nécessitant un IM complexe et que tu veux éviter des freezes ou lenteurs au démarrage des applis GTK.
+# QT_IM_MODULE=wayland
+#      force les applis Qt à utiliser le protocole natif Wayland pour la saisie. Recommandé sous KDE/Wayland pour éviter les problèmes de saisie et de positionnement du curseur.

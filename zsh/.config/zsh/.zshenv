@@ -4,9 +4,17 @@ zmodload zsh/parameter
 # evalcache
 ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/evalcache"
 
+# zsh-patina
+export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina/config.toml"
+
+# sheldon 
+export SHELDON_CONFIG_DIR="$HOME/.config/zsh/sheldon"
+export SHELDON_DATA_DIR="$HOME/.local/share/zsh"
+export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
+
 # RUST
-export RUSTUP_HOME="/opt/rustup"
-export CARGO_HOME="/opt/cargo"
+export RUSTUP_HOME=/opt/rustup
+export CARGO_HOME=/opt/cargo
 
 # GO
 export GOROOT=/opt/go
@@ -18,12 +26,12 @@ typeset -U PATH
 export PATH="$HOME/.local/bin:$HOME/Projects/scripts:$GOROOT/bin:$GOBIN:$CARGO_HOME/bin:${PATH}"
 
 # ENV
-. "$ZDOTDIR/.exports"
+. "$ZDOTDIR/exports"
 
 # recompilation toutes les 2880 min (2 jours)
 _compinit_with_ttl() {
         setopt local_options
-        local zcompdump="$ZDOTDIR/.zcompdump"
+        local zcompdump="$ZDOTDIR/zcompdump"
         local zcomp_ttl=2880
 
         if [[ ! -f "$zcompdump" ]]; then # n'existe pas
