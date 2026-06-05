@@ -4,20 +4,36 @@ general.import = ["~/.config/alacritty/themes/tokyonight.toml"]
 size = 16.0
 
 [font.normal]
-family = "Iosevka Nerd Font Propo"
+family = "Maple Mono NF Light"
 style = "Regular"
 
 [font.bold]
-family = "Iosevka Nerd Font Propo"
+family = "Maple Mono NF Light"
 style = "Bold"
 
 [font.italic]
-family = "Iosevka Nerd Font Propo"
+family = "Maple Mono NF Light"
 style = "Italic"
 
 [font.bold_italic]
-family = "Iosevka Nerd Font Propo"
+family = "Maple Mono NF Light"
 style = "Bold Italic"
+
+# [font.normal]
+# family = "Iosevka Nerd Font Propo"
+# style = "Regular"
+# 
+# [font.bold]
+# family = "Iosevka Nerd Font Propo"
+# style = "Bold"
+# 
+# [font.italic]
+# family = "Iosevka Nerd Font Propo"
+# style = "Italic"
+# 
+# [font.bold_italic]
+# family = "Iosevka Nerd Font Propo"
+# style = "Bold Italic"
 
 [window]
 startup_mode = "Maximized"

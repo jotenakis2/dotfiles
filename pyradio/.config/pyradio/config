@@ -1,7 +1,0 @@
-# PyRadio User Configuration File
-# To get a full list of options execute: pyradio -pc
-# or examine the file: /nix/store/g938zmzv9w896pdq3b6290zq8mix6sm0-pyradio-0.9.3.11.19/lib/python3.13/site-packages/pyradio/config
-#
-enable_clock = True
-theme = catppuccin-mocha
-enable_mouse = True

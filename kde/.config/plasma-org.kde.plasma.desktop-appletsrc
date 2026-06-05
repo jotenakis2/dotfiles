@@ -360,8 +360,8 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][2][Applets][5][Configuration][General]
-groupingAppIdBlacklist=org.kde.konsole.desktop,footclient.desktop,com.mitchellh.ghostty.desktop,Alacritty.desktop,helium.desktop,org.mozilla.firefox.desktop,kitty.desktop,foot.desktop,virt-manager.desktop
-groupingLauncherUrlBlacklist=applications:com.mitchellh.ghostty.desktop,applications:virt-manager.desktop,applications:org.mozilla.firefox.desktop,applications:org.kde.konsole.desktop,applications:foot.desktop,applications:footclient.desktop,applications:kitty.desktop,applications:Alacritty.desktop,applications:helium.desktop
+groupingAppIdBlacklist=helium.desktop,footclient.desktop,org.mozilla.firefox.desktop,foot.desktop,org.kde.konsole.desktop,Alacritty.desktop,virt-manager.desktop,com.mitchellh.ghostty.desktop,kitty.desktop
+groupingLauncherUrlBlacklist=applications:Alacritty.desktop,applications:footclient.desktop,applications:foot.desktop,applications:kitty.desktop,applications:com.mitchellh.ghostty.desktop,applications:org.mozilla.firefox.desktop,applications:helium.desktop,applications:virt-manager.desktop,applications:org.kde.konsole.desktop
 iconSpacing=3
 indicateAudioStreams=false
 launchers=applications:org.kde.konsole.desktop,applications:helium.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:vesktop.desktop,applications:org.kde.neochat.desktop,applications:X.desktop,applications:org.kde.plasma-systemmonitor.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:iptvnator.desktop
