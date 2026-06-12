@@ -34,7 +34,7 @@ apply = ["defer"]
 github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]
 
-# double ECHAP rappelle dernière commande et ajoute sudo devant
+#double ECHAP rappelle dernière commande et ajoute sudo devant
 [plugins.sudo] 
 github = "zap-zsh/sudo"
 apply = ["defer"]

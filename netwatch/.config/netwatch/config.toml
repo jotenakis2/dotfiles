@@ -1,5 +1,5 @@
 default_tab = "dashboard"
-refresh_rate_ms = 1000
+refresh_rate_ms = 2000
 capture_interface = ""
 show_geo = true
 timeline_window = "5m"
@@ -10,9 +10,9 @@ geoip_asn_db = ""
 insights_enabled = false
 insights_model = "llama3.2"
 insights_endpoint = "local"
-theme = "dracula"
-graph_style = "bars"
-graph_fade = false
+theme = "dark"
+graph_style = "dots"
+graph_fade = true
 
 [alerts]
 bandwidth_threshold = 100000000

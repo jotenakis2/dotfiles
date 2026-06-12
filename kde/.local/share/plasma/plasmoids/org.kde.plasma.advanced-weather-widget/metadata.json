@@ -1,0 +1,60 @@
+{
+  "KPackageStructure": "Plasma/Applet",
+  "KPlugin": {
+    "Id": "org.kde.plasma.advanced-weather-widget",
+    "Name": "Advanced Weather Widget",
+    "Name[bg]": "Разширен уиджет за времето",
+    "Name[de]":"Advanced Weather Widget",
+    "Name[nl]": "Uitgebreide weerwidget",
+    "Name[pt_BR]":"Advanced Weather Widget",
+    "Name[ru]": "Расширенный виджет погоды",
+    "Name[fr_FR]": "Widget météo avancé",
+    "Name[tr_TR]": "Gelişmiş Hava Durumu Widget'ı",
+    "Name[es]": "Widget de Clima Avanzado",
+    "Name[zh_TW]": "進階天氣小工具",
+    "Name[zh_CN]": "高级天气小组件",
+    "Name[cs_CZ]": "Pokročilý widget počasí",
+    "Name[it_IT]": "Widget meteo avanzato",
+    "Name[hu_HU]": "Fejlett időjárás widget",
+    "Name[pl_PL]": "Zaawansowany widget pogodowy",
+    "Name[ua_UA]": "Розширений віджет погоди",
+
+    "Description": "A modern, highly customizable weather widget built specifically for KDE Plasma 6",
+    "Description[bg]": "Модерен и силно персонализируем уиджет за времето, създаден специално за KDE Plasma 6",
+    "Description[de]": "Ein modernes, hochgradig anpassbares Wetter-Widget, das speziell für KDE Plasma 6 entwickelt wurde",
+    "Description[nl]": "Een moderne, zeer aanpasbare weerwidget, gemaakt voor KDE Plasma 6",
+    "Description[pt_BR]": "Um widget de clima moderno e altamente personalizável construído especificamente para o KDE Plasma 6",
+    "Description[ru]": "Современный, высоко настраиваемый виджет погоды, созданный специально для KDE Plasma 6",
+    "Description[fr_FR]": "Un widget météo moderne et hautement personnalisable, conçu spécifiquement pour KDE Plasma 6",
+    "Description[tr_TR]": "KDE Plasma 6 için özel olarak oluşturulmuş modern, son derece özelleştirilebilir bir hava durumu widget'ı",
+    "Description[es]": "Un widget de clima moderno y altamente personalizable construido específicamente para KDE Plasma 6",
+    "Description[zh_TW]": "為 KDE Plasma 6 專門打造的現代、高度可自訂天氣小工具",
+    "Description[zh_CN]": "一款专为 KDE Plasma 6 打造的现代化、高度可定制天气小组件",
+    "Description[cs_CZ]": "Moderní, vysoce přizpůsobitelný widget počasí vytvořený speciálně pro KDE Plasma 6",
+    "Description[it_IT]": "Un widget meteo moderno e altamente personalizzabile creato appositamente per KDE Plasma 6",
+    "Description[hu_HU]": "Egy modern, rendkívül testreszabható időjárás widget, amely kifejezetten a KDE Plasma 6-hoz készült",
+    "Description[pl_PL]": "Nowoczesny, wysoce konfigurowalny widget pogodowy stworzony specjalnie dla KDE Plasma 6",
+    "Description[ua_UA]": "Сучасний, дуже налаштовний віджет погоди, створений спеціально для KDE Plasma 6",
+    
+    "Icon": "weather-clear",
+    "Category": "Environment and Weather",
+    "License": "GPL-2.0-or-later",
+
+    "Authors": [
+      {
+        "Name": "Petar Nedyalkov",
+        "Email": "petar.nedyalkov91@gmail.com",
+        "Role": "Author, design, development and Bulgarian translation"
+      }
+    ],
+
+    "Version": "1.5.3",
+    "Website": "https://github.com/pnedyalkov91/advanced-weather-widget",
+    "BugReportUrl": "https://github.com/pnedyalkov91/advanced-weather-widget/issues"
+  },
+
+  "X-Plasma-API-Minimum-Version": "6.0",
+  "X-Plasma-MainScript": "ui/main.qml",
+  "X-Plasma-NotificationArea": true,
+  "X-Plasma-NotificationAreaCategory": "SystemServices"
+}

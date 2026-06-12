@@ -1,5 +1,5 @@
-theme = "dracula"
+theme = "dark"
 graph_style = "dots"
-graph_fade = false
+graph_fade = true
 default_tab = "insights"
-tick_ms = 1000
+tick_ms = 2000

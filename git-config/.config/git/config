@@ -1,3 +1,5 @@
 [user]
 	name = jotenakis2
 	email = warezelite@protonmail.com
+[pull]
+	rebase = true

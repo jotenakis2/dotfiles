@@ -4,8 +4,8 @@ fpath=(~/.local/share/zsh/completions $fpath)
 # History & correct
 [[ -d "${HOME}/.local/share/zsh" ]] || mkdir -p "${HOME}/.local/share/zsh"
 HISTFILE="$HOME/.local/share/zsh/zsh_history"
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=50000
+SAVEHIST=50000
 setopt EXTENDED_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE correct autocd
 SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
 
@@ -21,9 +21,10 @@ zsh-defer _compinit_with_ttl
 
 # config fzf-tab
 zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zsh-defer zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
+#zsh-defer zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
 zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
 
 # mode vconsole (prompt basic, pas d'icones)
 zsh-defer _vconsole
 
+source <(fzf --zsh)

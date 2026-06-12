@@ -141,9 +141,9 @@ XftHintStyle=hintslight
 XftSubPixel=rgb
 fixed=Iosevka Nerd Font Propo,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 font=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
-menuFont=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+menuFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 smallestReadableFont=Comfortaa Light,8,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
-toolBarFont=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+toolBarFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 
 [Icons]
 Theme=Tela-purple-dark
@@ -186,7 +186,7 @@ Theme=freedesktop
 [WM]
 activeBackground=26,27,38
 activeBlend=215,218,224
-activeFont=Comfortaa Medium,16,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+activeFont=Comfortaa Medium,12,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 activeForeground=215,218,224
 inactiveBackground=26,27,38
 inactiveBlend=110,108,124
