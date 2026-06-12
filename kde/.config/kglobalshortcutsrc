@@ -52,6 +52,19 @@ ExposeClassCurrentDesktop=none,none,Basculer les fenêtres courantes (Classe de 
 Grid View=Meta+G,Meta+G,Basculer vers l'affichage en grille
 Increase Opacity=none,,Augmenter l'opacité de la fenêtre active de 5 %
 Kill Window=Meta+Ctrl+Esc,Meta+Ctrl+Esc,Détruire une fenêtre
+Mouse Tiler: Auto Tiler - Decrease Scroll Position=Ctrl+Alt+Left,none,Mouse Tiler: Auto Tiler - Scroll To Previous Window
+Mouse Tiler: Auto Tiler - Increase Scroll Position=Ctrl+Alt+Right,none,Mouse Tiler: Auto Tiler - Scroll To Next Window
+Mouse Tiler: Change Mode=Meta+Ctrl+Space,none,Mouse Tiler: Change Mode
+Mouse Tiler: Change To Next Auto Tiler=Ctrl+Alt+C,none,Mouse Tiler: Change To Next Auto Tiler
+Mouse Tiler: Change To Previous Auto Tiler=Ctrl+Alt+X,none,Mouse Tiler: Change To Previous Auto Tiler
+Mouse Tiler: Show All/Toggle Span=Ctrl+Space,none,Mouse Tiler: Show All/Toggle Span
+Mouse Tiler: Show Config=Ctrl+.,none,Mouse Tiler: Show Config
+Mouse Tiler: Toggle Auto Tile For Active Window=Ctrl+Alt+A,none,Mouse Tiler: Toggle Auto Tile For Active Window
+Mouse Tiler: Toggle Center In Tile=Meta+Ctrl+C,none,Mouse Tiler: Toggle Center In Tile
+Mouse Tiler: Toggle Input Type=Ctrl+Alt+I,none,Mouse Tiler: Toggle Input Type
+Mouse Tiler: Toggle Move To Previous Virtual Desktop=Meta+Ctrl+V,none,Mouse Tiler: Toggle Move To Previous Virtual Desktop
+Mouse Tiler: Toggle Tiling Suggestions=Meta+Ctrl+S,none,Mouse Tiler: Toggle Tiling Suggestions
+Mouse Tiler: Toggle Visibility=Meta+Space,none,Mouse Tiler: Toggle Visibility
 Move Tablet to Next LogicalOutput=none,none,Déplacer la tablette vers la prochaine sortie
 Move Tablet to Next Output=none,none,Déplacer la tablette vers la prochaine sortie
 MoveMouseToCenter=Meta+F6,Meta+F6,Déplacer la souris au centre
@@ -255,6 +268,8 @@ activate task manager entry 6=Meta+6,Meta+6,Activer l'entrée du gestionnaire de
 activate task manager entry 7=Meta+7,Meta+7,Activer l'entrée du gestionnaire de tâches 7
 activate task manager entry 8=Meta+8,Meta+8,Activer l'entrée du gestionnaire de tâches 8
 activate task manager entry 9=Meta+9,Meta+9,Activer l'entrée du gestionnaire de tâches 9
+activate widget 57=,none,Activer le composant graphique Lanceur d'application
+activate widget 77=,none,Activer le composant graphique Coup d'œil sur le bureau
 clear-history=none,,Effacer l'historique du presse-papier
 clipboard_action=Meta+Ctrl+X,Meta+Ctrl+X,Menu contextuel automatique d'action :
 cycle-panels=Meta+Alt+P,Meta+Alt+P,Déplacer le focus de clavier entre les panneaux
@@ -272,12 +287,14 @@ switch to next activity=none,,Basculer vers l'activité suivante
 switch to previous activity=none,,Basculer vers l'activité précédente
 toggle do not disturb=none,,Basculer « Ne pas déranger »
 
+[services][Alacritty.desktop]
+New=Ctrl+Alt+T
+
 [services][com.mitchellh.ghostty.desktop]
 _launch=
 
 [services][footclient.desktop]
 _launch=Meta+T
 
-[services][org.kde.spectacle.desktop]
-CurrentMonitorScreenShot=
-OpenWithoutScreenshot=
+[services][org.kde.konsole.desktop]
+_launch=none

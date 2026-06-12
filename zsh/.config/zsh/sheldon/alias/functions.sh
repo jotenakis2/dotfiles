@@ -1,6 +1,6 @@
-
 # ----------------------------------------------------------------------------------------------------------
 distrodate() {
+	# shellcheck disable=SC2312,SC2012
 	ls -lct /etc | tail -1 | awk '{print $6, $7, $8}'
 }
 
@@ -15,6 +15,7 @@ heure() {
 
 # ----------------------------------------------------------------------------------------------------------
 nocomm() {
+  # shellcheck disable=SC2312
   rg -v "^\s*(#|//|;)" --color=never "$@" | rg . | bat -p --file-name "$@"
 }
 
@@ -27,6 +28,7 @@ path() {
 
 # ----------------------------------------------------------------------------------------------------------
 logfwRT() {
+	# shellcheck disable=SC2312
   journalctl -f -n50 |
     awk '/filter_IN/ {
       gsub(/ MAC=[^ ]*/, "");
@@ -47,11 +49,13 @@ logfwRT() {
 
 # ----------------------------------------------------------------------------------------------------------
 logerror() { # erreurs dédupliquées sur le boot en cours
+	# shellcheck disable=SC2312
   journalctl --no-hostname -b 0 -p3 --no-pager -q 2>&1 | awk '{key=substr($0,index($0,$4)); if(!seen[key]++) print $0}'
 }
 
 # ----------------------------------------------------------------------------------------------------------
 help() { # help coloré
+	# shellcheck disable=SC2312
     "$@" --help 2>&1 | bathelp
 }
 
@@ -93,7 +97,8 @@ fzf-history() {
   if [[ -n "${selected}" ]]; then
     num=$(awk '{print $1}' <<< "${selected}")
     [[ -n "${num}" ]] || return 0
-    BUFFER="${(z)history[$num]}"
+    # shellcheck disable=SC2296
+    BUFFER="${(z)history[${num}]}"
     BUFFER="${BUFFER% }"
     zle end-of-line
     zle redisplay
@@ -115,3 +120,38 @@ function psm {
 function psc {
 	psim --0 -cnO "$@"
 }
+# ----------------------------------------------------------------------------------------------------------
+
+function cd() {
+  if [[ $# -gt 0 ]]; then
+    z "$@"
+  else
+    local dir
+    # shellcheck disable=SC2086,SC2312
+    dir=$(fd --type directory --hidden --exclude .git ${1:-.} \
+      | fzf +m \
+        --preview 'eza -T -L 4 --color=always --icons {} | head -30' \
+        --preview-window 'right:45%:wrap' \
+        --height 50%) && z "${dir}"
+  fi
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+view() {
+    local f=${1-}
+
+    [[ $# -eq 0 ]] && { printf 'view: paramètre manquant "fichier" ' ; return 1 ; }
+    [[ ! -e ${f} ]] && { printf 'view: fichier introuvable: %s\n' "${f}" >&2; return 1; }
+
+    case ${f} in
+        *.md|*.markdown|*.mdown|*.mkd)
+            glow -p -- "${f}"
+            ;;
+        *)
+           	/opt/cargo/bin/bat -pfSn --squeeze-blank -- "${f}"
+           ;;
+    esac
+}
+
+# ----------------------------------------------------------------------------------------------------------

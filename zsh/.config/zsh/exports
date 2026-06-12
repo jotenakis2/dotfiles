@@ -1,8 +1,10 @@
 # COULEURS
 
+# man
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANROFFOPT="-c"
 
+export BAT_THEME="tokyonight_night"
 export MICRO_TRUECOLOR=1
 export GREP_COLORS="mt=1;38;2;180;190;254"
 export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info  --highlight-line \
@@ -22,7 +24,18 @@ export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info  --highlight-lin
   --color=scrollbar:#27a1b9 \
   --color=separator:#ff9e64 \
   --color=spinner:#ff007c "
-  
+
+# CTRL T fzf avec preview bat
+export FZF_CTRL_T_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+# ALT C avec affichage en arbre
+export FZF_ALT_C_OPTS="
+  --walker-skip .git,node_modules,target
+  --preview 'eza --color=always --icons -T -L 4 {}'"
+
 # EDITEUR
 export VISUAL="vim"
 export EDITOR="$VISUAL"
