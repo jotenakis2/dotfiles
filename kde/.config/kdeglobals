@@ -134,23 +134,24 @@ ForegroundVisited=173,142,230
 
 [General]
 BrowserApplication=helium.desktop
+ColorScheme=TokyoNight
 ColorSchemeHash=d7bb305b91e7dd55dd16808f6dbc4c8d48b8d305
 LastUsedCustomAccentColor=146,110,228
 XftAntialias=true
-XftHintStyle=hintslight
+XftHintStyle=hintnone
 XftSubPixel=rgb
-fixed=Iosevka Nerd Font Propo,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
+fixed=Maple Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 font=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
-menuFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
-smallestReadableFont=Comfortaa Light,8,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+menuFont=Comfortaa Light,9,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+smallestReadableFont=Comfortaa,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 toolBarFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 
 [Icons]
-Theme=Tela-purple-dark
+Theme=Tela-orange-dark
 
 [KDE]
 AnimationDurationFactor=0.125
-LookAndFeelPackage=OLO
+LookAndFeelPackage=org.kde.breezedark.desktop
 ShowDeleteCommand=true
 contrast=4
 frameContrast=0.2
