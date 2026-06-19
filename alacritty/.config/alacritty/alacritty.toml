@@ -4,19 +4,19 @@ general.import = ["~/.config/alacritty/themes/tokyonight.toml"]
 size = 16.0
 
 [font.normal]
-family = "Maple Mono NF Light"
+family = "Maple Mono NF Thin"
 style = "Regular"
 
 [font.bold]
-family = "Maple Mono NF Light"
+family = "Maple Mono NF Thin"
 style = "Bold"
 
 [font.italic]
-family = "Maple Mono NF Light"
+family = "Maple Mono NF Thin"
 style = "Italic"
 
 [font.bold_italic]
-family = "Maple Mono NF Light"
+family = "Maple Mono NF Thin"
 style = "Bold Italic"
 
 # [font.normal]

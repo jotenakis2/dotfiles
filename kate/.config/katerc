@@ -98,7 +98,7 @@ Color Theme=Tokyo Night
 Line Height Multiplier=1
 Show Indentation Lines=false
 Show Whole Bracket Expression=false
-Text Font=Iosevka Nerd Font Mono,18,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+Text Font=Maple Mono NF Thin,16,-1,5,250,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 Text Font Features=
 Word Wrap Marker=false
 

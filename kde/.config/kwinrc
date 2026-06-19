@@ -1,6 +1,7 @@
 [Desktops]
 Id_1=5139df8b-33a4-485c-8e25-72c24f680d86
-Number=1
+Id_2=b0efb09b-51ba-458e-98f2-acb71e0e85be
+Number=2
 Rows=1
 
 [Effect-blur]
@@ -9,11 +10,16 @@ BlurStrength=3
 [Effect-overview]
 BorderActivate=9
 
+[ElectricBorders]
+TopLeft=ApplicationLauncher
+TopRight=ShowDesktop
+
 [NightColor]
 Active=true
 
 [Plugins]
 blurEnabled=true
+dynamic_workspacesEnabled=true
 mousetilerEnabled=true
 
 [Tiling][5139df8b-33a4-485c-8e25-72c24f680d86][81a9b6be-1490-4d17-838d-fa221a093847]
@@ -21,6 +27,10 @@ padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][5139df8b-33a4-485c-8e25-72c24f680d86][eeb61c59-ab3e-4b52-8a22-d1510be418c9]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][b0efb09b-51ba-458e-98f2-acb71e0e85be][eeb61c59-ab3e-4b52-8a22-d1510be418c9]
 padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 

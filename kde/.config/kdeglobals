@@ -142,12 +142,12 @@ XftHintStyle=hintnone
 XftSubPixel=rgb
 fixed=Maple Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 font=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
-menuFont=Comfortaa Light,9,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
-smallestReadableFont=Comfortaa,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
+menuFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+smallestReadableFont=Comfortaa,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
 toolBarFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 
 [Icons]
-Theme=Tela-orange-dark
+Theme=Tela-purple-dark
 
 [KDE]
 AnimationDurationFactor=0.125

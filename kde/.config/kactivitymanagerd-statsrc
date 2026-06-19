@@ -1,3 +1,9 @@
+[Favorites-dev.xarbit.appgrid.favorites-e07efeaf-9b7d-496d-9acd-116798777c76]
+ordering=preferred://browser,applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.kwrite.desktop,applications:org.kde.konsole.desktop,applications:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,applications:net.thunderbird.Thunderbird.desktop,applications:org.kde.neochat.desktop,applications:org.kde.konversation.desktop,applications:org.kde.kasts.desktop,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:Alacritty.desktop
+
+[Favorites-dev.xarbit.appgrid.favorites-global]
+ordering=preferred://browser,applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.kwrite.desktop,applications:org.kde.konsole.desktop,applications:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,applications:net.thunderbird.Thunderbird.desktop,applications:org.kde.neochat.desktop,applications:org.kde.konversation.desktop,applications:org.kde.kasts.desktop,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.qbittorrent.qBittorrent.desktop,applications:Alacritty.desktop
+
 [Favorites-org.kde.plasma.kicker.favorites.instance-102-e07efeaf-9b7d-496d-9acd-116798777c76]
 ordering=preferred://browser,applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.kwrite.desktop,applications:org.kde.konsole.desktop,applications:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,applications:net.thunderbird.Thunderbird.desktop,applications:org.kde.neochat.desktop,applications:org.kde.konversation.desktop,applications:org.kde.kasts.desktop,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.qbittorrent.qBittorrent.desktop
 
