@@ -6,3 +6,5 @@ MenuOpacity=90
 
 [Windeco]
 ButtonSize=ButtonSmall
+DrawBorderOnMaximizedWindows=true
+TitleAlignment=AlignLeft

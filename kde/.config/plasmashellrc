@@ -1,13 +1,18 @@
+[AppletGlobals][dev.xarbit.appgrid.panel]
+appgridPopupHeight=611
+appgridPopupWidth=1398
+
 [PlasmaViews][Panel 49]
 floating=0
-panelLengthMode=2
+panelLengthMode=1
 panelOpacity=1
-panelVisibility=3
+panelVisibility=1
+shell=org.kde.plasma.desktop
 
 [PlasmaViews][Panel 49][Defaults]
 maxLength=523
 minLength=360
-thickness=44
+thickness=60
 
 [PlasmaViews][Panel 49][Horizontal1920]
 maxLength=523
@@ -19,6 +24,7 @@ floating=1
 panelLengthMode=0
 panelOpacity=2
 panelVisibility=0
+shell=org.kde.plasma.desktop
 
 [PlasmaViews][Panel 55][Defaults]
 thickness=46

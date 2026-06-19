@@ -2,7 +2,7 @@
 AntiAliasFonts=true
 BoldIntense=true
 ColorScheme=TokyoNight_Night
-Font=Maple Mono NF Light,15,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+Font=Maple Mono NF Thin,15,-1,5,250,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 UseFontLineChararacters=true
 
 [Cursor Options]
