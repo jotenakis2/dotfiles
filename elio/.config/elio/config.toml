@@ -1,0 +1,7 @@
+[ui]
+#show_top_bar = true
+
+[layout.panes]
+places = 4  # Places width; 0 hides it
+files = 33   # Files width; must be > 0
+preview = 63 # Preview width; 0 hides it

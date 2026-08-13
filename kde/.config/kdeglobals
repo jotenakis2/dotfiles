@@ -138,13 +138,13 @@ ColorScheme=TokyoNight
 ColorSchemeHash=d7bb305b91e7dd55dd16808f6dbc4c8d48b8d305
 LastUsedCustomAccentColor=146,110,228
 XftAntialias=true
-XftHintStyle=hintnone
+XftHintStyle=hintslight
 XftSubPixel=rgb
 fixed=Maple Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
-font=Comfortaa Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+font=Maple Mono NF Light,12,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 menuFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 smallestReadableFont=Comfortaa,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
-toolBarFont=Comfortaa Light,11,-1,5,300,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
+toolBarFont=Iosevka NFP,12,-1,5,800,0,0,0,0,0,0,0,0,0,0,1,Regular,0,0
 
 [Icons]
 Theme=Tela-purple-dark

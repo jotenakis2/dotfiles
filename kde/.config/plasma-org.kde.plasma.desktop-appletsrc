@@ -44,6 +44,8 @@ showTitle=false
 
 [Containments][1][Applets][131][Configuration][SensorColors]
 cpu/all/averageTemperature=255,255,255
+cpu/all/usage=0,0,127
+gpu/all/usage=239,168,164
 gpu/gpu0/temperature=0,85,127
 gpu/gpu1/temperature=170,255,255
 lmsensors/acpitz-acpi-0/temp1=164,239,201
@@ -69,6 +71,7 @@ disk/47506b0c-9597-44a8-99bb-c9549ba80ee5/used= \s
 disk/9e3b9129-073d-4c6e-85cb-a4952a9d58c1/used= \s
 disk/nvme0n1/read=  󱞿
 disk/nvme0n1/write=  󱞣
+gpu/all/usage=\s
 gpu/gpu0/temperature=\s
 gpu/gpu0/usage=\s
 gpu/gpu1/temperature=\s
@@ -90,14 +93,13 @@ power/09686 2023/01/09/charge= \s
 power/09686 2023/01/09/chargeRate=  󱞣
 
 [Containments][1][Applets][131][Configuration][Sensors]
-highPrioritySensorIds=["cpu/all/averageTemperature","gpu/gpu0/temperature","lmsensors/ath11k_hwmon-pci-0200/temp1","lmsensors/nvme-pci-0400/temp1"]
-lowPrioritySensorIds=["cpu/all/usage","gpu/gpu0/usage","memory/physical/used","memory/swap/used","disk/9e3b9129-073d-4c6e-85cb-a4952a9d58c1/used","disk/47506b0c-9597-44a8-99bb-c9549ba80ee5/used","power/09686 2023/01/09/chargeRate","power/09686 2023/01/09/charge","network/wlp2s0/network","network/wlp2s0/signal","disk/nvme0n1/read","disk/nvme0n1/write","cpu/cpu0/usage","cpu/cpu6/usage","cpu/cpu1/usage","cpu/cpu7/usage","cpu/cpu2/usage","cpu/cpu8/usage","cpu/cpu3/usage","cpu/cpu9/usage","cpu/cpu4/usage","cpu/cpu10/usage","cpu/cpu5/usage","cpu/cpu11/usage","os/system/uptime","network/wlp2s0/ipv4address"]
+highPrioritySensorIds=["cpu/all/averageTemperature","gpu/gpu0/temperature","lmsensors/ath11k_hwmon-pci-0200/temp1","lmsensors/nvme-pci-0400/temp1","cpu/all/usage","gpu/all/usage"]
+lowPrioritySensorIds=["memory/physical/used","memory/swap/used","disk/9e3b9129-073d-4c6e-85cb-a4952a9d58c1/used","disk/47506b0c-9597-44a8-99bb-c9549ba80ee5/used","power/09686 2023/01/09/chargeRate","power/09686 2023/01/09/charge","network/wlp2s0/network","network/wlp2s0/signal","disk/nvme0n1/read","disk/nvme0n1/write","cpu/cpu0/usage","cpu/cpu6/usage","cpu/cpu1/usage","cpu/cpu7/usage","cpu/cpu2/usage","cpu/cpu8/usage","cpu/cpu3/usage","cpu/cpu9/usage","cpu/cpu4/usage","cpu/cpu10/usage","cpu/cpu5/usage","cpu/cpu11/usage","os/system/uptime","network/wlp2s0/ipv4address"]
 totalSensors=["cpu/all/averageTemperature","gpu/gpu1/temperature"]
 
 [Containments][1][Applets][131][Configuration][org.kde.ksysguard.linechart][General]
-historyAmount=3600
+historyAmount=360
 rangeAutoY=false
-rangeFromY=20
 
 [Containments][1][Applets][131][Configuration][org.kde.ksysguard.piechart][General]
 fromAngle=-120
@@ -138,44 +140,16 @@ Provider=bing
 
 [Containments][49]
 activityId=
-formfactor=2
+formfactor=3
 immutability=1
 lastScreen=0
-location=4
+location=6
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
 
 [Containments][49][Applets][133]
 immutability=1
 plugin=org.kde.plasma.marginsseparator
-
-[Containments][49][Applets][153]
-immutability=1
-plugin=dev.xarbit.appgrid.panel
-
-[Containments][49][Applets][153][Configuration]
-popupHeight=611
-popupSizeOwner=appgrid:1398x611
-popupWidth=1398
-
-[Containments][49][Applets][153][Configuration][ConfigDialog]
-DialogHeight=630
-DialogWidth=810
-
-[Containments][49][Applets][153][Configuration][General]
-favoritesPortedToKAstats=true
-headerActions=sleep:menu,restart:bar,shutdown:bar,lock:menu,logout:bar,switchuser:menu
-headerActionsMigrated=true
-iconMigratedFrom17=true
-knownApps=remote-viewer.desktop,Alacritty.desktop,org.kde.ark.desktop,btop.desktop,org.kde.plasma-welcome.desktop,org.kde.khelpcenter.desktop,org.kde.kinfocenter.desktop,chkrootkit.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.dragonplayer.desktop,org.dupot.easyflatpak.desktop,org.kde.kmenuedit.desktop,org.kde.elisa.desktop,org.fedoraproject.MediaWriter.desktop,org.kde.filelight.desktop,com.github.tchx84.Flatseal.desktop,io.github.giantpinkrobots.flatsweep.desktop,com.github.johnfactotum.Foliate.desktop,io.github.forkgram.tdesktop.desktop,virt-manager.desktop,org.kde.partitionmanager.desktop,org.kde.gwenview.desktop,helium.desktop,htop.desktop,iptvnator.desktop,setroubleshoot.desktop,org.kde.kamoso.desktop,org.kde.kasts.desktop,org.kde.kate.desktop,org.kde.kcalc.desktop,org.kde.kcharselect.desktop,org.kde.kdebugsettings.desktop,org.kde.kfind.desktop,org.kde.kolourpaint.desktop,org.kde.konsole.desktop,org.kde.konversation.desktop,org.kde.krdc.desktop,org.kde.krfb.desktop,org.kde.kwalletmanager.desktop,org.kde.kwrite.desktop,mpv.desktop,vlc.desktop,libreoffice-calc.desktop,libreoffice-draw.desktop,libreoffice-impress.desktop,libreoffice-math.desktop,libreoffice-writer.desktop,librewolf.desktop,net.thunderbird.Thunderbird.desktop,org.kde.kjournaldbrowser.desktop,org.kde.neochat.desktop,nvtop.desktop,org.kde.okular.desktop,firewall-config.desktop,org.qbittorrent.qBittorrent.desktop,org.kde.plasma.emojier.desktop,org.kde.skanpage.desktop,org.kde.spectacle.desktop,org.kde.plasma-systemmonitor.desktop,vesktop.desktop,chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,winboat.desktop,X.desktop,org.mozilla.firefox.desktop
-launchCounts=org.mozilla.firefox.desktop=1,systemsettings.desktop=2
-openCategoryOnHover=true
-powerButtonsMigrated=true
-recentApps=org.mozilla.firefox.desktop,systemsettings.desktop
-shakeOnOpen=true
-showActionLabels=true
-startWithFavorites=true
-terminalShell=/bin/zsh
 
 [Containments][49][Applets][155]
 immutability=1
@@ -190,14 +164,14 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][49][Applets][92][Configuration][General]
-groupingAppIdBlacklist=Alacritty.desktop
-groupingLauncherUrlBlacklist=applications:Alacritty.desktop
+groupingAppIdBlacklist=Alacritty.desktop,foot.desktop,com.mitchellh.ghostty.desktop,helium.desktop
+groupingLauncherUrlBlacklist=applications:helium.desktop,applications:Alacritty.desktop,applications:com.mitchellh.ghostty.desktop,applications:foot.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=applications:Alacritty.desktop,preferred://browser,applications:librewolf.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:systemsettings.desktop
+launchers=preferred://browser,applications:foot.desktop,applications:librewolf.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:systemsettings.desktop
 
 [Containments][49][General]
-AppletOrder=153;133;92;155
+AppletOrder=133;92;155
 
 [Containments][55]
 activityId=
@@ -219,7 +193,7 @@ immutability=1
 lastScreen=-1
 location=0
 plugin=org.kde.plasma.systemtray
-popupHeight=432
+popupHeight=666
 popupWidth=432
 wallpaperplugin=org.kde.image
 
@@ -264,13 +238,17 @@ plugin=org.kde.plasma.bluetooth
 [Containments][55][Applets][106][Applets][122][Configuration][General]
 showNumberOfConnectedDevices=true
 
+[Containments][55][Applets][106][Applets][157]
+immutability=1
+plugin=org.kde.plasma.brightness
+
 [Containments][55][Applets][106][ConfigDialog]
 DialogHeight=1001
 DialogWidth=1920
 
 [Containments][55][Applets][106][General]
-extraItems=org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.volume,org.kde.plasma.printmanager,org.kde.kscreen,org.kde.plasma.clipboard,org.kde.plasma.battery,org.kde.plasma.bluetooth
-hiddenItems=org.kde.kscreen,org.kde.plasma.clipboard,org.kde.plasma.battery,org.kde.plasma.bluetooth
+extraItems=org.kde.plasma.networkmanagement,org.kde.plasma.notifications,org.kde.plasma.volume,org.kde.plasma.printmanager,org.kde.kscreen,org.kde.plasma.clipboard,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.brightness
+hiddenItems=org.kde.kscreen,org.kde.plasma.clipboard,org.kde.plasma.battery,org.kde.plasma.bluetooth,org.kde.plasma.brightness
 knownItems=org.kde.plasma.vault,org.kde.plasma.mediacontroller,org.kde.plasma.networkmanagement,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.devicenotifier,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.battery,org.kde.plasma.weather,org.kde.plasma.keyboardlayout,org.kde.plasma.keyboardindicator,org.kde.plasma.volume,org.kde.plasma.manage-inputmethod,org.kde.plasma.brightness,org.kde.plasma.cameraindicator,org.kde.plasma.printmanager
 
 [Containments][55][Applets][124]
@@ -358,11 +336,12 @@ DialogWidth=1267
 command=sysmonitor.sh
 customColor=#ffffff
 fontFamily=Maple Mono NF Thin
-fontSize=17
+fontSize=16
 intervalSeconds=2
 padding=4
 textAlignment=left
 tooltipCommand=load.sh 5
+tooltipDefaultText=
 tooltipEnabled=true
 tooltipIntervalSeconds=5
 useCustomFontFamily=true
@@ -393,8 +372,36 @@ useCustomFontFamily=true
 useCustomFontSize=true
 useMonospaceFont=true
 
+[Containments][55][Applets][156]
+immutability=1
+plugin=dev.xarbit.appgrid
+
+[Containments][55][Applets][156][Configuration]
+popupHeight=400
+popupWidth=560
+
+[Containments][55][Applets][156][Configuration][ConfigDialog]
+DialogHeight=1001
+DialogWidth=1920
+
+[Containments][55][Applets][156][Configuration][General]
+customButtonImage=goa-account-fedora
+favoritesPortedToKAstats=true
+gridColumns=10
+gridRows=8
+headerActionsMigrated=true
+iconMigratedFrom17=true
+knownApps=remote-viewer.desktop,Alacritty.desktop,org.kde.ark.desktop,btop.desktop,org.kde.plasma-welcome.desktop,org.kde.khelpcenter.desktop,org.kde.kinfocenter.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.dragonplayer.desktop,org.dupot.easyflatpak.desktop,org.kde.kmenuedit.desktop,org.kde.elisa.desktop,org.fedoraproject.MediaWriter.desktop,org.kde.filelight.desktop,com.github.tchx84.Flatseal.desktop,io.github.giantpinkrobots.flatsweep.desktop,com.github.johnfactotum.Foliate.desktop,io.github.forkgram.tdesktop.desktop,virt-manager.desktop,org.kde.partitionmanager.desktop,com.mitchellh.ghostty.desktop,org.kde.gwenview.desktop,helium.desktop,htop.desktop,iptvnator.desktop,setroubleshoot.desktop,org.kde.kamoso.desktop,org.kde.kasts.desktop,org.kde.kate.desktop,org.kde.kcalc.desktop,org.kde.kcharselect.desktop,org.kde.kdebugsettings.desktop,org.kde.kfind.desktop,org.kde.kolourpaint.desktop,org.kde.konsole.desktop,org.kde.konversation.desktop,org.kde.krdc.desktop,org.kde.krfb.desktop,org.kde.kwalletmanager.desktop,org.kde.kwrite.desktop,mpv.desktop,vlc.desktop,libreoffice-calc.desktop,libreoffice-draw.desktop,libreoffice-impress.desktop,libreoffice-math.desktop,libreoffice-writer.desktop,librewolf.desktop,net.thunderbird.Thunderbird.desktop,org.kde.kjournaldbrowser.desktop,chromium-browser.desktop,org.kde.neochat.desktop,nvtop.desktop,org.kde.okular.desktop,firewall-config.desktop,proton.vpn.app.gtk.desktop,com.protonvpn.www.desktop,org.qbittorrent.qBittorrent.desktop,org.kde.plasma.emojier.desktop,org.kde.skanpage.desktop,org.kde.smb4k.desktop,org.kde.spectacle.desktop,org.kde.plasma-systemmonitor.desktop,vesktop.desktop,chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,winboat.desktop,X.desktop,foot.desktop
+launchCounts=btop.desktop=1,com.protonvpn.www.desktop=1,foot.desktop=3,iptvnator.desktop=2,org.kde.konsole.desktop=1,org.kde.partitionmanager.desktop=1,proton.vpn.app.gtk.desktop=3,systemsettings.desktop=2
+powerButtonsMigrated=true
+recentApps=btop.desktop,systemsettings.desktop,org.kde.partitionmanager.desktop,foot.desktop,org.kde.konsole.desktop,com.protonvpn.www.desktop,proton.vpn.app.gtk.desktop,iptvnator.desktop
+startWithFavorites=true
+terminalShell=/bin/zsh
+useCustomButtonImage=true
+verticalOffset=-75
+
 [Containments][55][General]
-AppletOrder=148;105;136;124;141;150;106
+AppletOrder=156;148;105;136;124;141;150;106
 
 [Containments1Appletsts][131][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart

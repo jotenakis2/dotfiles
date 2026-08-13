@@ -1,0 +1,423 @@
+# Ce fichier viminfo a été généré par Vim 9.2.
+# Vous pouvez l'éditer, mais soyez prudent.
+
+# Viminfo version
+|1,4
+
+# 'encoding' dans lequel ce fichier a été écrit
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~H
+# Dernier motif de recherche  :
+~Msle0~/\<45\>
+
+# Historique ligne de commande (chronologie décroissante) :
+:q
+|2,0,1786658364,,"q"
+:wq
+|2,0,1786041792,,"wq"
+:qw
+|2,0,1785778536,,"qw"
+:w
+|2,0,1785778441,,"w"
+:q!
+|2,0,1785179193,,"q!"
+:'<,'>q
+|2,0,1782001253,,"'<,'>q"
+:unwrap
+|2,0,1780943798,,"unwrap"
+:
+|2,0,1780937049,,""
+:PlugInstall
+|2,0,1780936933,,"PlugInstall"
+:set viminfofile?
+|2,0,1779997616,,"set viminfofile?"
+
+# Historique chaîne de recherche (chronologie décroissante) :
+? \<45\>
+|2,1,1785778424,,"\\<45\\>"
+
+# Historique expression (chronologie décroissante) :
+
+# Historique ligne de saisie (chronologie décroissante) :
+
+# Historique Ligne de débogage (chronologie décroissante) :
+
+# Registres :
+""0	LINE	0
+	#eval "$(/opt/cargo/bin/_xerxes init zsh)"
+|3,1,0,1,1,0,1780943768,"#eval \"$(/opt/cargo/bin/_xerxes init zsh)\""
+"1	LINE	0
+	#eval "$(/opt/cargo/bin/_xerxes init zsh)"
+|3,0,1,1,1,0,1780696705,"#eval \"$(/opt/cargo/bin/_xerxes init zsh)\""
+"2	LINE	0
+	# test zoxide replacement
+|3,0,2,1,1,0,1780696704,"# test zoxide replacement"
+"3	LINE	0
+		#eval "$(sheldon --config-dir ~/.config/zsh/sheldon --data-dir ~/.local/share/zsh --config-file ~/.config/zsh/sheldon/plugins.toml source)"
+|3,0,3,1,1,0,1780696648,"	#eval \"$(sheldon --config-dir ~/.config/zsh/sheldon --data-dir ~/.local/share/zsh --config-file ~/.config/zsh/sheldon/plugins.toml source)\""
+
+# Marques dans le fichier :
+'0  102  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,48,102,0,1786658364,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+'1  11  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,49,11,0,1786658032,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+'2  11  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,50,11,0,1786658032,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+'3  1  1  ~/ld/ls
+|4,51,1,1,1786041792,"~/ld/ls"
+'4  2  44  /tmp/crontab.SIjB3W
+|4,52,2,44,1785779499,"/tmp/crontab.SIjB3W"
+'5  2  51  /tmp/crontab.k7NjbC
+|4,53,2,51,1785779472,"/tmp/crontab.k7NjbC"
+'6  4  0  /tmp/crontab.Vfvu3w
+|4,54,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+'7  3  3  /tmp/crontab.WEpLyZ
+|4,55,3,3,1785778443,"/tmp/crontab.WEpLyZ"
+'8  61  8  ~/.essh/config.toml
+|4,56,61,8,1785179193,"~/.essh/config.toml"
+'9  304  0  ~/Projects/post-install/post-install-common.sh
+|4,57,304,0,1783893606,"~/Projects/post-install/post-install-common.sh"
+
+# Liste de sauts (le plus récent en premier) :
+-'  102  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,39,102,0,1786658364,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+-'  11  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,39,11,0,1786658359,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+-'  11  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,39,11,0,1786658032,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+-'  1  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,39,1,0,1786658028,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+-'  1  0  ~/Projects/dotfiles/eza/.config/eza/theme.yml
+|4,39,1,0,1786658028,"~/Projects/dotfiles/eza/.config/eza/theme.yml"
+-'  1  1  ~/ld/ls
+|4,39,1,1,1786041792,"~/ld/ls"
+-'  1  1  ~/ld/ls
+|4,39,1,1,1786041792,"~/ld/ls"
+-'  1  1  ~/ld/ls
+|4,39,1,1,1786041792,"~/ld/ls"
+-'  1  1  ~/ld/ls
+|4,39,1,1,1786041792,"~/ld/ls"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  2  44  /tmp/crontab.SIjB3W
+|4,39,2,44,1785779499,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  1  0  /tmp/crontab.SIjB3W
+|4,39,1,0,1785779492,"/tmp/crontab.SIjB3W"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  2  51  /tmp/crontab.k7NjbC
+|4,39,2,51,1785779472,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  1  0  /tmp/crontab.k7NjbC
+|4,39,1,0,1785779423,"/tmp/crontab.k7NjbC"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  4  0  /tmp/crontab.Vfvu3w
+|4,39,4,0,1785778540,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+-'  1  0  /tmp/crontab.Vfvu3w
+|4,39,1,0,1785778522,"/tmp/crontab.Vfvu3w"
+
+# Historique des marques dans les fichiers (les plus récentes en premier) :
+
+> ~/Projects/dotfiles/eza/.config/eza/theme.yml
+	*	1786658361	0
+	"	102	0
+
+> ~/ld/ls
+	*	1786041791	0
+	"	1	1
+	^	1	2
+	.	1	1
+	+	1	1
+
+> /tmp/crontab.SIjB3W
+	*	1785779497	0
+	"	2	44
+	^	2	45
+	.	2	44
+	+	2	44
+
+> /tmp/crontab.k7NjbC
+	*	1785779468	0
+	"	2	51
+	^	2	52
+	.	2	51
+	+	2	51
+
+> /tmp/crontab.Vfvu3w
+	*	1785778536	0
+	"	4	0
+	^	4	1
+	.	5	0
+	+	5	0
+
+> /tmp/crontab.WEpLyZ
+	*	1785778441	0
+	"	3	3
+	^	3	4
+	.	6	0
+	+	6	0
+
+> ~/.essh/config.toml
+	*	1785179179	0
+	"	61	8
+
+> ~/Projects/post-install/post-install-common.sh
+	*	1783893604	0
+	"	304	0
+
+> /tmp/sudoers-kMazi7/0/bashrc
+	*	1783110831	0
+	"	71	0
+	^	71	0
+	.	70	33
+	+	70	33
+
+> /tmp/sudoers-Z2ihOi/0/bashrc
+	*	1783110362	0
+	"	71	0
+	^	71	0
+	.	71	0
+	+	70	33
+	+	71	0
+
+> /tmp/sudoers-uLseqH/0/login.defs
+	*	1783101475	0
+	"	230	25
+	^	230	26
+	.	230	25
+	+	230	25
+
+> /tmp/sudoers-HkC0Kk/0/automatic.conf
+	*	1783100159	0
+	"	5	13
+	^	5	14
+	.	5	13
+	+	5	13
+
+> /tmp/sudoers-MRshKu/0/login.defs
+	*	1783099618	0
+	"	134	14
+	^	134	15
+	.	132	14
+	+	117	9
+	+	131	15
+	+	132	14
+
+> /tmp/sudoers-vx7q9J/0/backupsystem.conf
+	*	1783088572	0
+	"	22	19
+	^	22	20
+	.	22	20
+	+	22	20
+
+> /tmp/sudoers-S4lKDx/0/exclusion-full.txt
+	*	1783088525	0
+	"	1	0
+
+> /tmp/sudoers-sP8jmv/0/exclusion-full.txt
+	*	1783088108	0
+	"	28	20
+	^	28	21
+	.	28	21
+	+	28	21
+
+> /tmp/sudoers-uzGfC8/0/backupsystem.conf
+	*	1783087565	0
+	"	23	0
+	^	23	0
+	.	23	0
+	+	22	39
+	+	21	42
+	+	22	20
+	+	22	19
+	+	21	25
+	+	22	19
+	+	23	0
+
+> /tmp/sudoers-IhJmBB/0/exclusion-full.txt
+	*	1783081150	0
+	"	19	0
+
+> /tmp/sudoers-HfX61p/0/backupsystem.conf
+	*	1783081126	0
+	"	10	20
+	^	39	21
+	.	10	31
+	+	4	32
+	+	7	45
+	+	10	31
+
+> /tmp/sudoers-EGr7pu/0/crontab
+	*	1783081041	0
+	"	18	0
+	^	18	0
+	.	17	44
+	+	20	0
+	+	17	44

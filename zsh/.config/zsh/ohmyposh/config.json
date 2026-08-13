@@ -152,7 +152,7 @@
               "properties": {
                 "cache_duration": "none"
               },
-              "template": " {{ .UserName }} ",
+              "template": " {{ .UserName }}:{{ .HostName }} ",
               "foreground": "p:Lavender",
               "background": "p:Crust",
               "powerline_symbol": "\ue0b4",
@@ -251,7 +251,7 @@
                 "always_enabled": true,
                 "cache_duration": "none"
               },
-              "template": "❯ ",
+              "template": "{{ if gt .Code 0 }}{{ .Code }}{{ end }}❯ ",
               "foreground": "p:Lavender",
               "type": "exit",
               "style": "plain",

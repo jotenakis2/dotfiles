@@ -3,6 +3,10 @@ general.import = ["~/.config/alacritty/themes/tokyonight.toml"]
 [font]
 size = 16.0
 
+[font.offset]
+x = 0
+y = 0
+
 [font.normal]
 family = "Maple Mono NF Thin"
 style = "Regular"
@@ -19,32 +23,14 @@ style = "Italic"
 family = "Maple Mono NF Thin"
 style = "Bold Italic"
 
-# [font.normal]
-# family = "Iosevka Nerd Font Propo"
-# style = "Regular"
-# 
-# [font.bold]
-# family = "Iosevka Nerd Font Propo"
-# style = "Bold"
-# 
-# [font.italic]
-# family = "Iosevka Nerd Font Propo"
-# style = "Italic"
-# 
-# [font.bold_italic]
-# family = "Iosevka Nerd Font Propo"
-# style = "Bold Italic"
-
 [window]
 startup_mode = "Maximized"
-opacity = 0.95
+opacity = 0.98
 blur = false
 
 [cursor]
-blink_timeout = 0 
-style = { shape = "Underline", blinking = "On"  }
-thickness = 0.4
-blink_interval = 400
+style = { shape = "Underline", blinking = "Off"  }
+thickness = 0.3
 
 [colors.cursor]
 text = "CellForeground"  # Texte du curseur (par défaut: couleur de la cellule)
