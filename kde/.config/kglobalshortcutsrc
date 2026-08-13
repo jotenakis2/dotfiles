@@ -8,6 +8,10 @@ Switch to Last-Used Keyboard Layout=Meta+Alt+L,Meta+Alt+L,Basculer vers la derni
 Switch to Next Keyboard Layout=Meta+Alt+K,Meta+Alt+K,Passer à la disposition de clavier suivante
 _k_friendly_name=Commutateur de dispositions de clavier
 
+[dev.xarbit.appgrid]
+_k_friendly_name=AppGrid Launcher Center
+appgrid_open_compact=none,none,Ouvrir en mode compact
+
 [kaccess]
 Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Activer ou désactiver le lecteur d'écran
 _k_friendly_name=Accessibilité
@@ -296,14 +300,10 @@ toggle do not disturb=none,none,Basculer « Ne pas déranger »
 New=Ctrl+Alt+T
 
 [services][com.mitchellh.ghostty.desktop]
-_launch=
+_launch=none
 
 [services][footclient.desktop]
 _launch=Meta+T
 
 [services][org.kde.konsole.desktop]
 _launch=none
-
-[services][org.kde.spectacle.desktop]
-CurrentMonitorScreenShot=none
-OpenWithoutScreenshot=none

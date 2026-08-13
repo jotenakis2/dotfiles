@@ -119,10 +119,6 @@ fi
 
 dns_count=$(print_servers "dns" | wc -l)
 
-echo_bold "Your IP:"
-print_servers "ip"
-
-echo ""
 if [ ${dns_count} -eq "0" ];then
     echo_bold "No DNS servers found"
 else
@@ -133,9 +129,5 @@ else
     fi
     print_servers "dns"
 fi
-
-echo ""
-echo_bold "Conclusion:"
-print_servers "conclusion"
 
 exit 0

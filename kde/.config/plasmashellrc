@@ -4,19 +4,22 @@ appgridPopupWidth=1398
 
 [PlasmaViews][Panel 49]
 floating=0
-panelLengthMode=1
-panelOpacity=1
+panelLengthMode=2
+panelOpacity=0
 panelVisibility=1
 shell=org.kde.plasma.desktop
 
 [PlasmaViews][Panel 49][Defaults]
-maxLength=523
+maxLength=887
 minLength=360
-thickness=60
+thickness=66
 
 [PlasmaViews][Panel 49][Horizontal1920]
 maxLength=523
 minLength=360
+
+[PlasmaViews][Panel 49][Vertical1080]
+maxLength=887
 
 [PlasmaViews][Panel 55]
 alignment=132

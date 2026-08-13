@@ -1,5 +1,9 @@
 setopt +o nomatch interactive_comments
 zmodload zsh/parameter
+# emacs mode pour bind touche début/fin
+bindkey -e
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 
 # evalcache
 ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/evalcache"
@@ -15,6 +19,7 @@ export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
 # RUST
 export RUSTUP_HOME=/opt/rustup
 export CARGO_HOME=/opt/cargo
+export CARGO_TARGET_DIR=/var/tmp/cargo-target
 
 # GO
 export GOROOT=/opt/go
@@ -44,12 +49,12 @@ _compinit_with_ttl() {
                 return 0
         fi
         compinit -C -D -d "$zcompdump" # on charge au plus rapide
-		return 0
+        return 0
 }
 	
 # en VCONSOLE pas d'icones, prompt basic sans ohmyposh
 _vconsole() {
-	if [[ "$TERM" = "linux" ]]; then
+	if [[ "$TERM" = "linux" ]]; then # TTY
 		if command -v eza &>/dev/null; then 
 			alias eza='eza --git --header --group-directories-first --color --group'
 			alias ls='eza'
@@ -58,23 +63,21 @@ _vconsole() {
 			alias ls='ls --color=always --group-directories-first'
 			alias lt='tree -L 4'
 		fi
-		alias ll='ls -lh'
-		alias la='ls -alh'
-	
 		precmd() { echo }
 		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'
 ''%F{blue}>%F{reset} '
-
-	else
+	else # terminal graphique
 		if command -v eza &>/dev/null; then
 			alias eza='eza --git --header --group-directories-first --color-scale all --color --icons --group'
 			alias ls='eza'
-			alias lt='\eza -T --color -L 4'
+			alias lt='eza -T -L 4'
 		else
 			alias ls='ls --color=always --group-directories-first'
 			alias lt='tree -L 4'
 		fi		
-		alias ll='ls -lh'
-		alias la='ls -alh'
 	fi
+	alias ll='ls -lh'
+	alias la='ls -alh'
+	alias l='ls -a1'
+	source <(fzf --zsh)
 }

@@ -1,5 +1,5 @@
-theme = "dark"
+theme = "terminal"
 graph_style = "dots"
 graph_fade = true
-default_tab = "insights"
+default_tab = "overview"
 tick_ms = 2000

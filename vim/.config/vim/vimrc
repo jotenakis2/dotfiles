@@ -1,0 +1,23 @@
+call plug#begin('~/.config/vim/plugged')
+ Plug 'tpope/vim-surround'
+ Plug 'dense-analysis/ale'
+ Plug 'ghifarit53/tokyonight-vim'
+ Plug 'junegunn/fzf.vim'
+call plug#end()
+
+set runtimepath^=~/.config/vim
+set runtimepath+=~/.config/vim/after
+set packpath^=~/.config/vim
+set viminfofile=~/.config/vim/viminfo
+
+syntax on
+filetype plugin indent on
+set number
+set termguicolors
+
+let g:tokyonight_style = 'night'
+colorscheme tokyonight
+hi Keyword ctermfg=141 guifg=#c792ea
+hi String ctermfg=114 guifg=#c3e88d
+hi Identifier ctermfg=255 guifg=#ffffff
+hi Operator ctermfg=141 guifg=#c792ea

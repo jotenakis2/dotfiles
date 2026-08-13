@@ -1,17 +1,20 @@
-#theme = catppuccin-mocha.conf
 theme = tokyonight_night.conf
-font-family = "Iosevka Nerd Font"
-font-size = 15
+font-family = "Maple Mono NF Thin"
+font-size = 16
 background-opacity = 0.95
-#
-adjust-cell-width = 0
 env = IMSETTINGS_INTEGRATE_DESKTOP=no
-#
+
 maximize
 window-width = 200
 window-height = 45
 window-position-x = 10
 window-position-y = 0
-#
-gtk-tabs-location = bottom
+gtk-tabs-location = top
 window-theme = ghostty
+
+# curseur
+shell-integration-features = no-cursor
+cursor-color = #7dcfff
+cursor-style = bar
+cursor-style-blink = true
+adjust-cursor-thickness = 2
