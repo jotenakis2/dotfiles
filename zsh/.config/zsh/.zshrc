@@ -9,7 +9,7 @@ SAVEHIST=50000
 setopt EXTENDED_HISTORY 
 setopt SHARE_HISTORY 
 setopt INC_APPEND_HISTORY 
-setopt HIST_IGNORE_ALL_DUPS 
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE 
 setopt HIST_SAVE_NO_DUPS 
 
@@ -22,7 +22,6 @@ if command -v sheldon >/dev/null 2>&1; then
 	eval "$(sheldon source)"
 fi
 
-
 # autocompletion
 autoload -Uz compinit
 zsh-defer _compinit_with_ttl
@@ -34,4 +33,6 @@ zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $r
 # mode vconsole (prompt basic, pas d'icones)
 zsh-defer _vconsole
 
-#source <(fzf --zsh)
+# herdr
+#pgrep -x -f 'herdr' >/dev/null || 
+#herdr

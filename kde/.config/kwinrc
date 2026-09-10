@@ -11,7 +11,6 @@ BlurStrength=3
 BorderActivate=9
 
 [ElectricBorders]
-TopLeft=ApplicationLauncher
 TopRight=ShowDesktop
 
 [NightColor]

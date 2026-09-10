@@ -11,7 +11,7 @@ password="***EnCrYpTed***"
 #changelog="yes"
 
 # option -s : (décommentez ci-dessous pour activer) INFO : le mode "-v" permet de passer outre ce réglage.
-#silent="yes"
+silent="yes"
 
 # option -F : (décommentez ci-dessous pour activer)
 #noflatpak="yes"
@@ -26,8 +26,8 @@ password="***EnCrYpTed***"
 #notif_email="yes"
 
 # option -B : (décommentez ci-dessous pour activer) INFO : le mode "-b" permet de passer outre ce réglage.
-#nocacheupd="yes"
+nocacheupd="yes"
 
 # option -i : (décommentez ci-dessous pour activer)
-#interactive="yes"
+interactive="yes"
 
