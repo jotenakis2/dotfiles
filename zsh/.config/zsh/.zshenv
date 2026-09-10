@@ -19,7 +19,7 @@ export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
 # RUST
 export RUSTUP_HOME=/opt/rustup
 export CARGO_HOME=/opt/cargo
-export CARGO_TARGET_DIR=/var/tmp/cargo-target
+export CARGO_TARGET_DIR=/opt/cargo/cargo-target
 
 # GO
 export GOROOT=/opt/go
@@ -56,7 +56,7 @@ _compinit_with_ttl() {
 _vconsole() {
 	if [[ "$TERM" = "linux" ]]; then # TTY
 		if command -v eza &>/dev/null; then 
-			alias eza='eza --git --header --group-directories-first --color --group'
+			alias eza='eza --git --header --group-directories-first --color always --group -b'
 			alias ls='eza'
 			alias lt='\eza -T --color -L 4'
 		else
@@ -68,7 +68,7 @@ _vconsole() {
 ''%F{blue}>%F{reset} '
 	else # terminal graphique
 		if command -v eza &>/dev/null; then
-			alias eza='eza --git --header --group-directories-first --color-scale all --color --icons --group'
+			alias eza='eza --git --header --group-directories-first --color-scale all --color always --icons always --group -b'
 			alias ls='eza'
 			alias lt='eza -T -L 4'
 		else
@@ -77,7 +77,7 @@ _vconsole() {
 		fi		
 	fi
 	alias ll='ls -lh'
-	alias la='ls -alh'
-	alias l='ls -a1'
+	alias la='ls -Alh'
+	alias l='ls -A1'
 	source <(fzf --zsh)
 }

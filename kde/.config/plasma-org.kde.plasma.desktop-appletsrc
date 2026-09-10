@@ -5,8 +5,8 @@ RightButton;NoModifier=org.kde.contextmenu
 RightButton;NoModifier=org.kde.contextmenu
 
 [AppletGlobals][dev.xarbit.appgrid.panel]
-appgridPopupHeight=611
-appgridPopupWidth=1398
+appgridPopupHeight=400
+appgridPopupWidth=560
 
 [Containments][1]
 ItemGeometries-1920x1080=Applet-131:1472,0,448,624,0;
@@ -32,7 +32,7 @@ popupWidth=360
 [Containments][1][Applets][131][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
 title=Tableau de bord
-updateRateLimit=2000
+updateRateLimit=4000
 
 [Containments][1][Applets][131][Configuration][ConfigDialog]
 DialogHeight=1001
@@ -44,8 +44,8 @@ showTitle=false
 
 [Containments][1][Applets][131][Configuration][SensorColors]
 cpu/all/averageTemperature=255,255,255
-cpu/all/usage=0,0,127
-gpu/all/usage=239,168,164
+cpu/all/usage=255,255,255
+gpu/all/usage=0,85,127
 gpu/gpu0/temperature=0,85,127
 gpu/gpu1/temperature=170,255,255
 lmsensors/acpitz-acpi-0/temp1=164,239,201
@@ -100,6 +100,8 @@ totalSensors=["cpu/all/averageTemperature","gpu/gpu1/temperature"]
 [Containments][1][Applets][131][Configuration][org.kde.ksysguard.linechart][General]
 historyAmount=360
 rangeAutoY=false
+rangeFromYUnit=1000
+rangeToYUnit=1000
 
 [Containments][1][Applets][131][Configuration][org.kde.ksysguard.piechart][General]
 fromAngle=-120
@@ -164,11 +166,11 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][49][Applets][92][Configuration][General]
-groupingAppIdBlacklist=Alacritty.desktop,foot.desktop,com.mitchellh.ghostty.desktop,helium.desktop
-groupingLauncherUrlBlacklist=applications:helium.desktop,applications:Alacritty.desktop,applications:com.mitchellh.ghostty.desktop,applications:foot.desktop
+groupingAppIdBlacklist=Alacritty.desktop,helium.desktop,foot.desktop,com.mitchellh.ghostty.desktop
+groupingLauncherUrlBlacklist=applications:Alacritty.desktop,applications:com.mitchellh.ghostty.desktop,applications:helium.desktop,applications:foot.desktop
 iconSpacing=3
 indicateAudioStreams=false
-launchers=preferred://browser,applications:foot.desktop,applications:librewolf.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:systemsettings.desktop
+launchers=preferred://browser,applications:Alacritty.desktop,applications:org.kde.kate.desktop,preferred://filemanager,applications:io.github.forkgram.tdesktop.desktop,applications:vesktop.desktop,applications:org.kde.konversation.desktop,applications:virt-manager.desktop,applications:librewolf.desktop,applications:systemsettings.desktop,applications:iptvnator.desktop
 
 [Containments][49][General]
 AppletOrder=133;92;155
@@ -181,10 +183,6 @@ lastScreen=0
 location=3
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
-
-[Containments][55][Applets][105]
-immutability=1
-plugin=org.kde.plasma.panelspacer
 
 [Containments][55][Applets][106]
 activityId=
@@ -267,7 +265,6 @@ DialogWidth=1920
 altitude=6
 conditionIconTheme=custom
 countryCode=FR
-keepOpen=true
 latitude=49.27821
 locationName=12, Rue du Ruet, Le Becquet, Colleville-Montgomery, Caen, Calvados, Normandie, France métropolitaine, 14880, France
 longitude=-0.2928375
@@ -309,16 +306,20 @@ popupWidth=810
 
 [Containments][55][Applets][136][Configuration][Appearance]
 autoFontAndSize=false
+boldText=true
+customDateFormat=ddd d MMM
+dateDisplayFormat=BelowTime
+dateFormat=custom
 enabledCalendarPlugins=holidaysevents
-fontFamily=Maple Mono NF Thin
-fontSize=12
+fontFamily=Iosevka NFP
+fontSize=18
 fontStyleName=Regular
-fontWeight=250
-showDate=false
+fontWeight=800
+use24hFormat=2
 
 [Containments][55][Applets][136][Configuration][ConfigDialog]
 DialogHeight=630
-DialogWidth=1204
+DialogWidth=1447
 
 [Containments][55][Applets][141]
 immutability=1
@@ -329,82 +330,98 @@ immutability=1
 plugin=com.github.khlesk.scriptoid
 
 [Containments][55][Applets][148][Configuration][ConfigDialog]
-DialogHeight=630
+DialogHeight=733
 DialogWidth=1267
 
 [Containments][55][Applets][148][Configuration][General]
 command=sysmonitor.sh
 customColor=#ffffff
-fontFamily=Maple Mono NF Thin
-fontSize=16
+fillWidth=false
+fontFamily=Iosevka NFP
+fontSize=18
 intervalSeconds=2
-padding=4
+padding=0
 textAlignment=left
 tooltipCommand=load.sh 5
 tooltipDefaultText=
 tooltipEnabled=true
-tooltipIntervalSeconds=5
+tooltipIntervalSeconds=1
 useCustomFontFamily=true
 useCustomFontSize=true
-useMonospaceFont=true
 
 [Containments][55][Applets][150]
 immutability=1
 plugin=com.github.khlesk.scriptoid
 
 [Containments][55][Applets][150][Configuration][ConfigDialog]
-DialogHeight=630
+DialogHeight=725
 DialogWidth=810
 
 [Containments][55][Applets][150][Configuration][General]
 command=wanip.sh
 fillWidth=false
-fontFamily=Maple Mono NF Thin
-fontSize=16
-intervalSeconds=5
+fontFamily=Iosevka NFP
+fontSize=18
+intervalSeconds=2
 padding=0
 textAlignment=right
 tooltipCommand=net.sh
 tooltipDefaultText=
 tooltipEnabled=true
-tooltipIntervalSeconds=5
+tooltipIntervalSeconds=1
 useCustomFontFamily=true
 useCustomFontSize=true
-useMonospaceFont=true
 
-[Containments][55][Applets][156]
+[Containments][55][Applets][159]
 immutability=1
 plugin=dev.xarbit.appgrid
 
-[Containments][55][Applets][156][Configuration]
+[Containments][55][Applets][159][Configuration]
 popupHeight=400
 popupWidth=560
 
-[Containments][55][Applets][156][Configuration][ConfigDialog]
+[Containments][55][Applets][159][Configuration][ConfigDialog]
 DialogHeight=1001
 DialogWidth=1920
 
-[Containments][55][Applets][156][Configuration][General]
-customButtonImage=goa-account-fedora
+[Containments][55][Applets][159][Configuration][General]
 favoritesPortedToKAstats=true
-gridColumns=10
-gridRows=8
 headerActionsMigrated=true
 iconMigratedFrom17=true
-knownApps=remote-viewer.desktop,Alacritty.desktop,org.kde.ark.desktop,btop.desktop,org.kde.plasma-welcome.desktop,org.kde.khelpcenter.desktop,org.kde.kinfocenter.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.dragonplayer.desktop,org.dupot.easyflatpak.desktop,org.kde.kmenuedit.desktop,org.kde.elisa.desktop,org.fedoraproject.MediaWriter.desktop,org.kde.filelight.desktop,com.github.tchx84.Flatseal.desktop,io.github.giantpinkrobots.flatsweep.desktop,com.github.johnfactotum.Foliate.desktop,io.github.forkgram.tdesktop.desktop,virt-manager.desktop,org.kde.partitionmanager.desktop,com.mitchellh.ghostty.desktop,org.kde.gwenview.desktop,helium.desktop,htop.desktop,iptvnator.desktop,setroubleshoot.desktop,org.kde.kamoso.desktop,org.kde.kasts.desktop,org.kde.kate.desktop,org.kde.kcalc.desktop,org.kde.kcharselect.desktop,org.kde.kdebugsettings.desktop,org.kde.kfind.desktop,org.kde.kolourpaint.desktop,org.kde.konsole.desktop,org.kde.konversation.desktop,org.kde.krdc.desktop,org.kde.krfb.desktop,org.kde.kwalletmanager.desktop,org.kde.kwrite.desktop,mpv.desktop,vlc.desktop,libreoffice-calc.desktop,libreoffice-draw.desktop,libreoffice-impress.desktop,libreoffice-math.desktop,libreoffice-writer.desktop,librewolf.desktop,net.thunderbird.Thunderbird.desktop,org.kde.kjournaldbrowser.desktop,chromium-browser.desktop,org.kde.neochat.desktop,nvtop.desktop,org.kde.okular.desktop,firewall-config.desktop,proton.vpn.app.gtk.desktop,com.protonvpn.www.desktop,org.qbittorrent.qBittorrent.desktop,org.kde.plasma.emojier.desktop,org.kde.skanpage.desktop,org.kde.smb4k.desktop,org.kde.spectacle.desktop,org.kde.plasma-systemmonitor.desktop,vesktop.desktop,chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,winboat.desktop,X.desktop,foot.desktop
-launchCounts=btop.desktop=1,com.protonvpn.www.desktop=1,foot.desktop=3,iptvnator.desktop=2,org.kde.konsole.desktop=1,org.kde.partitionmanager.desktop=1,proton.vpn.app.gtk.desktop=3,systemsettings.desktop=2
+knownApps=remote-viewer.desktop,Alacritty.desktop,org.kde.ark.desktop,btop.desktop,org.kde.plasma-welcome.desktop,org.kde.khelpcenter.desktop,org.kde.kinfocenter.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.dragonplayer.desktop,org.dupot.easyflatpak.desktop,org.kde.kmenuedit.desktop,elio.desktop,org.kde.elisa.desktop,org.fedoraproject.MediaWriter.desktop,org.kde.filelight.desktop,com.github.tchx84.Flatseal.desktop,io.github.giantpinkrobots.flatsweep.desktop,com.github.johnfactotum.Foliate.desktop,foot.desktop,footclient.desktop,foot-server.desktop,io.github.forkgram.tdesktop.desktop,virt-manager.desktop,org.kde.partitionmanager.desktop,org.kde.gwenview.desktop,helium.desktop,herdr.desktop,htop.desktop,iptvnator.desktop,setroubleshoot.desktop,org.kde.kamoso.desktop,org.kde.kasts.desktop,org.kde.kate.desktop,org.kde.kcalc.desktop,org.kde.kcharselect.desktop,org.kde.kdebugsettings.desktop,org.kde.kfind.desktop,org.kde.kolourpaint.desktop,org.kde.konsole.desktop,org.kde.konversation.desktop,org.kde.krdc.desktop,org.kde.krfb.desktop,org.kde.kwalletmanager.desktop,org.kde.kwrite.desktop,mpv.desktop,vlc.desktop,libreoffice-calc.desktop,libreoffice-draw.desktop,libreoffice-impress.desktop,libreoffice-math.desktop,libreoffice-writer.desktop,librewolf.desktop,net.thunderbird.Thunderbird.desktop,org.kde.kjournaldbrowser.desktop,chromium-browser.desktop,org.kde.neochat.desktop,nvtop.desktop,org.kde.okular.desktop,firewall-config.desktop,org.qbittorrent.qBittorrent.desktop,org.kde.plasma.emojier.desktop,org.kde.skanpage.desktop,org.kde.smb4k.desktop,org.kde.spectacle.desktop,org.kde.plasma-systemmonitor.desktop,vesktop.desktop,chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,winboat.desktop,X.desktop
+launchCounts=btop.desktop=1
 powerButtonsMigrated=true
-recentApps=btop.desktop,systemsettings.desktop,org.kde.partitionmanager.desktop,foot.desktop,org.kde.konsole.desktop,com.protonvpn.www.desktop,proton.vpn.app.gtk.desktop,iptvnator.desktop
-startWithFavorites=true
-terminalShell=/bin/zsh
-useCustomButtonImage=true
-verticalOffset=-75
+recentApps=btop.desktop
+
+[Containments][55][Applets][159][Shortcuts]
+global=Meta+M
 
 [Containments][55][General]
-AppletOrder=156;148;105;136;124;141;150;106
+AppletOrder=148;150;141;124;106;136;159
 
 [Containments1Appletsts][131][Configuration][Appearance]
 chartFace=org.kde.ksysguard.barchart
+
+[Containments55Appletsts][159][Configuration][General]
+cornerRadius=18
+dimBackground=true
+favoritesPortedToKAstats=true
+gridColumns=10
+gridRows=7
+headerActions=sleep:menu,restart:bar,shutdown:bar,lock:menu,logout:menu,switchuser:menu
+headerActionsMigrated=true
+iconMigratedFrom17=true
+knownApps=remote-viewer.desktop,Alacritty.desktop,org.kde.ark.desktop,btop.desktop,org.kde.plasma-welcome.desktop,org.kde.khelpcenter.desktop,org.kde.kinfocenter.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.dragonplayer.desktop,org.dupot.easyflatpak.desktop,org.kde.kmenuedit.desktop,elio.desktop,org.kde.elisa.desktop,org.fedoraproject.MediaWriter.desktop,org.kde.filelight.desktop,com.github.tchx84.Flatseal.desktop,io.github.giantpinkrobots.flatsweep.desktop,com.github.johnfactotum.Foliate.desktop,foot.desktop,footclient.desktop,foot-server.desktop,io.github.forkgram.tdesktop.desktop,virt-manager.desktop,org.kde.partitionmanager.desktop,org.kde.gwenview.desktop,helium.desktop,herdr.desktop,htop.desktop,iptvnator.desktop,setroubleshoot.desktop,org.kde.kamoso.desktop,org.kde.kasts.desktop,org.kde.kate.desktop,org.kde.kcalc.desktop,org.kde.kcharselect.desktop,org.kde.kdebugsettings.desktop,org.kde.kfind.desktop,org.kde.kolourpaint.desktop,org.kde.konsole.desktop,org.kde.konversation.desktop,org.kde.krdc.desktop,org.kde.krfb.desktop,org.kde.kwalletmanager.desktop,org.kde.kwrite.desktop,mpv.desktop,vlc.desktop,libreoffice-calc.desktop,libreoffice-draw.desktop,libreoffice-impress.desktop,libreoffice-math.desktop,libreoffice-writer.desktop,librewolf.desktop,net.thunderbird.Thunderbird.desktop,org.kde.kjournaldbrowser.desktop,chromium-browser.desktop,org.kde.neochat.desktop,nvtop.desktop,org.kde.okular.desktop,firewall-config.desktop,org.qbittorrent.qBittorrent.desktop,org.kde.plasma.emojier.desktop,org.kde.skanpage.desktop,org.kde.smb4k.desktop,org.kde.spectacle.desktop,org.kde.plasma-systemmonitor.desktop,vesktop.desktop,chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default.desktop,winboat.desktop,X.desktop,io.github.TransmissionRemoteGtk.desktop
+launchCounts=btop.desktop=2,io.github.TransmissionRemoteGtk.desktop=1,org.kde.kinfocenter.desktop=1
+overrideRadius=true
+powerButtonsMigrated=true
+recentApps=btop.desktop,io.github.TransmissionRemoteGtk.desktop,org.kde.kinfocenter.desktop
+shakeOnOpen=true
+showActionLabels=true
+showTooltips=false
+sortFavoritesAlphabetically=true
+startWithFavorites=true
+terminalShell=/bin/zsh
 
 [Containments55Appletsts][78][Configuration][General]
 altitude=6

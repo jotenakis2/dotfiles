@@ -1,9 +1,9 @@
 [Desktop Entry]
 Comment=
-Exec=/home/mbanjieu/AppImages/iptvnator
-GenericName=IPTVnator
-Icon=xawtv
-Name=iptvnator
+Exec=sh -c "foot -e herdr"
+GenericName=herdr
+Icon=foot
+Name=herdr
 NoDisplay=false
 Path=
 PrefersNonDefaultGPU=false

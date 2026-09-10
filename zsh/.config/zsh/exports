@@ -7,7 +7,7 @@ export MANROFFOPT="-c"
 export BAT_THEME="tokyonight_night"
 export MICRO_TRUECOLOR=1
 export GREP_COLORS="mt=1;38;2;180;190;254"
-export FZF_DEFAULT_OPTS="--height 60% --border --ansi --no-info  --highlight-line \
+export FZF_DEFAULT_OPTS="--height 100% --border --ansi --no-info --highlight-line \
   --color=bg+:#283457 \
   --color=bg:#16161e \
   --color=border:#27a1b9 \

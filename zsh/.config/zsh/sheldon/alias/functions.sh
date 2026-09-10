@@ -126,7 +126,7 @@ fzf-history() { # historique à la mode atuin sans synchro
   # modif apporté à raw et num pour avoir l'index en gris
 
   #ORIGINAL raw=$(fc -rl 1 | fzf --no-sort --exact -n2..,.. --bind='ctrl-r:toggle-sort' --expect=tab,enter --query="${BUFFER}" +m --height=60% --no-scrollbar || true)
-  raw=$(fc -rl 1 | awk '{gsub(/^[[:space:]]+/, ""); match($0, /^[0-9]+/); num=int(substr($0, RSTART, RLENGTH)); cmd=substr($0, RLENGTH+2); formatted=sprintf("%05d", num); print "\033[38;5;238m"formatted"\033[0m "cmd}' | fzf --no-sort --exact -n2..,.. --bind='ctrl-r:toggle-sort' --expect=tab,enter --query="${BUFFER}" +m --height=60% --no-scrollbar --ansi || true)
+  raw=$(fc -rl 1 | awk '{gsub(/^[[:space:]]+/, ""); match($0, /^[0-9]+/); num=int(substr($0, RSTART, RLENGTH)); cmd=substr($0, RLENGTH+2); formatted=sprintf("%05d", num); print "\033[38;5;238m"formatted"\033[0m "cmd}' | fzf --no-sort --exact -n2..,.. --bind='ctrl-r:toggle-sort' --expect=tab,enter --query="${BUFFER}" +m --height=70% --no-scrollbar --ansi || true)
   key=$(head -1 <<<"${raw}")
   selected=$(tail -1 <<<"${raw}")
   zle reset-prompt
@@ -160,15 +160,15 @@ function psc {
 }
 # ----------------------------------------------------------------------------------------------------------
 
-function cd() { # remplace cd par une liste fzf des dossiers dans le dossier courant et valide la sélection avec z 'zoxide'
-  if [[ $# -gt 0 ]]; then
-    z "$@"
-  else
-    local dir
-    # shellcheck disable=SC2086,SC2312
-    dir=$(fd --type directory --hidden --exclude .git ${1:-.} | fzf +m --preview 'eza -T -L 4 --color=always --icons {} | head -30' --preview-window 'right:45%:wrap' --height 50%) && z "${dir}"
-  fi
-}
+# function cd() { # remplace cd par une liste fzf des dossiers dans le dossier courant et valide la sélection avec z 'zoxide'
+#   if [[ $# -gt 0 ]]; then
+#     z "$@"
+#   else
+#     local dir
+#     # shellcheck disable=SC2086,SC2312
+#     dir=$(fd --type directory --hidden --exclude .git ${1:-.} | fzf +m --preview 'eza -T -L 4 --color=always --icons {} | head -30' --preview-window 'right:45%:wrap' --height 50%) && z "${dir}"
+#   fi
+# }
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -182,46 +182,30 @@ view() {
         *.md|*.markdown|*.mdown|*.mkd)
             glow -p -- "${f}"
             ;;
+        *.json)
+        	jq < "${f}"
+        	;;
         *)
            	/opt/cargo/bin/bat -pfSn --squeeze-blank -- "${f}"
            ;;
     esac
 }
 
-# ----------------------------------------------------------------------------------------------------------
-# >>> elio shell integration >>>
-elio() {
-    case "${1-}" in
-        shell|-*)
-            command elio "$@"
-            return $?
-            ;;
-    esac
+LOG() { # journalctl sans "audit" polluant
+    local -a t=()
+    local line
+    while IFS= read -r line; do # on récupère tous les TRANSPORT systemd sauf "audit"
+        t+=("${line}")
+    done < <(journalctl -F _TRANSPORT 2>/dev/null | grep -vx 'audit')
 
-    local arg tmp cwd status_code
-    for arg in "$@"; do
-        case "$arg" in
-            --chooser-file|--chooser-file=*)
-                command elio "$@"
-                return $?
-                ;;
-        esac
+    [[ ${#t[@]} -eq 0 ]] && return 0
+
+    local -a args=("_TRANSPORT=${t[0]}")
+    local i
+    for ((i=1; i<${#t[@]}; i++)); do
+        args+=("+")
+        args+=("_TRANSPORT=${t[i]}")
     done
 
-    tmp="$(mktemp -t "elio-cwd.XXXXXX")" || return
-    command elio --cwd-file "$tmp" "$@"
-    status_code=$?
-
-    if [ -s "$tmp" ]; then
-        cwd="$(cat -- "$tmp")"
-        /usr/bin/rm -f -- "$tmp"
-        if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && [ -d "$cwd" ]; then
-            cd -- "$cwd" || return $?
-        fi
-    else
-        /usr/bin/rm -f -- "$tmp"
-    fi
-
-    return "$status_code"
+    journalctl "$@" "${args[@]}"
 }
-# <<< elio shell integration <<<

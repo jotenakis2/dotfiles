@@ -276,6 +276,7 @@ activate task manager entry 8=Meta+8,Meta+8,Activer l'entrée du gestionnaire de
 activate task manager entry 9=Meta+9,Meta+9,Activer l'entrée du gestionnaire de tâches 9
 activate widget 102=none,none,Activer le composant graphique Tableau de bord des applications
 activate widget 151=none,none,Activer le composant graphique AppGrid Launcher Panel
+activate widget 159=Meta+M,none,Activer le composant graphique AppGrid Launcher Center
 activate widget 57=none,none,Activer le composant graphique Lanceur d'application
 activate widget 77=none,none,Activer le composant graphique Coup d'œil sur le bureau
 clear history=none,none,Effacer l'historique des notifications
@@ -307,3 +308,7 @@ _launch=Meta+T
 
 [services][org.kde.konsole.desktop]
 _launch=none
+
+[services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=none
+OpenWithoutScreenshot=none
