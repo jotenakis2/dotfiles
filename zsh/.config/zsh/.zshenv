@@ -17,21 +17,21 @@ export SHELDON_DATA_DIR="$HOME/.local/share/zsh"
 export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
 
 # RUST
-export RUSTUP_HOME=/opt/rustup
-export CARGO_HOME=/opt/cargo
-export CARGO_TARGET_DIR=/opt/cargo/cargo-target
+#export RUSTUP_HOME="${HOME}/.rustup"
+#export CARGO_HOME="${HOME}/.cargo"
+#export CARGO_TARGET_DIR="${HOME}/.cargo/cargo-target"
 
 # GO
-export GOROOT=/opt/go
-export GOPATH=/opt/go/workspace
-export GOBIN=/opt/go/workspace/bin
+#export GOROOT="${HOME}/.go"
+#export GOPATH="${HOME}/.go/workspace"
+#export GOBIN="${HOME}/.go/workspace/bin"
 
 # PATH
 typeset -U PATH
-export PATH="$HOME/.local/bin:$HOME/Projects/scripts:$GOROOT/bin:$GOBIN:$CARGO_HOME/bin:${PATH}"
+#export PATH="$HOME/.local/bin:$HOME/Projects/scripts:$GOROOT/bin:$GOBIN:$CARGO_HOME/bin:${PATH}"
 
 # ENV
-. "$ZDOTDIR/exports"
+. "$ZDOTDIR/exports.sh"
 
 # recompilation toutes les 2880 min (2 jours)
 _compinit_with_ttl() {
@@ -51,9 +51,14 @@ _compinit_with_ttl() {
         compinit -C -D -d "$zcompdump" # on charge au plus rapide
         return 0
 }
+
+
 	
 # en VCONSOLE pas d'icones, prompt basic sans ohmyposh
 _vconsole() {
+	zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes
+	zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
+	
 	if [[ "$TERM" = "linux" ]]; then # TTY
 		if command -v eza &>/dev/null; then 
 			alias eza='eza --git --header --group-directories-first --color always --group -b'
@@ -66,16 +71,18 @@ _vconsole() {
 		precmd() { echo }
 		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'
 ''%F{blue}>%F{reset} '
+
 	else # terminal graphique
 		if command -v eza &>/dev/null; then
-			alias eza='eza --git --header --group-directories-first --color-scale all --color always --icons always --group -b'
+			alias eza='eza --git --header --group-directories-first --color-scale all --color always --icons always --group -b --hyperlink=auto'
 			alias ls='eza'
 			alias lt='eza -T -L 4'
 		else
-			alias ls='ls --color=always --group-directories-first'
+			alias ls='ls --color=always --group-directories-first --hyperlink=auto'
 			alias lt='tree -L 4'
 		fi		
 	fi
+
 	alias ll='ls -lh'
 	alias la='ls -Alh'
 	alias l='ls -A1'

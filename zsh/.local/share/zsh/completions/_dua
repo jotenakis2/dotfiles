@@ -1,0 +1,570 @@
+#compdef dua
+
+autoload -U is-at-least
+
+_dua() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'-V[Print version]' \
+'--version[Print version]' \
+'::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+":: :_dua_commands" \
+"*::: :->dua" \
+&& ret=0
+    case $state in
+    (dua)
+        words=($line[2] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-command-$line[2]:"
+        case $line[2] in
+            (clean)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'-d+[Limit discovery depth. Input directories have depth 0; found candidates are always sized completely]:DEPTH:_default' \
+'--depth=[Limit discovery depth. Input directories have depth 0; found candidates are always sized completely]:DEPTH:_default' \
+'--once=[Exit after discovery and sizing, optionally replaying keys first]' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-e[Do not check entries for presence when listing a directory on slow filesystems]' \
+'--no-entry-check[Do not check entries for presence when listing a directory on slow filesystems]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- Directories to search. Defaults to the current directory.:_files' \
+&& ret=0
+;;
+(interactive)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'(--import)--export=[Write the completed traversal to this snapshot file]:FILE:_files' \
+'--compression=[Snapshot compression level when exporting. Use 0 to disable compression]:LEVEL:_default' \
+'(-t --threads -A --apparent-size -l --count-hard-links -x --stay-on-filesystem -i --ignore-dirs --ignore-from -e --no-entry-check)--import=[Load a snapshot instead of traversing the filesystem]:FILE:_files' \
+'--once=[Exit automatically after traversal, optionally replaying a configured keybinding or compact character sequence first]' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'(--import)-e[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'(--import)--no-entry-check[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(i)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'(--import)--export=[Write the completed traversal to this snapshot file]:FILE:_files' \
+'--compression=[Snapshot compression level when exporting. Use 0 to disable compression]:LEVEL:_default' \
+'(-t --threads -A --apparent-size -l --count-hard-links -x --stay-on-filesystem -i --ignore-dirs --ignore-from -e --no-entry-check)--import=[Load a snapshot instead of traversing the filesystem]:FILE:_files' \
+'--once=[Exit automatically after traversal, optionally replaying a configured keybinding or compact character sequence first]' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'(--import)-e[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'(--import)--no-entry-check[Do not check entries for presence when listing a directory to avoid slugging performance on slow filesystems]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(diff)
+_arguments "${_arguments_options[@]}" : \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--prefix=[Show only this stored path and its descendants]:PATH:_files' \
+'-d+[Limit the tree to this many levels, summarizing hidden additions and removals. The root or selected prefix is the first level]:DEPTH:_default' \
+'--depth=[Limit the tree to this many levels, summarizing hidden additions and removals. The root or selected prefix is the first level]:DEPTH:_default' \
+'--summary-limit=[Include at most this many largest additions and removals in the summary. Use 0 to hide them]:COUNT:_default' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'--directories-only[Report aggregate directory changes instead of file changes]' \
+'-h[Print help]' \
+'--help[Print help]' \
+':old -- Earlier traversal snapshot:_files' \
+':new -- Later traversal snapshot:_files' \
+&& ret=0
+;;
+(stacks)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'(-t --threads -A --apparent-size -l --count-hard-links -x --stay-on-filesystem -i --ignore-dirs --ignore-from)--import=[Load a traversal snapshot instead of scanning the filesystem]:FILE:_files' \
+'-d+[Limit folded output to this many levels. The inputs form the first level]:DEPTH:_default' \
+'--depth=[Limit folded output to this many levels. The inputs form the first level]:DEPTH:_default' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(flamegraph)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'(-t --threads -A --apparent-size -l --count-hard-links -x --stay-on-filesystem -i --ignore-dirs --ignore-from)--import=[Load a traversal snapshot instead of scanning the filesystem]:FILE:_files' \
+'-d+[Limit folded output to this many levels. The inputs form the first level]:DEPTH:_default' \
+'--depth=[Limit folded output to this many levels. The inputs form the first level]:DEPTH:_default' \
+'-o+[Write the SVG to this file instead of opening a temporary file]:FILE:_files' \
+'--output=[Write the SVG to this file instead of opening a temporary file]:FILE:_files' \
+'--palette=[Set the frame color palette]:PALETTE:(aqua blue green hot io java js mem orange perl python purple red rust wakeup yellow)' \
+'--width=[Set the image width in pixels. By default, the SVG uses the available width]:PIXELS:_default' \
+'--min-width=[Omit frames narrower than this percentage]:PERCENT:_default' \
+'--title=[Set the graph title]:TEXT:_default' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'--inverted[Grow stacks from top to bottom]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(aggregate)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'(-t --threads -A --apparent-size -l --count-hard-links -x --stay-on-filesystem -i --ignore-dirs --ignore-from --stats)--import=[Load a traversal snapshot instead of scanning the filesystem]:FILE:_files' \
+'(--stats)-d+[Print an indented tree that descends this many levels into each input, instead of the flat listing. The inputs form the first level, so a depth of 1 lists just them]:DEPTH:_default' \
+'(--stats)--depth=[Print an indented tree that descends this many levels into each input, instead of the flat listing. The inputs form the first level, so a depth of 1 lists just them]:DEPTH:_default' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'--stats[If set, print additional statistics about the file traversal to stderr]' \
+'--no-sort[If set, paths will be printed in their order of occurrence on the command-line. Otherwise they are sorted by their size in bytes, ascending]' \
+'--no-total[If set, no total column will be computed for multiple inputs]' \
+'(--stats --no-sort --no-total)--stack[Print folded stacks for flame-graph tools instead of a table or tree]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(a)
+_arguments "${_arguments_options[@]}" : \
+'-t+[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'--threads=[The amount of threads to use. Defaults to 0, indicating the amount of logical processors. Set to 1 to use only a single thread]:THREADS:_default' \
+'*-i+[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-dirs=[One or more absolute directories to ignore. Note that these are not ignored if they are passed as input path]:IGNORE_DIRS:_files' \
+'*--ignore-from=[One or more files with gitignore-style patterns, whose matches are left out of the report]:FILE:_files' \
+'-f+[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'--format=[The format with which to print byte counts]:FORMAT:(metric binary bytes gb gib mb mib)' \
+'(-t --threads -A --apparent-size -l --count-hard-links -x --stay-on-filesystem -i --ignore-dirs --ignore-from --stats)--import=[Load a traversal snapshot instead of scanning the filesystem]:FILE:_files' \
+'(--stats)-d+[Print an indented tree that descends this many levels into each input, instead of the flat listing. The inputs form the first level, so a depth of 1 lists just them]:DEPTH:_default' \
+'(--stats)--depth=[Print an indented tree that descends this many levels into each input, instead of the flat listing. The inputs form the first level, so a depth of 1 lists just them]:DEPTH:_default' \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-A[Display apparent size instead of disk usage]' \
+'--apparent-size[Display apparent size instead of disk usage]' \
+'-l[Count hard-linked files each time they are seen]' \
+'--count-hard-links[Count hard-linked files each time they are seen]' \
+'-x[If set, we will not cross filesystems or traverse mount points]' \
+'--stay-on-filesystem[If set, we will not cross filesystems or traverse mount points]' \
+'--stats[If set, print additional statistics about the file traversal to stderr]' \
+'--no-sort[If set, paths will be printed in their order of occurrence on the command-line. Otherwise they are sorted by their size in bytes, ascending]' \
+'--no-total[If set, no total column will be computed for multiple inputs]' \
+'(--stats --no-sort --no-total)--stack[Print folded stacks for flame-graph tools instead of a table or tree]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+'*::input -- One or more input files or directories. If unset, we will use all entries in the current working directory:_files' \
+&& ret=0
+;;
+(completions)
+_arguments "${_arguments_options[@]}" : \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-h[Print help]' \
+'--help[Print help]' \
+':shell -- The shell to generate a completions-script for:(bash elvish fish powershell zsh)' \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" : \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_dua__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-config-command-$line[1]:"
+        case $line[1] in
+            (edit)
+_arguments "${_arguments_options[@]}" : \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(show-default)
+_arguments "${_arguments_options[@]}" : \
+'--log-file=[Write a log file with debug information, including panics]:LOG_FILE:_files' \
+'--reset-with-default[Destructively overwrite the active configuration file with the default configuration]' \
+'--reset[Destructively overwrite the active configuration file with the default configuration]' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_dua__config__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-config-help-command-$line[1]:"
+        case $line[1] in
+            (edit)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(show-default)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_dua__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-help-command-$line[1]:"
+        case $line[1] in
+            (clean)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(interactive)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(diff)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(stacks)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(flamegraph)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(aggregate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(completions)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(config)
+_arguments "${_arguments_options[@]}" : \
+":: :_dua__help__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:dua-help-config-command-$line[1]:"
+        case $line[1] in
+            (edit)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(show-default)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_dua_commands] )) ||
+_dua_commands() {
+    local commands; commands=(
+'clean:Find disposable directories and inspect them in the terminal user interface' \
+'interactive:Launch the terminal user interface' \
+'i:Launch the terminal user interface' \
+'diff:Compare two traversal snapshots' \
+'stacks:Print folded stacks for flame-graph tools' \
+'flamegraph:Render disk usage as an SVG flame graph' \
+'aggregate:Aggregate the consumed space of one or more directories or files' \
+'a:Aggregate the consumed space of one or more directories or files' \
+'completions:Generate shell completions' \
+'config:Configuration related commands' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua commands' commands "$@"
+}
+(( $+functions[_dua__aggregate_commands] )) ||
+_dua__aggregate_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua aggregate commands' commands "$@"
+}
+(( $+functions[_dua__clean_commands] )) ||
+_dua__clean_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua clean commands' commands "$@"
+}
+(( $+functions[_dua__completions_commands] )) ||
+_dua__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua completions commands' commands "$@"
+}
+(( $+functions[_dua__config_commands] )) ||
+_dua__config_commands() {
+    local commands; commands=(
+'edit:Open the configuration file in \`\$EDITOR\`' \
+'show-default:Print the default configuration file' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua config commands' commands "$@"
+}
+(( $+functions[_dua__config__edit_commands] )) ||
+_dua__config__edit_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config edit commands' commands "$@"
+}
+(( $+functions[_dua__config__help_commands] )) ||
+_dua__config__help_commands() {
+    local commands; commands=(
+'edit:Open the configuration file in \`\$EDITOR\`' \
+'show-default:Print the default configuration file' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua config help commands' commands "$@"
+}
+(( $+functions[_dua__config__help__edit_commands] )) ||
+_dua__config__help__edit_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config help edit commands' commands "$@"
+}
+(( $+functions[_dua__config__help__help_commands] )) ||
+_dua__config__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config help help commands' commands "$@"
+}
+(( $+functions[_dua__config__help__show-default_commands] )) ||
+_dua__config__help__show-default_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config help show-default commands' commands "$@"
+}
+(( $+functions[_dua__config__show-default_commands] )) ||
+_dua__config__show-default_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua config show-default commands' commands "$@"
+}
+(( $+functions[_dua__diff_commands] )) ||
+_dua__diff_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua diff commands' commands "$@"
+}
+(( $+functions[_dua__flamegraph_commands] )) ||
+_dua__flamegraph_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua flamegraph commands' commands "$@"
+}
+(( $+functions[_dua__help_commands] )) ||
+_dua__help_commands() {
+    local commands; commands=(
+'clean:Find disposable directories and inspect them in the terminal user interface' \
+'interactive:Launch the terminal user interface' \
+'diff:Compare two traversal snapshots' \
+'stacks:Print folded stacks for flame-graph tools' \
+'flamegraph:Render disk usage as an SVG flame graph' \
+'aggregate:Aggregate the consumed space of one or more directories or files' \
+'completions:Generate shell completions' \
+'config:Configuration related commands' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'dua help commands' commands "$@"
+}
+(( $+functions[_dua__help__aggregate_commands] )) ||
+_dua__help__aggregate_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help aggregate commands' commands "$@"
+}
+(( $+functions[_dua__help__clean_commands] )) ||
+_dua__help__clean_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help clean commands' commands "$@"
+}
+(( $+functions[_dua__help__completions_commands] )) ||
+_dua__help__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help completions commands' commands "$@"
+}
+(( $+functions[_dua__help__config_commands] )) ||
+_dua__help__config_commands() {
+    local commands; commands=(
+'edit:Open the configuration file in \`\$EDITOR\`' \
+'show-default:Print the default configuration file' \
+    )
+    _describe -t commands 'dua help config commands' commands "$@"
+}
+(( $+functions[_dua__help__config__edit_commands] )) ||
+_dua__help__config__edit_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help config edit commands' commands "$@"
+}
+(( $+functions[_dua__help__config__show-default_commands] )) ||
+_dua__help__config__show-default_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help config show-default commands' commands "$@"
+}
+(( $+functions[_dua__help__diff_commands] )) ||
+_dua__help__diff_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help diff commands' commands "$@"
+}
+(( $+functions[_dua__help__flamegraph_commands] )) ||
+_dua__help__flamegraph_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help flamegraph commands' commands "$@"
+}
+(( $+functions[_dua__help__help_commands] )) ||
+_dua__help__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help help commands' commands "$@"
+}
+(( $+functions[_dua__help__interactive_commands] )) ||
+_dua__help__interactive_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help interactive commands' commands "$@"
+}
+(( $+functions[_dua__help__stacks_commands] )) ||
+_dua__help__stacks_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua help stacks commands' commands "$@"
+}
+(( $+functions[_dua__interactive_commands] )) ||
+_dua__interactive_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua interactive commands' commands "$@"
+}
+(( $+functions[_dua__stacks_commands] )) ||
+_dua__stacks_commands() {
+    local commands; commands=()
+    _describe -t commands 'dua stacks commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_dua" ]; then
+    _dua "$@"
+else
+    compdef _dua dua
+fi

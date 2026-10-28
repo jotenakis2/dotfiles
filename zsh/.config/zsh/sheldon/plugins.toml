@@ -7,8 +7,7 @@ fpath = 'fpath=( "{{ dir }}" $fpath )'
 [plugins]
 # colorisation des commandes (ne supporte pas 'defer')
 [plugins.grc]
-local = "~/.config/zsh/sheldon/grc"
-use = ["*"]
+inline = "source /etc/grc.zsh"
 
 # pour déférer les plugins et accélérer le chargement initial
 [plugins.zsh-defer] 
@@ -54,6 +53,11 @@ apply = ["defer"]
 [plugins.zsh-patina]
 inline = 'zsh-defer eval "$(zsh-patina activate)"'
 
+# mise
+[plugins.mise]
+#inline = 'zsh-defer eval "$(mise activate zsh)"'
+inline = 'zsh-defer _evalcache mise activate zsh'
+
 # prompt
 [plugins.oh-my-posh] 
-inline = '[[ $TERM != "linux" ]] && zsh-defer _evalcache oh-my-posh init zsh --config $HOME/.config/zsh/ohmyposh/config.json'
+inline = '[[ $TERM != "linux" ]] && zsh-defer _evalcache ~/.local/bin/oh-my-posh init zsh --config $HOME/.config/zsh/ohmyposh/config.json'

@@ -2,11 +2,12 @@
     "*.qml": {
         "filetype": "javascript"
     },
-    "background": false,
     "auto_complete": true,
     "autosu": true,
+    "background": false,
     "clipboard_control": "write-clipboard,write-primary,read-clipboard,read-primary",
-    "colorscheme": "tokyonight",
+    "colorscheme": "simple",
+    "truecolor": "off",
     "hlsearch": true,
     "linters": {
         "sh": {
