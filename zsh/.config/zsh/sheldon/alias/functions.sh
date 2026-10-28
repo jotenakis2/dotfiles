@@ -1,3 +1,14 @@
+# shellcheck disable=SC2034
+C_BLACK=$(tput setaf 0)
+C_RED=$(tput setaf 1)
+C_GREEN=$(tput setaf 2)
+C_YELLOW=$(tput setaf 3)
+C_BLUE=$(tput setaf 4)
+C_MAGENTA=$(tput setaf 5)
+C_CYAN=$(tput setaf 6)
+C_WHITE=$(tput setaf 7)
+C_RESET=$(tput sgr0)
+
 # ----------------------------------------------------------------------------------------------------------
 distrodate() {
 	# shellcheck disable=SC2312,SC2012
@@ -62,8 +73,13 @@ help() { # help coloré
 # ----------------------------------------------------------------------------------------------------------
 myip() {
   local ipv4 ipv6
-  ipv4=$(curl --silent -4 https://ifconfig.me)
+  if [[ -x ~/.local/bin/wanip.sh ]]; then
+  	ipv4=$(~/.local/bin/wanip.sh)
+  else
+  	ipv4=$(curl --silent -4 https://ifconfig.me)
+  fi
   ipv6=$(curl --silent -6 https://ifconfig.co)
+
   [[ -z ${ipv4} ]] && ipv4=$(curl --silent -4 https://ifconfig.co)
   [[ -z ${ipv6} ]] && ipv6=$(curl --silent -6 https://ifconfig.me) 
 
@@ -76,6 +92,7 @@ testping(){
 	local host="$1"
 	[[ -z "${host:-}" ]] && host="free.fr"
 	out=$(LANG=LC /usr/bin/ping -c 1 -W 1 "${host}" 2>/dev/null)
+	# shellcheck disable=SC2181
 	if [[ $? -eq 0 ]]; then
 	    time_ms=$(echo "$out" | grep -oP 'time=\K[0-9.]+')
 	    time_int=$(printf "%.0f" "$time_ms")
@@ -85,41 +102,50 @@ testping(){
 	fi
 }
 # ----------------------------------------------------------------------------------------------------------
-dns(){
-	dnsleaktest.sh
-}
 speed(){
-	speedtest-go -u decimal-bytes --saving-mode --no-upload | grep Download || true	
+	speedtest-go -u decimal-bytes --saving-mode --mask-isp | grep -E 'Download|Upload' || true
 }
 resolved(){
 	/usr/bin/resolvectl status | awk '/^Global$/{p=1; next} /^[A-Z]/{p=0} p'
 }
 ipconf(){
-	/usr/bin/ip -br addr show up | grep UP || echo "no iface UP"
+	local temp='' iface='n/a' ip='n/a' gate='n/a' channel='' str='n/a'
+	temp=$(/usr/bin/ip -br addr show up | grep UP)
+	if [[ -n "${temp}" ]]; then
+		iface=$(echo "${temp}" | awk '{print $1}')
+		ip=$(echo "${temp}" | awk '{print $3}')
+		channel=$(iw dev "${iface}" link | awk '/freq:/ { print $2; exit }')
+	fi
+	gate=$(ip route | awk '/^default/ {print $3}')
+	[[ -n "${channel}" ]] && str="${channel}Mhz" 
+	echo "Iface: ${iface:-n/a} | IP: ${ip:-n/a} | Gate: ${gate:-n/a} | Wifi: ${str}"	
 }
 # ----------------------------------------------------------------------------------------------------------
 internet() {
 	clear
-	bleu=$(tput setaf 3); reset=$(tput sgr0) ; bold=$(tput bold)
 
-	echo "${bleu}${bold}--------------------------- IPCONF ------------------------------------------------------------------------${reset}"
-		ipconf
-	echo "${bleu}${bold}--------------------------- IP WAN ------------------------------------------------------------------------${reset}"
-		myip 
-	echo "${bleu}${bold}--------------------------- PING 1 ------------------------------------------------------------------------${reset}"
-		testping 9.9.9.9
-	echo "${bleu}${bold}--------------------------- DNS  1 ------------------------------------------------------------------------${reset}"
-		resolved
-	echo "${bleu}${bold}--------------------------- PING 2 ------------------------------------------------------------------------${reset}"
-		testping google.com
-	echo "${bleu}${bold}--------------------------- DNS  2 ------------------------------------------------------------------------${reset}"
-		dns
-	echo "${bleu}${bold}--------------------------- SPEED  ------------------------------------------------------------------------${reset}"
-		speed
-	echo "${bleu}${bold}-----------------------------------------------------------------------------------------------------------${reset}"
+	_SECTION " IP CONFIG " "-" "${C_BLUE}"
+	ipconf
+	_SECTION " DNS CONFIG " "-" "${C_BLUE}"
+	resolved
+	_SECTION " IP WAN TEST " "-" "${C_BLUE}"
+	myip
+	_SECTION " PING TEST " "-" "${C_BLUE}"
+	testping 9.9.9.9
+	testping 1.1.1.1
+	testping google.com
+	testping free.fr
+	_SECTION " DNS TEST " "-" "${C_BLUE}"
+	dnstest.sh
+	_SECTION " SPEED TEST " "-" "${C_BLUE}"
+	speed
+	_SECTION "" "-" "${C_BLUE}"
+	echo "${C_RED}ENTREE pour quitter...${C_RESET}"
+	read -r
 }
 
 # ----------------------------------------------------------------------------------------------------------
+
 fzf-history() { # historique à la mode atuin sans synchro
   setopt localoptions noglobsubst noposixstrings pipefail
   local raw key selected num
@@ -149,32 +175,11 @@ bindkey '^[[A' fzf-history            # et bind sur Flèche haut
 bindkey "^[[1;5A" up-line-or-history  # CTRL Flèche haut pour fonctionnement normal sans fzf
 
 # ----------------------------------------------------------------------------------------------------------
-function psp {
-	psim --0 -pn "$@"
-}
-function psm {
-	psim --0 -mn "$@"
-}
-function psc {
-	psim --0 -cn "$@"
-}
-# ----------------------------------------------------------------------------------------------------------
-
-# function cd() { # remplace cd par une liste fzf des dossiers dans le dossier courant et valide la sélection avec z 'zoxide'
-#   if [[ $# -gt 0 ]]; then
-#     z "$@"
-#   else
-#     local dir
-#     # shellcheck disable=SC2086,SC2312
-#     dir=$(fd --type directory --hidden --exclude .git ${1:-.} | fzf +m --preview 'eza -T -L 4 --color=always --icons {} | head -30' --preview-window 'right:45%:wrap' --height 50%) && z "${dir}"
-#   fi
-# }
-
-# ----------------------------------------------------------------------------------------------------------
 
 view() {
     local f=${1-}
-
+	local nocomm=${2-}
+	
     [[ $# -eq 0 ]] && { printf 'view: paramètre manquant "fichier" ' ; return 1 ; }
     [[ ! -e ${f} ]] && { printf 'view: fichier introuvable: %s\n' "${f}" >&2; return 1; }
 
@@ -182,14 +187,17 @@ view() {
         *.md|*.markdown|*.mdown|*.mkd)
             glow -p -- "${f}"
             ;;
-        *.json)
-        	jq < "${f}"
+        *.json|*.yml|*.yaml)
+        	yq < "${f}"
         	;;
-        *)
-           	/opt/cargo/bin/bat -pfSn --squeeze-blank -- "${f}"
+        *)	
+        # shellcheck disable=SC2015
+           	[[ "${nocomm:-}" != "-n" ]] && \bat -pfSn --squeeze-blank -- "${f}" || rg -v "^\s*(#|//|;)" --color=never "$@" | rg . | bat -p --file-name "$@"
            ;;
     esac
 }
+
+# ----------------------------------------------------------------------------------------------------------
 
 LOG() { # journalctl sans "audit" polluant
     local -a t=()
@@ -209,3 +217,156 @@ LOG() { # journalctl sans "audit" polluant
 
     journalctl "$@" "${args[@]}"
 }
+
+# ----------------------------------------------------------------------------------------------------------
+
+_SECTION() {
+    local msg
+    local fillertype
+    local color
+
+    [[ $# -eq 0 ]] && return 1
+	
+    msg="$1"
+    fillertype="$2"
+    color="$3"
+
+    local term_cols
+    term_cols="${COLUMNS}" || return 1
+
+    print -- "${color}"
+    (( term_cols -= 2 ))
+
+    local str_len=${#msg}
+    if (( str_len >= term_cols )); then
+        print -- "${msg}"
+        print -n -- "${C_RESET}"
+        printf '\n'
+        printf '>>>>>>>>>> %s\n' "${msg}" >> "${LOG_FILE:-/dev/null}"
+        return 0
+    fi
+
+    local filler_len=$(( (term_cols - str_len) / 2 ))
+    local ch=${fillertype:0:1}
+    local filler=""
+    local i
+
+    for (( i = 0; i < filler_len; i++ )); do
+        filler+="${ch}"
+    done
+
+    printf '%s%s%s' "${filler}" "${msg}" "${filler}"
+    if (( (term_cols - str_len) % 2 != 0 )); then
+        printf '%s' "${ch}"
+    fi
+    printf '\n'
+    print -n -- "${C_RESET}"
+    printf '\n'
+    printf '>>>>>>>>>> %s\n' "${msg}" >> "${LOG_FILE:-/dev/null}"
+    return 0
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+maj(){ # maj globale pour Omarchy	
+	if ! sudo -n true 2>/dev/null; then
+	    printf "\n%b[🔐 SUDO]%b Autorisation requise pour %b%s%b : " "${C_RED}" "${C_RESET}" "${C_BOLD}" "${USER}" "${C_RESET}"
+	    sudo -v -p ""
+	fi
+	local start
+	start=${SECONDS}
+	clear
+	_SECTION "  Mise à jour des PLUGINS OMARCHY SHELL  " "*" "${C_MAGENTA}"
+	omarchy plugin update -y | rg 'Updated'
+	echo
+	_SECTION "  Mise à jour des FLATPAK  " "*" "${C_MAGENTA}"
+	flatpak update -y
+	echo
+	_SECTION "  Mise à jour d'OMARCHY  " "*" "${C_MAGENTA}"
+	omarchy update -y
+	echo
+	_SECTION "" "*" "${C_MAGENTA}"
+
+	local duration
+	duration=$(( SECONDS - start))
+	echo ">>> La mise à jour a duré ${duration}s."
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+rm(){
+	if command -v zap &>/dev/null; then
+		zap -t -v "$@"
+	else
+		rm -Iv --preserve-root "$@"
+	fi
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+cp(){
+	if command -v zap &>/dev/null; then
+		zap -c -v "$@"
+	else
+		cp -iv "$@"
+	fi
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+mv(){
+	if command -v zap &>/dev/null; then
+		zap -m -v "$@"
+	else
+		mv -iv "$@"
+	fi
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+psp(){
+	psim --fullcmd --0 -pn "$@"
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+psm(){
+	psim --fullcmd --0 -mn "$@"
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+psc(){
+	psim --fullcmd --0 -cn "$@"
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
+omarchy-plugins() {
+	local json
+	json="$(command omarchy plugin list --json)" || return
+
+	jq -r '
+		def origin:
+			if .firstParty then "builtin"
+			elif .clonedFrom != "" then "fork"
+			else "external"
+			end;
+
+		["STATE", "ORIGIN", "KINDS", "ID", "NAME"],
+		(
+			.[] |
+			[
+				(if .enabled then "on" else "off" end),
+				origin,
+				(.kinds | join(",")),
+				.id,
+				.name
+			]
+		) |
+		@tsv
+	' <<<"$json" |
+	column -t -s $'\t'
+}
+
+source "$HOME"/.local/share/omarchy/default/zsh/functions/functions.zsh
