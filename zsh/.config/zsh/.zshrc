@@ -29,3 +29,7 @@ zsh-defer _compinit_with_ttl
 # mode vconsole (prompt basic, pas d'icones)
 zsh-defer _vconsole
 
+# VLC 3 est un client X11 (XWayland) : Qt5 ignore donc le scale Wayland et son
+# UI est deux fois trop petite. On force le facteur, comme GDK_SCALE pour GTK.
+vlc() { QT_SCALE_FACTOR=${QT_SCALE_FACTOR:-2} command vlc "$@"; }
+
