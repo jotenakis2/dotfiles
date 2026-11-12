@@ -1,38 +1,49 @@
-# onglet
+# THEME
 include tabs.conf
+#include current-theme.conf
+include ~/.local/state/omarchy/current/theme/kitty.conf
 
-# by OLo
-font_size 11
-background_opacity 0.98
-
-enabled_layouts fat:bias=70;full_size=1;mirrored=false
-shell_integration no-rc
-confirm_os_window_close 0
-cursor_blink_interval -1
+# VISUAL
+background_opacity 0.95
 cursor_shape block
+confirm_os_window_close 0
 enable_audio_bell no
 hide_window_decorations yes
-mouse_hide_wait 10.000000
-input_delay 0
-repaint_delay 1
-sync_to_monitor no
-scrollback_lines 10000
-adjust_line_height -1
-adjust_column_width 0
-adjust_baseline 0
-allow_remote_control no
-box_drawing_scale 0.001, 1, 1.5, 2
-text_composition_strategy legacy
+mouse_hide_wait -1.0
+enabled_layouts fat:bias=70;full_size=1;mirrored=false
+cursor_trail 2
+window_padding_width 0
 
-# BEGIN_KITTY_FONTS
-font_family      family='Maple Mono NF' style=Thin
+# LATENCY
+input_delay 2
+repaint_delay 8
+sync_to_monitor no
+wayland_enable_ime no
+
+# SCROLL
+scrollback_lines 10000
+scrollbar hovered
+scrollbar_width 1.5
+
+# FONT
+font_size 11.0
+font_family MesloLGS Nerd Font Mono
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
-# END_KITTY_FONTS
+text_composition_strategy legacy
+modify_font underline_thickness 150%
+modify_font strikethrough_thickness 150%
+modify_font cell_height -1px
+box_drawing_scale 0.001, 1, 1.5, 2
 
+# BINDINGS
+map ctrl+shift+t new_tab
+map ctrl+shift+q close_tab
+map ctrl+t no_op
+map ctrl+q no_op
 
-# BEGIN_KITTY_THEME
-# Kanagawa
-include current-theme.conf
-# END_KITTY_THEME
+# VARIOUS
+shell_integration no-title no-cursor no-rc
+allow_remote_control no 
+

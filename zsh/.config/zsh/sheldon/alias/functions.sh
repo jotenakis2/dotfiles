@@ -368,5 +368,3 @@ omarchy-plugins() {
 	' <<<"$json" |
 	column -t -s $'\t'
 }
-
-source "$HOME"/.local/share/omarchy/default/zsh/functions/functions.zsh

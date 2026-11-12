@@ -98,3 +98,13 @@ export FZF_ALT_C_OPTS="
 #      force les applis GTK à utiliser le module de saisie basique (pas d'IBus/Fcitx). Pratique si tu n'utilises pas de langue nécessitant un IM complexe et que tu veux éviter des freezes ou lenteurs au démarrage des applis GTK.
 # QT_IM_MODULE=wayland
 #      force les applis Qt à utiliser le protocole natif Wayland pour la saisie. Recommandé sous KDE/Wayland pour éviter les problèmes de saisie et de positionnement du curseur.
+
+###################### TÉLÉMÉTRIE ##################################################################################################################
+# Opt-out global pour les outils qui respectent ces variables (Claude Code, etc.).
+export DISABLE_TELEMETRY=1
+export DO_NOT_TRACK=1
+# Claude Code : coupe aussi le trafic non essentiel (télémétrie, feature flags).
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+# Superwhisper : DSN vide, le client Sentry est désactivé au démarrage
+# (utile pour le TUI de réglages lancé depuis un shell).
+export SW_SENTRY_DSN=
