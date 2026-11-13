@@ -58,7 +58,18 @@ _source_sheldon() {
 		rm -f "$cache"
 	fi
 }
-_source_sheldon
+# sheldon only downloads and updates the plugins here: at runtime it added
+# nothing but zsh-defer and the completions path, so we point at the checkouts
+# directly (no fork, no cache, no dependency on the binary at startup) and fall
+# back to `sheldon source` if they are missing. sheldon stays for updates:
+#   sheldon lock --update
+_sheldon_repos="$SHELDON_DATA_DIR/repos/github.com"
+if [[ -r $_sheldon_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh ]]; then
+	source "$_sheldon_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
+	fpath=("$_sheldon_repos/zsh-users/zsh-completions/src" $fpath)
+else
+	_source_sheldon
+fi
 
 # ---------------------------------------------------------------------------
 # Cache for a binary's init script, versioned by the binary's mtime.
