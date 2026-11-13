@@ -73,23 +73,6 @@
         },
         {
           "type": "prompt",
-          "alignment": "right",
-          "segments": [
-            {
-              "properties": {
-                "cache_duration": "none",
-                "threshold": 1000
-              },
-		  "template": " 󱦟 {{ .FormattedMs }}",
-              "foreground": "p:Peach",
-              "background": "transparent",
-              "type": "executiontime",
-              "style": "plain"
-            }
-          ]
-        },
-        {
-          "type": "prompt",
           "alignment": "left",
           "segments": [
             {
