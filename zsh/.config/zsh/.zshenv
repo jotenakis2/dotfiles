@@ -9,17 +9,16 @@
 
 setopt +o nomatch
 
-# cache for generated init scripts (mise, patina, fzf, sheldon)
-# → see _cached_init / _source_sheldon in .zshrc: zstat on the binary,
+# cache for generated init scripts (mise, patina, fzf)
+# → see _cached_init in .zshrc: zstat on the binary,
 #   no fork (replaces _evalcache, which forked md5 on every shell)
 ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 
 # zsh-patina
 export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina/config.toml"
 
-# sheldon: not exported here anymore. Plugin checkouts are derived from the XDG
-# defaults in .zshrc (runtime) and set explicitly by
-# ~/Projects/scripts/update-zsh-plugins.sh (maintenance).
+# Plugin checkouts live under the XDG data dir and are derived in .zshrc;
+# ~/Projects/scripts/zsh-plugins.sh clones and updates them.
 
 # RUST
 #export RUSTUP_HOME="${HOME}/.rustup"

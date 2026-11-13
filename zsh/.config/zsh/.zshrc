@@ -31,63 +31,23 @@ setopt HIST_SAVE_NO_DUPS
 setopt correct
 SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
 
-# sheldon is only the plugin downloader/updater: at runtime all it provided was
-# zsh-defer plus the completions path, so those are sourced straight from the
-# checkouts (no fork, no cache, no dependency on the binary). Updates are done by
-# ~/Projects/scripts/update-zsh-plugins.sh; the bootstrap path below still clones
-# everything on a fresh install:
-#   checkouts present -> source them
-#   missing           -> `sheldon lock` (clone) then `sheldon source`, cached
-#   sheldon missing   -> zsh-defer stub, so the rest of the config still loads
-_sheldon_data="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
-_sheldon_config="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/sheldon"
-_sheldon_repos="$_sheldon_data/repos/github.com"
-_sheldon_defer="$_sheldon_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
+# Plugin checkouts. There is no plugin manager at runtime: zsh-defer is sourced
+# straight from its git checkout and the completions directory is added to fpath.
+# ~/Projects/scripts/zsh-plugins.sh installs and updates those checkouts.
+# If they are missing (fresh install) a stub keeps the shell usable and says what
+# to run.
+_zsh_data="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+_zsh_repos="$_zsh_data/repos/github.com"
+_zsh_defer="$_zsh_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
 
-_zsh_defer_fallback() {
-	# no sheldon and no checkout: run the deferred tasks inline so aliases, mise
-	# and the prompt still load (only the startup saving is lost)
-	function zsh-defer { "$@" }
-}
-
-_source_sheldon() {
-	if ! command -v sheldon >/dev/null 2>&1; then
-		_zsh_defer_fallback
-		return 0
-	fi
-	typeset -gx SHELDON_DATA_DIR="$_sheldon_data"
-	typeset -gx SHELDON_CONFIG_DIR="$_sheldon_config"
-	typeset -gx SHELDON_CONFIG_FILE="$_sheldon_config/plugins.toml"
-	local cache="$ZSH_INIT_CACHE_DIR/sheldon.zsh"
-	local -a cm pm lm
-
-	zstat -A pm +mtime -- "$SHELDON_CONFIG_FILE" 2>/dev/null
-	zstat -A lm +mtime -- "$SHELDON_DATA_DIR/plugins.lock" 2>/dev/null
-	if [[ -s $cache ]] && zstat -A cm +mtime -- "$cache" 2>/dev/null; then
-		if (( ${cm[1]:-0} >= ${pm[1]:-0} && ${cm[1]:-0} >= ${lm[1]:-0} )) &&
-			[[ -r $_sheldon_defer ]]; then
-			source "$cache"
-			return 0
-		fi
-	fi
-
-	# fresh install or wiped checkouts: clone before asking sheldon what to source
-	[[ -r $_sheldon_defer ]] || sheldon lock >/dev/null 2>&1
-	[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
-	sheldon source 2>/dev/null >| "$cache"
-	if [[ -s $cache && -r $_sheldon_defer ]]; then
-		source "$cache"
-	else
-		rm -f "$cache"
-		_zsh_defer_fallback
-	fi
-}
-
-if [[ -r $_sheldon_defer ]]; then
-	source "$_sheldon_defer"
-	fpath=("$_sheldon_repos/zsh-users/zsh-completions/src" $fpath)
+if [[ -r $_zsh_defer ]]; then
+	source "$_zsh_defer"
+	fpath=("$_zsh_repos/zsh-users/zsh-completions/src" $fpath)
 else
-	_source_sheldon
+	# run the deferred tasks inline: aliases, mise and the prompt still load,
+	# only the startup saving is lost
+	zsh-defer() { "$@" }
+	print -u2 -- "zsh: plugins zsh absents — lance: ~/Projects/scripts/zsh-plugins.sh install"
 fi
 
 # ---------------------------------------------------------------------------
@@ -307,7 +267,7 @@ _vconsole() {
 # 10 tasks = ~70 ms of useless renders at startup.
 # ---------------------------------------------------------------------------
 _load_deferred() {
-	local d=$_sheldon_repos
+	local d=$_zsh_repos
 	local f
 
 	# grc coloring: minimal wrappers (14 commands instead of the 42 from
@@ -318,7 +278,7 @@ _load_deferred() {
 	# completions first (fzf-tab hooks into them)
 	_compinit_with_ttl
 
-	# plugins already cloned by sheldon, loaded here (see plugins.toml)
+	# plugin checkouts, cloned/updated by ~/Projects/scripts/zsh-plugins.sh
 	# fzf-tab: ~2.7 ms at startup but only needed from the first Tab. The stub
 	# sources the plugin (which then rebinds ^I to its own widget) and dispatches
 	# the current keypress to that widget.
@@ -333,7 +293,7 @@ _load_deferred() {
 			# fallback widget: point it back at the builtin first, otherwise it
 			# records this stub and recurses into it (job table full)
 			bindkey '^I' expand-or-complete
-			source "$_sheldon_repos/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || {
+			source "$_zsh_repos/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || {
 				zle expand-or-complete
 				return
 			}
@@ -354,7 +314,7 @@ _load_deferred() {
 	_cached_init zoxide init zsh
 
 	# aliases + custom functions (every file in the folder)
-	for f in "$ZDOTDIR"/sheldon/alias/*.sh(N); do
+	for f in "$ZDOTDIR"/aliases.sh "$ZDOTDIR"/functions.sh(N); do
 		source "$f"
 	done
 
@@ -362,13 +322,13 @@ _load_deferred() {
 	# regenerates it itself: we recompile here (deferred, so after the prompt)
 	# when a file was edited or replaced. `-nt` is a builtin: no cost
 	# while everything is current; a single zcompile when it just changed.
-	#   - alias files (sheldon/alias/*.sh)
+	#   - aliases.sh and functions.sh
 	# The other .zwc files are maintained where they are produced: those in
 	# ~/.cache/zsh/initcache/*.zsh by _cached_init, zcompdump.zwc by
-	# _compinit_with_ttl. sheldon.zsh is deliberately not compiled (no gain).
+	# _compinit_with_ttl.
 	_recompile_caches() {
 		local f
-		for f in "$ZDOTDIR"/sheldon/alias/*.sh(N); do
+		for f in "$ZDOTDIR"/aliases.sh "$ZDOTDIR"/functions.sh(N); do
 			[[ $f.zwc -nt $f ]] || zcompile "$f" 2>/dev/null
 		done
 	}
