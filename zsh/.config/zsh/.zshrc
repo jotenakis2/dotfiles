@@ -289,8 +289,22 @@ _load_deferred() {
 	_compinit_with_ttl
 
 	# plugins already cloned by sheldon, loaded here (see plugins.toml)
-	source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
+	# fzf-tab: ~2.7 ms at startup but only needed from the first Tab. The stub
+	# sources the plugin (which then rebinds ^I to its own widget) and dispatches
+	# the current keypress to that widget.
 	source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+
+	# fzf-tab with the same lazy treatment: the first Tab loads it, later Tabs go
+	# straight to its widget (see the stub below)
+	_fzf_tab_lazy() {
+		if (( ! ${+_FZF_TAB_LOADED} )); then
+			typeset -g _FZF_TAB_LOADED=1
+			source "$SHELDON_DATA_DIR/repos/github.com/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
+		fi
+		zle fzf-tab-complete
+	}
+	zle -N _fzf_tab_lazy
+	bindkey '^I' _fzf_tab_lazy
 	# zsh-zoxide runs dependency probes on every load (fzf --version through two
 	# forks, git submodule check) although they only matter once, at install
 	# time: mark it prepared to skip them (~9 ms)
