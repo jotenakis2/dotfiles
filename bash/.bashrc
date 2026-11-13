@@ -22,7 +22,6 @@ else
 fi
 
 source "$HOME/.local/share/blesh/ble.sh" --noattach
-source "$HOME/.config/sheldon/olivier/aliases.sh"
 
 eval "$(zoxide init bash)"
 
