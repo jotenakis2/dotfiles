@@ -85,30 +85,39 @@ _cached_init() {
 # cache, regenerated only when the mise config, the binary or the PATH
 # directories change.
 # ---------------------------------------------------------------------------
-_mise_env_write() { # full env for $HOME, minus mise's opaque session state
+_mise_env_write() { # full env for $HOME, minus mise's session state and dead dirs
 	local env="$ZSH_INIT_CACHE_DIR/mise-env.zsh"
-	mise hook-env --force -s zsh --cd "$HOME" 2>/dev/null |
-		grep -vE '^export __MISE_(DIFF|SESSION)=' >| "$env"
-	zcompile "$env" 2>/dev/null
+	local dirs="$ZSH_INIT_CACHE_DIR/mise-env.dirs"
+	local raw="$ZSH_INIT_CACHE_DIR/mise-env.raw"
+	local md=${MISE_DATA_DIR:-$HOME/.local/share/mise}
+	local l p
+	local -a lines keep pdirs
 
-	# Sidecar list of the PATH entries this env defines. The startup check must
-	# only validate mise's own directories: the rest of PATH contains entries
-	# from exports.sh and other tools, some of them legitimately missing, and a
-	# false positive there would trigger a full recompute on every shell.
-	local -a lines pdirs mkeep
-	local l md=${MISE_DATA_DIR:-$HOME/.local/share/mise}
-	lines=( ${(f)"$(<$env)"} )
-	for l in ${(M)lines:#export PATH=*}; do
-		l=${l#export PATH=\'}
-		pdirs+=( ${(s.:.)${l%\'}} )
+	mise hook-env --force -s zsh --cd "$HOME" 2>/dev/null |
+		grep -vE '^export __MISE_(DIFF|SESSION)=' >| "$raw"
+	lines=( ${(f)"$(<$raw)"} )
+	: >| "$env"
+	for l in $lines; do
+		if [[ $l == 'export PATH='* ]]; then
+			# a mise directory that no longer exists (uninstalled tool) must not
+			# enter the cache: the startup existence check would then invalidate
+			# it on every single shell
+			local body=${l#export PATH=\'}
+			body=${body%\'}
+			keep=()
+			for p in ${(s.:.)body}; do
+				[[ $p == $md/* && ! -d $p ]] && continue
+				keep+=( $p )
+			done
+			print -r -- "export PATH='${(j.:.)keep}'" >>| "$env"
+			pdirs+=( ${(M)keep:#$md/*} )
+		else
+			print -r -- "$l" >>| "$env"
+		fi
 	done
-	# mise re-exports the whole PATH, including entries it does not own (ours
-	# come from exports.sh, and some of those are legitimately absent on this
-	# machine). Only mise's own directories are worth checking.
-	for l in ${(u)pdirs}; do
-		[[ $l == $md/* ]] && mkeep+=( $l )
-	done
-	print -rl -- $mkeep >| "$ZSH_INIT_CACHE_DIR/mise-env.dirs"
+	rm -f "$raw"
+	zcompile "$env" 2>/dev/null
+	print -rl -- ${(u)pdirs} >| "$dirs"
 }
 
 _load_mise() {
