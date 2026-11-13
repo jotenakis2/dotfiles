@@ -302,17 +302,16 @@ _load_deferred() {
 			# fallback widget: point it back at the builtin first, otherwise it
 			# records this stub and recurses into it (job table full)
 			bindkey '^I' expand-or-complete
-			source "$_zsh_repos/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || {
-				zle expand-or-complete
-				return
-			}
-			# re-inject the Tab: it now hits fzf-tab's own ^I binding, which
-			# keeps the completion in the top-level widget (calling
-			# fzf-tab-complete from inside a widget does nothing)
-			zle -U $'\t'
-			return
+			source "$_zsh_repos/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || return
+			# ZSH_AUTOSUGGEST_MANUAL_REBIND=1 (see exports.sh) means autosuggestions
+			# no longer re-wraps widgets by itself: without this, fzf-tab keeps a
+			# stale copy of the completion widget, its diff eats the grey
+			# suggestion and completes garbage (e.g. ".local//share/keyrings")
+			(( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
 		fi
-		zle fzf-tab-complete
+		# fzf-tab hooks _main_complete, so a plain completion widget goes
+		# through it: no need to re-dispatch the key (which inserted garbage)
+		zle expand-or-complete
 	}
 	zle -N _fzf_tab_lazy
 	bindkey '^I' _fzf_tab_lazy
