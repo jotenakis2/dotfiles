@@ -319,7 +319,13 @@ _load_deferred() {
 
 	# version manager + prompt
 	_load_mise
-	[[ $TERM != "linux" ]] && _cached_init oh-my-posh init zsh --config "$HOME/.config/zsh/ohmyposh/config.json"
+	# prompt: oh-my-posh by default, or the native fork-free prompt
+	# (ZSH_PROMPT=native) which reproduces the same look and transient prompt
+	if [[ ${ZSH_PROMPT:-native} == native ]]; then
+		source "$ZDOTDIR/prompt.zsh"
+	elif [[ $TERM != "linux" ]]; then
+		_cached_init oh-my-posh init zsh --config "$HOME/.config/zsh/ohmyposh/config.json"
+	fi
 
 	# oh-my-posh caches the RESOLVED configuration per session
 	# (~/.cache/oh-my-posh/zsh.$POSH_SESSION_ID.omp.cache): a change to
