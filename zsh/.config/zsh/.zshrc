@@ -217,6 +217,17 @@ _load_deferred() {
 	_cached_init mise activate zsh
 	[[ $TERM != "linux" ]] && _cached_init oh-my-posh init zsh --config "$HOME/.config/zsh/ohmyposh/config.json"
 
+	# oh-my-posh met en cache la configuration RÉSOLUE pour chaque session
+	# (~/.cache/oh-my-posh/zsh.$POSH_SESSION_ID.omp.cache) : une modification de
+	# config.json n'y est donc pas vue, ni dans les terminaux déjà ouverts ni dans
+	# leurs sous-shells (qui héritent du POSH_SESSION_ID). On jette le cache de la
+	# session s'il est plus ancien que la config ; omp le reconstruit au prompt.
+	if [[ -n ${POSH_SESSION_ID:-} && -n ${TERM:-} && $TERM != linux ]]; then
+		local _omp_cfg="$HOME/.config/zsh/ohmyposh/config.json"
+		local _omp_cache="$HOME/.cache/oh-my-posh/zsh.${POSH_SESSION_ID}.omp.cache"
+		[[ $_omp_cfg -nt $_omp_cache ]] && rm -f "$_omp_cache"
+	fi
+
 	# alias eza/ls, fzf --zsh, prompt TTY
 	_vconsole
 }
