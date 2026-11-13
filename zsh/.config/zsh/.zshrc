@@ -132,8 +132,11 @@ _load_mise() {
 	[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
 
 	# 1) definitions only: drop the seeding hook-env call and the two state
-	#    exports that follow it (we set them ourselves once env is applied)
-	if [[ ! -s $act || $bin -nt $act ]]; then
+	#    exports that follow it (we set them ourselves once env is applied).
+	#    The generated script also snapshots PATH, so an install or uninstall
+	#    (which only touches the installs directory) must invalidate it too.
+	if [[ ! -s $act || $bin -nt $act ||
+		${MISE_DATA_DIR:-$HOME/.local/share/mise}/installs -nt $act ]]; then
 		mise activate zsh --cd "$HOME" 2>/dev/null |
 			grep -vE '^(_mise_hook --force$|export __MISE_ZSH_ACTIVATE_(PATH|ENV)=)' >| "$act"
 		zcompile "$act" 2>/dev/null
