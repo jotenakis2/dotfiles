@@ -1,17 +1,17 @@
-# ~/.zshenv — lu par TOUS les zsh : interactifs, scripts, sous-shells.
-# Ne garder ici que l'environnement (PATH, variables exportées).
-# Tout ce qui est interactif (bindkey, compinit, prompt, chargements différés)
-# vit dans .zshrc, pour ne pas être payé par chaque `zsh script.zsh`.
+# ~/.zshenv — read by EVERY zsh: interactive, scripts, subshells.
+# Environment only here (PATH, exported variables).
+# Everything interactive (bindkey, compinit, prompt, deferred loading)
+# lives in .zshrc, so a plain `zsh script.zsh` does not pay for it.
 
-# zsh/parameter n'est pas chargé ici : zsh 5.9 le charge tout seul au premier
-# accès à $commands/$functions/$aliases/… (vérifié : `zmodload` seul ne liste que
-# zsh/main, puis zsh/parameter apparaît après `${+commands[ls]}`).
+# zsh/parameter is not loaded here: zsh 5.9 loads it on its own at the first
+# access to $commands/$functions/$aliases/… (verified: `zmodload` alone lists only
+# zsh/main, then zsh/parameter shows up after `${+commands[ls]}`).
 
 setopt +o nomatch
 
-# cache des scripts d'init générés (mise, oh-my-posh, patina, fzf, sheldon)
-# → cf _cached_init / _source_sheldon dans .zshrc : zstat sur le binaire,
-#   aucun fork (remplace _evalcache, qui forkait md5 à chaque shell)
+# cache for generated init scripts (mise, oh-my-posh, patina, fzf, sheldon)
+# → see _cached_init / _source_sheldon in .zshrc: zstat on the binary,
+#   no fork (replaces _evalcache, which forked md5 on every shell)
 ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 
 # zsh-patina

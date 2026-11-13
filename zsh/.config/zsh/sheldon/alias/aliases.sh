@@ -31,7 +31,7 @@ alias watch='watch --color -n 1'
 alias ping='grc --colour=auto ping -i 0.2 -w 1'
 alias glances='glances -0 -b --fs-free-space --disable-webui'
 alias duf='duf -theme ansi'
-# diff : couleur native de GNU diffutils (0 ms), remplace le wrapper grc
+# diff: GNU diffutils native colour (0 ms), replaces the grc wrapper
 alias diff='\diff --color=auto'
 alias tf='tail -f '
 
@@ -57,7 +57,7 @@ alias pkgi='omarchy pkg add '
 alias pkgaur='omarchy pkg aur add '
 alias pkgr='omarchy-pkg-remove'
 
-# divers
+# misc
 alias btm='btm --hide_k_threads'
 alias m='micro'
 alias bathelp='bat --plain --language=help'

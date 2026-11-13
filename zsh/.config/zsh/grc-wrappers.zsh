@@ -1,31 +1,31 @@
 # ---------------------------------------------------------------------------
-# Wrappers grc minimaux — remplace `source /etc/grc.zsh`.
+# Minimal grc wrappers — replaces `source /etc/grc.zsh`.
 #
-# /etc/grc.zsh (paquet grc, appartenant à root) définit 42 fonctions :
-#   - ~4 ms au chargement : fork `tty -s` + construction du hash des commandes
-#     du PATH pour ses ~60 tests `$+commands[…]` ;
-#   - ~40 ms à chaque appel (grc est un script Python), y compris sur des
-#     commandes déjà colorées nativement (systemctl, journalctl, ip).
-# Il n'est pas modifié ici : pacman le réécrit à chaque mise à jour du paquet.
+# /etc/grc.zsh (grc package, owned by root) defines 42 functions:
+#   - ~4 ms at load: fork `tty -s` + building the hash of the commands in
+#     PATH for its ~60 `$+commands[…]` tests;
+#   - ~40 ms per call (grc is a Python script), including on commands that
+#     already colour themselves natively (systemctl, journalctl, ip).
+# It is not modified here: pacman rewrites it on every package update.
 #
-# Ici : liste calibrée sur l'historique zsh (~22k lignes), aucun fork au
-# chargement, aucun test de PATH. Ne garde que les commandes où grc apporte une
-# couleur qu'on ne trouve pas ailleurs (appels dans l'historique) :
+# Here: a list calibrated on the zsh history (~22k lines), no fork at
+# load, no PATH test. Keeps only the commands where grc adds a colour you
+# do not get elsewhere (call counts from the history):
 #   ps 224 · curl 130 · lsblk 40 · stat 23 · sensors 22 · findmnt 22 · sysctl 18
 #   id 15 · whois 15 · nmap 14 · lsmod 13 · make 12 · lspci 7 · ss 7
 #
-# Écartées volontairement :
-#   systemctl (288 appels) et ip (53) → systemd et iproute2 colorent déjà en tty
-#   df (20) → duf · diff (7) → GNU diff --color=auto (cf alias)
-#   docker* (0 appel), env/uptime/blkid/tune2fs/ld/showmount (≤4 appels)
+# Deliberately left out:
+#   systemctl (288 calls) and ip (53) → systemd and iproute2 already colour on a tty
+#   df (20) → duf · diff (7) → GNU diff --color=auto (see alias)
+#   docker* (0 calls), env/uptime/blkid/tune2fs/ld/showmount (≤4 calls)
 #
-# Ajouter une commande : ajouter son nom dans _GRC_CMDS.
-# Tout désactiver : commenter le source dans _load_deferred (.zshrc).
+# Add a command: add its name to _GRC_CMDS.
+# Disable everything: comment out the source line in _load_deferred (.zshrc).
 # ---------------------------------------------------------------------------
 
-# stdin, pas stdout : zsh-defer exécute le bundle différé avec stdout redirigé
-# (vérifié : [[ -t 1 ]] est faux dans _load_deferred, [[ -t 0 ]] vrai). C'est
-# aussi le test qu'utilise /etc/grc.zsh (`tty -s`) ; en builtin, donc sans fork.
+# stdin, not stdout: zsh-defer runs the deferred bundle with stdout redirected
+# (verified: [[ -t 1 ]] is false inside _load_deferred, [[ -t 0 ]] is true). It is
+# also the test /etc/grc.zsh uses (`tty -s`); as a builtin, so fork-free.
 [[ -t 0 ]] || return 0
 [[ -x /usr/bin/grc ]] || return 0
 
@@ -34,8 +34,8 @@ typeset -ga _GRC_CMDS=(
 )
 
 for _grc_c in $_GRC_CMDS; do
-	# corps de fonction : grc lance la commande en sous-processus, donc aucune
-	# récursion possible sur la fonction elle-même
+	# function body: grc runs the command in a subprocess, so no recursion is
+	# possible on the function itself
 	functions[$_grc_c]="grc --colour=auto $_grc_c \"\$@\""
 done
 unset _grc_c

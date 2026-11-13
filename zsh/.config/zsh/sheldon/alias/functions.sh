@@ -1,6 +1,6 @@
 # shellcheck disable=SC2034
-# Couleurs en séquences ANSI littérales : 9 appels $(tput) = 9 forks (~8 ms
-# de chargement en plus). \e[0m = sgr0, \e[3Nm = setaf N.
+# Colours as literal ANSI sequences: 9 $(tput) calls = 9 forks (~8 ms
+# of extra load time). \e[0m = sgr0, \e[3Nm = setaf N.
 C_BLACK=$'\e[30m'
 C_RED=$'\e[31m'
 C_GREEN=$'\e[32m'
@@ -61,13 +61,13 @@ logfwRT() {
 }
 
 # ----------------------------------------------------------------------------------------------------------
-logerror() { # erreurs dédupliquées sur le boot en cours
+logerror() { # deduplicated errors for the current boot
 	# shellcheck disable=SC2312
   journalctl --no-hostname -b 0 -p3 --no-pager -q 2>&1 | awk '{key=substr($0,index($0,$4)); if(!seen[key]++) print $0}'
 }
 
 # ----------------------------------------------------------------------------------------------------------
-help() { # help coloré
+help() { # colored help
 	# shellcheck disable=SC2312
 	if (( $# == 0 )); then
 		print -r -- "usage: help COMMANDE [ARG…]" >&2
@@ -77,16 +77,16 @@ help() { # help coloré
 	shift
 	local -a words
 
-	# On résout l'alias : `help ls` doit documenter ce que `ls` lance réellement
-	# (eza), pas /usr/bin/ls. Les alias composés (`;`, `|`) sont laissés de côté.
+	# Resolve the alias: `help ls` must document what `ls` really runs
+	# (eza), not /usr/bin/ls. Compound aliases (`;`, `|`) are skipped.
 	if [[ -n ${aliases[$cmd]} && ${aliases[$cmd]} != *[';|&<>']* ]]; then
 		words=(${(z)aliases[$cmd]})
-		# pas de risque de ré-entrée : un mot issu d'une expansion de tableau n'est
-		# jamais soumis à l'expansion d'alias
+		# no recursion risk: a word coming from an array expansion is never
+		# subject to alias expansion
 		"${words[@]}" --help "$@" 2>&1 | \bat --plain --language=help
 	else
-		# commande explicite plutôt que l'alias `bathelp` : une fonction source
-		# depuis un .zwc (zcompile) est parsée hors de la portée des alias.
+		# explicit command rather than the `bathelp` alias: a function sourced
+		# from a .zwc (zcompile) is parsed outside alias scope.
 		"$cmd" --help "$@" 2>&1 | \bat --plain --language=help
 	fi
 }
@@ -166,24 +166,24 @@ internet() {
 }
 
 # ----------------------------------------------------------------------------------------------------------
-# Historique interactif — deux comportements volontairement différents :
-#   Flèche haut → fzf-history (ci-dessous) : n° gris, Tab = insérer sans exécuter ;
-#   CTRL-R      → fzf-history-widget, fourni par l'intégration `fzf --zsh` chargée
-#                 plus loin dans _load_deferred, qui écrase le bind ci-dessous.
-fzf-history() { # historique à la mode atuin sans synchro
+# Interactive history — two deliberately different behaviours:
+#   Up arrow   → fzf-history (below): grey number, Tab = insert without running;
+#   CTRL-R     → fzf-history-widget, provided by the `fzf --zsh` integration loaded
+#                further down in _load_deferred, which overrides the bind below.
+fzf-history() { # atuin-style history without sync
   setopt localoptions noglobsubst noposixstrings pipefail extendedglob
   local raw key selected num n
 
-  # fc -rl 1 affiche une entrée par ligne, les commandes multi-lignes y étant
-  # métafiées en `\n` littéral : l'awk les dé-métafie (vrai retour à la ligne) et
-  # émet chaque entrée séparée par un NUL (--read0), préfixée du n° d'événement et
-  # d'une tabulation. Même mécanisme que l'intégration officielle de fzf, donc les
-  # entrées multi-lignes s'affichent sur plusieurs lignes.
-  #   --with-nth=2..  : la liste n'affiche que la commande (le n° reste dans le
-  #                     champ 1, masqué) ;
-  #   --accept-nth=1  : fzf ne renvoie que le n°, sortie mono-ligne sans ambiguïté
-  #                     avec la ligne de touche de --expect ; la commande est
-  #                     ensuite relue dans ${history[n]}, seule source exacte des \n.
+  # fc -rl 1 prints one entry per line, multi-line commands being escaped
+  # there as a literal `\n`: the awk un-escapes them (real newline) and
+  # emits each entry NUL-separated (--read0), prefixed with the event number and
+  # a tab. Same mechanism as fzf's official integration, so multi-line
+  # entries are displayed across several lines.
+  #   --with-nth=2..  : the list only shows the command (the number stays in
+  #                     field 1, hidden);
+  #   --accept-nth=1  : fzf returns only the number, single-line output with no
+  #                     ambiguity against the --expect key line; the command is
+  #                     then re-read from ${history[n]}, the only exact source of \n.
   raw=$(fc -rl 1 | awk '
     { cmd = $0; sub(/^[ \t]*[0-9]+[ \t]+/, "", cmd)
       gsub(/\\n/, "\n", cmd)
@@ -194,7 +194,7 @@ fzf-history() { # historique à la mode atuin sans synchro
       --query="${BUFFER}" +m --height=70% --no-scrollbar --ansi || true)
 
   key=${raw%%$'\n'*}
-  if [[ ${raw} != *$'\n'* ]]; then     # Esc / rien de sélectionné : buffer intact
+  if [[ ${raw} != *$'\n'* ]]; then     # Esc / nothing selected: buffer untouched
     zle reset-prompt
     return 0
   fi
@@ -202,9 +202,9 @@ fzf-history() { # historique à la mode atuin sans synchro
   zle reset-prompt
   [[ -z ${selected} ]] && return 0
 
-  # n° depuis le champ 1 (couleurs retirées) puis entrée réellement relue dans
-  # l'historique zsh : c'est ce qui restitue les vrais retours à la ligne des
-  # commandes multi-lignes, que la sortie de fc métafie en `\n`.
+  # number from field 1 (colours stripped), then the entry really re-read
+  # from the zsh history: that is what restores the real newlines of
+  # multi-line commands, which fc output escapes as `\n`.
   num=${selected%%$'\t'*}
   num=${num//$'\033'\[[0-9;]##m/}
   if [[ ${num} == [0-9]## ]]; then
@@ -217,18 +217,18 @@ fzf-history() { # historique à la mode atuin sans synchro
       return 0
     fi
   fi
-  # repli : texte affiché tel quel
+  # fallback: use the displayed text as is
   BUFFER=${selected#*$'\t'}
   CURSOR=${#BUFFER}
   zle redisplay
   [[ ${key} == enter ]] && zle accept-line
 }
-zle -N fzf-history                    # définit la fonction fzf-history comme un widget ZSH
-# version précédente (lookup par n° + (z)) sauvegardée dans
+zle -N fzf-history                    # registers fzf-history as a ZLE widget
+# previous version (lookup by number + (z)) backed up in
 # ~/.local/share/zsh-backups/functions.sh-20261113-215345.bak
-bindkey '^R' fzf-history              # écrasé par l'intégration fzf (voir en-tête)
-bindkey '^[[A' fzf-history            # et bind sur Flèche haut
-bindkey "^[[1;5A" up-line-or-history  # CTRL Flèche haut pour fonctionnement normal sans fzf
+bindkey '^R' fzf-history              # overwritten by the fzf integration (see header)
+bindkey '^[[A' fzf-history            # also bound to the Up arrow
+bindkey "^[[1;5A" up-line-or-history  # Ctrl-Up for normal behaviour without fzf
 
 # ----------------------------------------------------------------------------------------------------------
 
@@ -255,10 +255,10 @@ view() {
 
 # ----------------------------------------------------------------------------------------------------------
 
-LOG() { # journalctl sans "audit" polluant
+LOG() { # journalctl without the noisy "audit" transport
     local -a t=()
     local line
-    while IFS= read -r line; do # on récupère tous les TRANSPORT systemd sauf "audit"
+    while IFS= read -r line; do # collect every systemd TRANSPORT except "audit"
         t+=("${line}")
     done < <(journalctl -F _TRANSPORT 2>/dev/null | grep -vx 'audit')
 
@@ -324,7 +324,7 @@ _SECTION() {
 
 # ----------------------------------------------------------------------------------------------------------
 
-maj(){ # maj globale pour Omarchy	
+maj(){ # full Omarchy update	
 	if ! sudo -n true 2>/dev/null; then
 	    printf "\n%b[🔐 SUDO]%b Autorisation requise pour %b%s%b : " "${C_RED}" "${C_RESET}" "${C_BOLD}" "${USER}" "${C_RESET}"
 	    sudo -v -p ""

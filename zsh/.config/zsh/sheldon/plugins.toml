@@ -5,49 +5,49 @@ defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file 
 fpath = 'fpath=( "{{ dir }}" $fpath )'
 
 [plugins]
-# NOTE : grc est désormais sourcé dans _load_deferred (cf .zshrc), pas ici :
-# ses 42 wrappers ne sont utiles qu'à la première commande tapée, et le source
-# coûte ~4 ms sur le chemin critique (fork `tty -s` + construction du hash PATH).
+# NOTE: grc is now sourced in _load_deferred (see .zshrc), not here:
+# its 42 wrappers only matter from the first typed command, and sourcing
+# costs ~4 ms on the critical path (fork `tty -s` + PATH hash build).
 
-# zsh-defer : indispensable, utilisé par .zshrc
+# zsh-defer: required, used by .zshrc
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
-# ajout de commandes d'auto-completions
+# adds completion commands
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
 apply = ["fpath"]
 dir = "src"
 
 # ---------------------------------------------------------------------------
-# Les plugins ci-dessous ne sont PLUS chargés par sheldon : .zshrc les source
-# dans un unique `zsh-defer _load_deferred` (un seul rendu de prompt au lieu
-# d'un par plugin). Ils restent déclarés ici pour que `sheldon lock --update`
-# continue de les cloner et de les mettre à jour.
-# `apply = []` = déclaré mais non sourcé par sheldon (chargé par _load_deferred).
+# The plugins below are NO LONGER loaded by sheldon: .zshrc sources them
+# in a single `zsh-defer _load_deferred` (one prompt render instead of
+# one per plugin). They stay declared here so `sheldon lock --update`
+# keeps cloning and updating them.
+# `apply = []` = declared but not sourced by sheldon (loaded by _load_deferred).
 # ---------------------------------------------------------------------------
 
-# fzf-tab affiche l'autocompletion avec fzf
+# fzf-tab shows completions in fzf
 [plugins.fzf-tab]
 apply = []
 github = "Aloxaf/fzf-tab"
 
-# suggestions automatiques grises au bout de la commande prétapée
+# grey auto-suggestions after the pre-typed command
 [plugins.zsh-autosuggestions]
 apply = []
 github = "zsh-users/zsh-autosuggestions"
 
-# remplace cd
+# replaces cd
 [plugins.zsh-zoxide]
 apply = []
 github = "z-shell/zsh-zoxide"
 
-# chargement alias & function perso
+# loads custom aliases & functions
 [plugins.aliases]
 apply = []
 local = "~/.config/zsh/sheldon/alias"
 use = ["*"]
 
-# zsh-patina, mise et oh-my-posh (inline) sont désormais initialisés par
-# _cached_init dans .zshrc : cache versionné sur la mtime du binaire
-# (~/.cache/zsh/initcache), au lieu de _evalcache qui fork md5 à chaque shell.
+# zsh-patina, mise and oh-my-posh (inline) are now initialised by
+# _cached_init in .zshrc: cache versioned on the binary's mtime
+# (~/.cache/zsh/initcache), instead of _evalcache which forked md5 on every shell.

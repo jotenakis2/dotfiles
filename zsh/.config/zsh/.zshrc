@@ -1,12 +1,12 @@
-# ~/.zshrc — interactif uniquement (l'environnement est dans .zshenv)
+# ~/.zshrc — interactive only (the environment lives in .zshenv)
 
-# zsh/parameter : ni ici ni dans .zshenv, zsh 5.9 le charge au premier accès
-# à $commands/$functions/$aliases/… (fzf, patina et consorts s'en chargent seuls)
-zmodload -F zsh/stat b:zstat    # mtime sans fork
-zmodload zsh/datetime           # $EPOCHSECONDS sans fork
+# zsh/parameter: neither here nor in .zshenv, zsh 5.9 loads it at first access
+# to $commands/$functions/$aliases/… (fzf, patina and friends load it themselves)
+zmodload -F zsh/stat b:zstat    # mtime without forking
+zmodload zsh/datetime           # $EPOCHSECONDS without forking
 setopt interactive_comments
 
-# emacs mode pour bind touche début/fin
+# emacs mode so Home/End can be bound
 bindkey -e
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
@@ -17,9 +17,9 @@ fpath=(~/.local/share/zsh/completions $fpath)
 # History & correct
 [[ -d "${HOME}/.local/share/zsh" ]] || mkdir -p "${HOME}/.local/share/zsh"
 HISTFILE="$HOME/.local/share/zsh/zsh_history"
-HISTSIZE=50000      # liste en mémoire pendant la session (recherche Ctrl-R)
-SAVEHIST=5000       # ce qui est écrit dans le fichier : plafonné pour le démarrage
-                    # (1 Mo d'historique = ~8 ms de plus avant le prompt)
+HISTSIZE=50000      # in-memory list for the session (Ctrl-R search)
+SAVEHIST=5000       # what is written to the file: capped for startup time
+                    # (1 MB of history = ~8 ms more before the prompt)
 setopt EXTENDED_HISTORY
 setopt SHARE_HISTORY
 setopt INC_APPEND_HISTORY
@@ -27,15 +27,15 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS
 
-# correction auto
+# auto correction
 setopt correct
 SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
 
-# sheldon plugin manager (cf ~/.config/zsh/sheldon/plugins.toml)
-# Ne charge ici que le synchrone : grc, zsh-defer, fpath completions.
-# La sortie de `sheldon source` est mise en cache et n'est régénérée que si
-# plugins.toml ou plugins.lock change : le reste du temps, 2 zstat (builtin)
-# au lieu d'un fork de sheldon (~10-14 ms sur le chemin critique).
+# sheldon plugin manager (see ~/.config/zsh/sheldon/plugins.toml)
+# Only the synchronous part is loaded here: grc, zsh-defer, fpath completions.
+# `sheldon source` output is cached and only regenerated when
+# plugins.toml or plugins.lock changes: the rest of the time, 2 zstat (builtin)
+# instead of a sheldon fork (~10-14 ms on the critical path).
 _source_sheldon() {
 	command -v sheldon >/dev/null 2>&1 || return 0
 	local cache="$ZSH_INIT_CACHE_DIR/sheldon.zsh"
@@ -61,9 +61,9 @@ _source_sheldon() {
 _source_sheldon
 
 # ---------------------------------------------------------------------------
-# Cache d'un script d'init binaire, versionné par la mtime du binaire.
-# Remplace _evalcache (qui fork md5 à chaque shell) : zstat est un builtin,
-# donc coût quasi nul quand le cache est à jour.
+# Cache for a binary's init script, versioned by the binary's mtime.
+# Replaces _evalcache (which forked md5 on every shell): zstat is a builtin,
+# so the cost is near zero while the cache is fresh.
 #   _cached_init mise activate zsh
 # ---------------------------------------------------------------------------
 _cached_init() {
@@ -193,8 +193,8 @@ _load_mise() {
 }
 
 # ---------------------------------------------------------------------------
-# compinit : recompilation complète tous les 2 jours, sinon lecture du dump
-# (+ .zwc compilé, ~2 ms au lieu de 5-8).
+# compinit: full rebuild every 2 days, otherwise read the dump
+# (+ compiled .zwc, ~2 ms instead of 5-8).
 # ---------------------------------------------------------------------------
 _compinit_with_ttl() {
 	setopt local_options
@@ -213,7 +213,7 @@ _compinit_with_ttl() {
 }
 
 # ---------------------------------------------------------------------------
-# en VCONSOLE pas d'icones, prompt basic sans ohmyposh
+# on the VCONSOLE: no icons, plain prompt without ohmyposh
 # ---------------------------------------------------------------------------
 _vconsole() {
 	zstyle ':fzf-tab:*' use-fzf-default-opts yes
@@ -231,7 +231,7 @@ _vconsole() {
 		precmd() { echo }
 		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'\n''%F{blue}>%F{reset} '
 
-	else # terminal graphique
+	else # graphical terminal
 		if command -v eza &>/dev/null; then
 			alias eza='eza --git --header --group-directories-first --color-scale all --color always --icons always --group -b --hyperlink=auto'
 			alias ls='eza'
@@ -246,12 +246,12 @@ _vconsole() {
 	alias la='ls -Alh'
 	alias l='ls -A1'
 
-	# Intégration fzf (^R historique, ^T fichiers, Alt-C cd) chargée à la demande :
-	# son source coûte ~5 ms au démarrage et ces touches servent rarement. Les
-	# widgets ci-dessous chargent puis délèguent ; l'intégration rebinde ensuite les
-	# touches sur ses propres widgets (le stub n'est utilisé qu'une fois).
-	# Tab n'est PAS touché ici : l'intégration capture `bindkey '^I'` au chargement
-	# pour son repli, il faut donc que ce soit encore le binding de fzf-tab.
+	# fzf integration (^R history, ^T files, Alt-C cd) loaded on demand:
+	# sourcing it costs ~5 ms at startup and those keys are rarely used. The
+	# widgets below load it then delegate; the integration then rebinds the
+	# keys to its own widgets (the stub is only used once).
+	# Tab is NOT touched here: the integration captures `bindkey '^I'` on load
+	# for its fallback, so it must still be the fzf-tab binding.
 	_fzf_integration() {
 		(( ${+_FZF_INTEGRATION_LOADED} )) && return 0
 		typeset -g _FZF_INTEGRATION_LOADED=1
@@ -269,42 +269,42 @@ _vconsole() {
 }
 
 # ---------------------------------------------------------------------------
-# Tout le différé passe par UN SEUL zsh-defer.
-# Chaque zsh-defer supplémentaire déclenche un rendu complet du prompt par
-# oh-my-posh (7-12 ms) : 10 tâches = ~70 ms de rendus inutiles au démarrage.
+# Everything deferred goes through ONE SINGLE zsh-defer.
+# Every extra zsh-defer triggers a full prompt render by
+# oh-my-posh (7-12 ms): 10 tasks = ~70 ms of useless renders at startup.
 # ---------------------------------------------------------------------------
 _load_deferred() {
 	local d=$SHELDON_DATA_DIR/repos/github.com
 	local f
 
-	# colorisation grc : wrappers minimaux (14 commandes au lieu des 42 de
-	# /etc/grc.zsh), calibrés sur l'historique — cf grc-wrappers.zsh.
-	# Différé car inutile avant la 1re commande tapée.
+	# grc coloring: minimal wrappers (14 commands instead of the 42 from
+	# /etc/grc.zsh), calibrated on the history — see grc-wrappers.zsh.
+	# Deferred because it is useless before the first typed command.
 	source "$ZDOTDIR/grc-wrappers.zsh"
 
-	# complétions d'abord (fzf-tab s'y accroche)
+	# completions first (fzf-tab hooks into them)
 	_compinit_with_ttl
 
-	# plugins déjà clonés par sheldon, chargés ici (cf plugins.toml)
+	# plugins already cloned by sheldon, loaded here (see plugins.toml)
 	source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
 	source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 	source "$d/z-shell/zsh-zoxide/zsh-zoxide.plugin.zsh"
 
-	# alias + fonctions perso (tous les fichiers du dossier)
+	# aliases + custom functions (every file in the folder)
 	for f in "$ZDOTDIR"/sheldon/alias/*.sh(N); do
 		source "$f"
 	done
 
-	# zsh n'utilise un .zwc que s'il est plus récent que le source et ne le
-	# régénère jamais lui-même : on recompile ici (différé, donc après le prompt)
-	# quand un fichier a été édité ou remplacé. `-nt` est un builtin : aucun coût
-	# quand tout est à jour ; un seul zcompile quand ça vient de changer.
-	#   - fichiers d'alias (sheldon/alias/*.sh)
-	#   - script d'init de oh-my-posh (~/.cache/oh-my-posh/init.*.zsh), régénéré
-	#     par omp à chaque mise à jour
-	# Les autres .zwc sont entretenus là où ils sont produits : ceux de
-	# ~/.cache/zsh/initcache/*.zsh par _cached_init, zcompdump.zwc par
-	# _compinit_with_ttl. sheldon.zsh n'est volontairement pas compilé (0 gain).
+	# zsh only uses a .zwc when it is newer than the source, and never
+	# regenerates it itself: we recompile here (deferred, so after the prompt)
+	# when a file was edited or replaced. `-nt` is a builtin: no cost
+	# while everything is current; a single zcompile when it just changed.
+	#   - alias files (sheldon/alias/*.sh)
+	#   - oh-my-posh init script (~/.cache/oh-my-posh/init.*.zsh), regenerated
+	#     by omp on every update
+	# The other .zwc files are maintained where they are produced: those in
+	# ~/.cache/zsh/initcache/*.zsh by _cached_init, zcompdump.zwc by
+	# _compinit_with_ttl. sheldon.zsh is deliberately not compiled (no gain).
 	_recompile_caches() {
 		local f
 		for f in "$ZDOTDIR"/sheldon/alias/*.sh(N) \
@@ -314,30 +314,30 @@ _load_deferred() {
 	}
 	_recompile_caches
 
-	# coloration syntaxique
+	# syntax highlighting
 	_cached_init zsh-patina activate
 
-	# gestionnaire de versions + prompt
+	# version manager + prompt
 	_load_mise
 	[[ $TERM != "linux" ]] && _cached_init oh-my-posh init zsh --config "$HOME/.config/zsh/ohmyposh/config.json"
 
-	# oh-my-posh met en cache la configuration RÉSOLUE pour chaque session
-	# (~/.cache/oh-my-posh/zsh.$POSH_SESSION_ID.omp.cache) : une modification de
-	# config.json n'y est donc pas vue, ni dans les terminaux déjà ouverts ni dans
-	# leurs sous-shells (qui héritent du POSH_SESSION_ID). On jette le cache de la
-	# session s'il est plus ancien que la config ; omp le reconstruit au prompt.
+	# oh-my-posh caches the RESOLVED configuration per session
+	# (~/.cache/oh-my-posh/zsh.$POSH_SESSION_ID.omp.cache): a change to
+	# config.json is therefore not seen, neither in already-open terminals nor in
+	# their subshells (which inherit POSH_SESSION_ID). We drop the cache of the
+	# session when it is older than the config; omp rebuilds it at the prompt.
 	if [[ -n ${POSH_SESSION_ID:-} && -n ${TERM:-} && $TERM != linux ]]; then
 		local _omp_cfg="$HOME/.config/zsh/ohmyposh/config.json"
 		local _omp_cache="$HOME/.cache/oh-my-posh/zsh.${POSH_SESSION_ID}.omp.cache"
 		[[ $_omp_cfg -nt $_omp_cache ]] && rm -f "$_omp_cache"
 	fi
 
-	# alias eza/ls, fzf --zsh, prompt TTY
+	# eza/ls aliases, fzf --zsh, TTY prompt
 	_vconsole
 }
 
 zsh-defer _load_deferred
 
-# VLC 3 est un client X11 (XWayland) : Qt5 ignore donc le scale Wayland et son
-# UI est deux fois trop petite. On force le facteur, comme GDK_SCALE pour GTK.
+# VLC 3 is an X11 client (XWayland): Qt5 therefore ignores Wayland scaling and its
+# UI comes out twice too small. We force the factor, like GDK_SCALE for GTK.
 vlc() { QT_SCALE_FACTOR=${QT_SCALE_FACTOR:-2} command vlc "$@"; }
