@@ -213,7 +213,7 @@ _compinit_with_ttl() {
 }
 
 # ---------------------------------------------------------------------------
-# on the VCONSOLE: no icons, plain prompt without ohmyposh
+# on the VCONSOLE: no icons, plain prompt
 # ---------------------------------------------------------------------------
 _vconsole() {
 	zstyle ':fzf-tab:*' use-fzf-default-opts yes
@@ -270,8 +270,8 @@ _vconsole() {
 
 # ---------------------------------------------------------------------------
 # Everything deferred goes through ONE SINGLE zsh-defer.
-# Every extra zsh-defer triggers a full prompt render by
-# oh-my-posh (7-12 ms): 10 tasks = ~70 ms of useless renders at startup.
+# Every extra zsh-defer triggers a full prompt render (7-12 ms):
+# 10 tasks = ~70 ms of useless renders at startup.
 # ---------------------------------------------------------------------------
 _load_deferred() {
 	local d=$SHELDON_DATA_DIR/repos/github.com
@@ -300,15 +300,12 @@ _load_deferred() {
 	# when a file was edited or replaced. `-nt` is a builtin: no cost
 	# while everything is current; a single zcompile when it just changed.
 	#   - alias files (sheldon/alias/*.sh)
-	#   - oh-my-posh init script (~/.cache/oh-my-posh/init.*.zsh), regenerated
-	#     by omp on every update
 	# The other .zwc files are maintained where they are produced: those in
 	# ~/.cache/zsh/initcache/*.zsh by _cached_init, zcompdump.zwc by
 	# _compinit_with_ttl. sheldon.zsh is deliberately not compiled (no gain).
 	_recompile_caches() {
 		local f
-		for f in "$ZDOTDIR"/sheldon/alias/*.sh(N) \
-			"${XDG_CACHE_HOME:-$HOME/.cache}"/oh-my-posh/init.*.zsh(N); do
+		for f in "$ZDOTDIR"/sheldon/alias/*.sh(N); do
 			[[ $f.zwc -nt $f ]] || zcompile "$f" 2>/dev/null
 		done
 	}
@@ -319,23 +316,10 @@ _load_deferred() {
 
 	# version manager + prompt
 	_load_mise
-	# prompt: oh-my-posh by default, or the native fork-free prompt
-	# (ZSH_PROMPT=native) which reproduces the same look and transient prompt
-	if [[ ${ZSH_PROMPT:-native} == native ]]; then
+	# prompt: native and fork-free, see prompt.zsh (the TTY branch of _vconsole
+	# keeps its own plain prompt)
+	if [[ $TERM != "linux" ]]; then
 		source "$ZDOTDIR/prompt.zsh"
-	elif [[ $TERM != "linux" ]]; then
-		_cached_init oh-my-posh init zsh --config "$HOME/.config/zsh/ohmyposh/config.json"
-	fi
-
-	# oh-my-posh caches the RESOLVED configuration per session
-	# (~/.cache/oh-my-posh/zsh.$POSH_SESSION_ID.omp.cache): a change to
-	# config.json is therefore not seen, neither in already-open terminals nor in
-	# their subshells (which inherit POSH_SESSION_ID). We drop the cache of the
-	# session when it is older than the config; omp rebuilds it at the prompt.
-	if [[ -n ${POSH_SESSION_ID:-} && -n ${TERM:-} && $TERM != linux ]]; then
-		local _omp_cfg="$HOME/.config/zsh/ohmyposh/config.json"
-		local _omp_cache="$HOME/.cache/oh-my-posh/zsh.${POSH_SESSION_ID}.omp.cache"
-		[[ $_omp_cfg -nt $_omp_cache ]] && rm -f "$_omp_cache"
 	fi
 
 	# eza/ls aliases, fzf --zsh, TTY prompt

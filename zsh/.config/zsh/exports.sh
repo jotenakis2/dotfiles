@@ -61,7 +61,6 @@ export MANROFFOPT="-c"
 ###################### MISC #######################################################################################################################
 
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-export POSH_NO_UPDATECHECK=1
 
 
 # CTRL-T fzf with a bat preview
@@ -89,8 +88,6 @@ export FZF_ALT_C_OPTS="
 ###################### DOCUMENTATION ###############################################################################################################
 # ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 #      disables automatic re-binding of the zsh-autosuggestions widgets on every precmd. Notable perf gain at startup and between commands.
-# POSH_NO_UPDATECHECK=1
-#      disables oh-my-posh's update check at startup, avoids a network request and speeds up prompt init.
 # IMSETTINGS_INTEGRATE_DESKTOP=no
 #      stops the imsettings daemon from forcing the desktop's input method (IBus, SCIM…) integration. Useful when you manage the IM yourself.
 # IMSETTINGS_DISABLE_DESKTOP_CHECK=1

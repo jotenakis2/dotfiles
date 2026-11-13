@@ -9,7 +9,7 @@
 
 setopt +o nomatch
 
-# cache for generated init scripts (mise, oh-my-posh, patina, fzf, sheldon)
+# cache for generated init scripts (mise, patina, fzf, sheldon)
 # → see _cached_init / _source_sheldon in .zshrc: zstat on the binary,
 #   no fork (replaces _evalcache, which forked md5 on every shell)
 ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"

@@ -48,6 +48,6 @@ apply = []
 local = "~/.config/zsh/sheldon/alias"
 use = ["*"]
 
-# zsh-patina, mise and oh-my-posh (inline) are now initialised by
+# zsh-patina and mise are now initialised by
 # _cached_init in .zshrc: cache versioned on the binary's mtime
 # (~/.cache/zsh/initcache), instead of _evalcache which forked md5 on every shell.
