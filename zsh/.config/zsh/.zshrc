@@ -299,18 +299,29 @@ _load_deferred() {
 	_fzf_tab_lazy() {
 		if (( ! ${+_FZF_TAB_LOADED} )); then
 			typeset -g _FZF_TAB_LOADED=1
-			source "$SHELDON_DATA_DIR/repos/github.com/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
+			# fzf-tab records whatever ^I is bound to when it loads as its
+			# fallback widget: point it back at the builtin first, otherwise it
+			# records this stub and recurses into it (job table full)
+			bindkey '^I' expand-or-complete
+			source "$SHELDON_DATA_DIR/repos/github.com/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || {
+				zle expand-or-complete
+				return
+			}
+			# re-inject the Tab: it now hits fzf-tab's own ^I binding, which
+			# keeps the completion in the top-level widget (calling
+			# fzf-tab-complete from inside a widget does nothing)
+			zle -U $'\t'
+			return
 		fi
 		zle fzf-tab-complete
 	}
 	zle -N _fzf_tab_lazy
 	bindkey '^I' _fzf_tab_lazy
-	# zsh-zoxide runs dependency probes on every load (fzf --version through two
-	# forks, git submodule check) although they only matter once, at install
-	# time: mark it prepared to skip them (~9 ms)
-	typeset -gA Plugins
-	Plugins[ZSH_ZOXIDE_READY]=1
-	source "$d/z-shell/zsh-zoxide/zsh-zoxide.plugin.zsh"
+	# zoxide: the zsh-zoxide plugin only added an evalcache shim around
+	# `zoxide init zsh` (which forks md5 on every shell, ~6 ms). Calling init
+	# directly gives the same z/zi functions and chpwd hook, cached by
+	# _cached_init like the other generated scripts.
+	_cached_init zoxide init zsh
 
 	# aliases + custom functions (every file in the folder)
 	for f in "$ZDOTDIR"/sheldon/alias/*.sh(N); do
