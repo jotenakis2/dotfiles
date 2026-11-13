@@ -31,41 +31,60 @@ setopt HIST_SAVE_NO_DUPS
 setopt correct
 SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
 
-# sheldon plugin manager (see ~/.config/zsh/sheldon/plugins.toml)
-# Only the synchronous part is loaded here: grc, zsh-defer, fpath completions.
-# `sheldon source` output is cached and only regenerated when
-# plugins.toml or plugins.lock changes: the rest of the time, 2 zstat (builtin)
-# instead of a sheldon fork (~10-14 ms on the critical path).
+# sheldon is only the plugin downloader/updater: at runtime all it provided was
+# zsh-defer plus the completions path, so those are sourced straight from the
+# checkouts (no fork, no cache, no dependency on the binary). Updates are done by
+# ~/Projects/scripts/update-zsh-plugins.sh; the bootstrap path below still clones
+# everything on a fresh install:
+#   checkouts present -> source them
+#   missing           -> `sheldon lock` (clone) then `sheldon source`, cached
+#   sheldon missing   -> zsh-defer stub, so the rest of the config still loads
+_sheldon_data="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+_sheldon_config="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/sheldon"
+_sheldon_repos="$_sheldon_data/repos/github.com"
+_sheldon_defer="$_sheldon_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
+
+_zsh_defer_fallback() {
+	# no sheldon and no checkout: run the deferred tasks inline so aliases, mise
+	# and the prompt still load (only the startup saving is lost)
+	function zsh-defer { "$@" }
+}
+
 _source_sheldon() {
-	command -v sheldon >/dev/null 2>&1 || return 0
+	if ! command -v sheldon >/dev/null 2>&1; then
+		_zsh_defer_fallback
+		return 0
+	fi
+	typeset -gx SHELDON_DATA_DIR="$_sheldon_data"
+	typeset -gx SHELDON_CONFIG_DIR="$_sheldon_config"
+	typeset -gx SHELDON_CONFIG_FILE="$_sheldon_config/plugins.toml"
 	local cache="$ZSH_INIT_CACHE_DIR/sheldon.zsh"
 	local -a cm pm lm
 
 	zstat -A pm +mtime -- "$SHELDON_CONFIG_FILE" 2>/dev/null
 	zstat -A lm +mtime -- "$SHELDON_DATA_DIR/plugins.lock" 2>/dev/null
 	if [[ -s $cache ]] && zstat -A cm +mtime -- "$cache" 2>/dev/null; then
-		if (( ${cm[1]:-0} >= ${pm[1]:-0} && ${cm[1]:-0} >= ${lm[1]:-0} )); then
+		if (( ${cm[1]:-0} >= ${pm[1]:-0} && ${cm[1]:-0} >= ${lm[1]:-0} )) &&
+			[[ -r $_sheldon_defer ]]; then
 			source "$cache"
 			return 0
 		fi
 	fi
 
+	# fresh install or wiped checkouts: clone before asking sheldon what to source
+	[[ -r $_sheldon_defer ]] || sheldon lock >/dev/null 2>&1
 	[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
 	sheldon source 2>/dev/null >| "$cache"
-	if [[ -s $cache ]]; then
+	if [[ -s $cache && -r $_sheldon_defer ]]; then
 		source "$cache"
 	else
 		rm -f "$cache"
+		_zsh_defer_fallback
 	fi
 }
-# sheldon only downloads and updates the plugins here: at runtime it added
-# nothing but zsh-defer and the completions path, so we point at the checkouts
-# directly (no fork, no cache, no dependency on the binary at startup) and fall
-# back to `sheldon source` if they are missing. sheldon stays for updates:
-#   sheldon lock --update
-_sheldon_repos="$SHELDON_DATA_DIR/repos/github.com"
-if [[ -r $_sheldon_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh ]]; then
-	source "$_sheldon_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
+
+if [[ -r $_sheldon_defer ]]; then
+	source "$_sheldon_defer"
 	fpath=("$_sheldon_repos/zsh-users/zsh-completions/src" $fpath)
 else
 	_source_sheldon
@@ -288,7 +307,7 @@ _vconsole() {
 # 10 tasks = ~70 ms of useless renders at startup.
 # ---------------------------------------------------------------------------
 _load_deferred() {
-	local d=$SHELDON_DATA_DIR/repos/github.com
+	local d=$_sheldon_repos
 	local f
 
 	# grc coloring: minimal wrappers (14 commands instead of the 42 from
@@ -314,7 +333,7 @@ _load_deferred() {
 			# fallback widget: point it back at the builtin first, otherwise it
 			# records this stub and recurses into it (job table full)
 			bindkey '^I' expand-or-complete
-			source "$SHELDON_DATA_DIR/repos/github.com/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || {
+			source "$_sheldon_repos/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || {
 				zle expand-or-complete
 				return
 			}

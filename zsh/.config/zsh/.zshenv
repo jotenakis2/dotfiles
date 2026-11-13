@@ -17,10 +17,9 @@ ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 # zsh-patina
 export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina/config.toml"
 
-# sheldon
-export SHELDON_CONFIG_DIR="$HOME/.config/zsh/sheldon"
-export SHELDON_DATA_DIR="$HOME/.local/share/zsh"
-export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
+# sheldon: not exported here anymore. Plugin checkouts are derived from the XDG
+# defaults in .zshrc (runtime) and set explicitly by
+# ~/Projects/scripts/update-zsh-plugins.sh (maintenance).
 
 # RUST
 #export RUSTUP_HOME="${HOME}/.rustup"
