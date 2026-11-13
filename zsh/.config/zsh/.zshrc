@@ -89,6 +89,110 @@ _cached_init() {
 }
 
 # ---------------------------------------------------------------------------
+# mise: `mise activate zsh` defines the mise() wrapper plus the precmd/chpwd
+# hooks, and its tail runs `mise hook-env --force` (~30 ms) to seed the
+# environment. We keep the definitions and replay that environment from a
+# cache, regenerated only when the mise config, the binary or the PATH
+# directories change.
+# ---------------------------------------------------------------------------
+_mise_env_write() { # full env for $HOME, minus mise's opaque session state
+	local env="$ZSH_INIT_CACHE_DIR/mise-env.zsh"
+	mise hook-env --force -s zsh --cd "$HOME" 2>/dev/null |
+		grep -vE '^export __MISE_(DIFF|SESSION)=' >| "$env"
+	zcompile "$env" 2>/dev/null
+
+	# Sidecar list of the PATH entries this env defines. The startup check must
+	# only validate mise's own directories: the rest of PATH contains entries
+	# from exports.sh and other tools, some of them legitimately missing, and a
+	# false positive there would trigger a full recompute on every shell.
+	local -a lines pdirs mkeep
+	local l md=${MISE_DATA_DIR:-$HOME/.local/share/mise}
+	lines=( ${(f)"$(<$env)"} )
+	for l in ${(M)lines:#export PATH=*}; do
+		l=${l#export PATH=\'}
+		pdirs+=( ${(s.:.)${l%\'}} )
+	done
+	# mise re-exports the whole PATH, including entries it does not own (ours
+	# come from exports.sh, and some of those are legitimately absent on this
+	# machine). Only mise's own directories are worth checking.
+	for l in ${(u)pdirs}; do
+		[[ $l == $md/* ]] && mkeep+=( $l )
+	done
+	print -rl -- $mkeep >| "$ZSH_INIT_CACHE_DIR/mise-env.dirs"
+}
+
+_load_mise() {
+	(( $+commands[mise] )) || return 0
+	local bin=${commands[mise]}
+	local act="$ZSH_INIT_CACHE_DIR/mise-activate.zsh"
+	local env="$ZSH_INIT_CACHE_DIR/mise-env.zsh"
+	local -a deps
+	local f d regen=0
+
+	[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
+
+	# 1) definitions only: drop the seeding hook-env call and the two state
+	#    exports that follow it (we set them ourselves once env is applied)
+	if [[ ! -s $act || $bin -nt $act ]]; then
+		mise activate zsh --cd "$HOME" 2>/dev/null |
+			grep -vE '^(_mise_hook --force$|export __MISE_ZSH_ACTIVATE_(PATH|ENV)=)' >| "$act"
+		zcompile "$act" 2>/dev/null
+	fi
+	source "$act"
+
+	# 2) a mise config in (or above) the current directory makes the cached
+	#    environment wrong: it must be computed for this directory
+	d=$PWD
+	while true; do
+		for f in .mise.toml mise.toml .tool-versions; do
+			[[ -f $d/$f ]] && regen=2
+		done
+		if (( regen == 2 )) || [[ $d == / ]]; then
+			break
+		fi
+		d=${d:h}
+	done
+
+	if (( regen == 2 )); then
+		eval "$(mise hook-env --force -s zsh --shell-pid $$ 2>/dev/null)"
+	else
+		deps=( "$HOME/.config/mise/config.toml" /etc/mise/conf.d/*.toml(N) "$bin" )
+		[[ -s $env ]] || regen=1
+		if (( ! regen )); then
+			for f in $deps; do
+				if [[ -e $f && $f -nt $env ]]; then
+					regen=1
+					break
+				fi
+			done
+		fi
+		(( regen )) && _mise_env_write
+		source "$env"
+
+		# `mise upgrade` can move a tool to a new versioned path
+		# (go/1.27.4 -> go/1.28.0) without touching the watched files, so
+		# check that the PATH entries this env defines still exist
+		local -a mdirs
+		local mdl="$ZSH_INIT_CACHE_DIR/mise-env.dirs"
+		if [[ -s $mdl ]]; then
+			mdirs=( ${(f)"$(<$mdl)"} )
+			for f in $mdirs; do
+				if [[ ! -d $f ]]; then
+					_mise_env_write
+					source "$env"
+					break
+				fi
+			done
+		fi
+	fi
+
+	# 3) state the precmd hook compares against: without it the first prompt
+	#    would run hook-env again and cancel the saving
+	export __MISE_ZSH_ACTIVATE_PATH="$PATH"
+	export __MISE_ZSH_ACTIVATE_ENV="$(_mise_hook_env_state)"
+}
+
+# ---------------------------------------------------------------------------
 # compinit : recompilation complète tous les 2 jours, sinon lecture du dump
 # (+ .zwc compilé, ~2 ms au lieu de 5-8).
 # ---------------------------------------------------------------------------
@@ -214,7 +318,7 @@ _load_deferred() {
 	_cached_init zsh-patina activate
 
 	# gestionnaire de versions + prompt
-	_cached_init mise activate zsh
+	_load_mise
 	[[ $TERM != "linux" ]] && _cached_init oh-my-posh init zsh --config "$HOME/.config/zsh/ohmyposh/config.json"
 
 	# oh-my-posh met en cache la configuration RÉSOLUE pour chaque session
