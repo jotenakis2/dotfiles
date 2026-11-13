@@ -291,6 +291,11 @@ _load_deferred() {
 	# plugins already cloned by sheldon, loaded here (see plugins.toml)
 	source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
 	source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+	# zsh-zoxide runs dependency probes on every load (fzf --version through two
+	# forks, git submodule check) although they only matter once, at install
+	# time: mark it prepared to skip them (~9 ms)
+	typeset -gA Plugins
+	Plugins[ZSH_ZOXIDE_READY]=1
 	source "$d/z-shell/zsh-zoxide/zsh-zoxide.plugin.zsh"
 
 	# aliases + custom functions (every file in the folder)
