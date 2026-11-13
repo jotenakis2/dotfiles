@@ -2,6 +2,7 @@ iptvnator/.iptvnator/databases/iptvnator.db
 micro/.config/micro/buffers
 micro/.config/micro/backups
 zsh/.config/zsh/zcompdump
+*.zwc
 zsh/.local/share/zsh/zsh_history
 zsh/.local/share/zsh/plugins.lock
 zsh/.local/share/zsh/repos/

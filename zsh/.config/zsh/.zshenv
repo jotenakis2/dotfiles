@@ -1,17 +1,23 @@
-setopt +o nomatch interactive_comments
-zmodload zsh/parameter
-# emacs mode pour bind touche début/fin
-bindkey -e
-bindkey "^[[H" beginning-of-line
-bindkey "^[[F" end-of-line
+# ~/.zshenv — lu par TOUS les zsh : interactifs, scripts, sous-shells.
+# Ne garder ici que l'environnement (PATH, variables exportées).
+# Tout ce qui est interactif (bindkey, compinit, prompt, chargements différés)
+# vit dans .zshrc, pour ne pas être payé par chaque `zsh script.zsh`.
 
-# evalcache
-ZSH_EVALCACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/evalcache"
+# zsh/parameter n'est pas chargé ici : zsh 5.9 le charge tout seul au premier
+# accès à $commands/$functions/$aliases/… (vérifié : `zmodload` seul ne liste que
+# zsh/main, puis zsh/parameter apparaît après `${+commands[ls]}`).
+
+setopt +o nomatch
+
+# cache des scripts d'init générés (mise, oh-my-posh, patina, fzf, sheldon)
+# → cf _cached_init / _source_sheldon dans .zshrc : zstat sur le binaire,
+#   aucun fork (remplace _evalcache, qui forkait md5 à chaque shell)
+ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 
 # zsh-patina
 export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina/config.toml"
 
-# sheldon 
+# sheldon
 export SHELDON_CONFIG_DIR="$HOME/.config/zsh/sheldon"
 export SHELDON_DATA_DIR="$HOME/.local/share/zsh"
 export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
@@ -32,59 +38,3 @@ typeset -U PATH
 
 # ENV
 . "$ZDOTDIR/exports.sh"
-
-# recompilation toutes les 2880 min (2 jours)
-_compinit_with_ttl() {
-        setopt local_options
-        local zcompdump="$ZDOTDIR/zcompdump"
-        local zcomp_ttl=2880
-
-        if [[ ! -f "$zcompdump" ]]; then # n'existe pas
-                compinit -d "$zcompdump"
-                return 0
-        fi
-        if [[ -n "$(find "$zcompdump" -mmin "+$zcomp_ttl" -print -quit 2>/dev/null)" ]]; then # trop vieux
-                rm -f "$zcompdump"
-                compinit -d "$zcompdump"
-                return 0
-        fi
-        compinit -C -D -d "$zcompdump" # on charge au plus rapide
-        return 0
-}
-
-
-	
-# en VCONSOLE pas d'icones, prompt basic sans ohmyposh
-_vconsole() {
-	zsh-defer zstyle ':fzf-tab:*' use-fzf-default-opts yes
-	zsh-defer zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
-	
-	if [[ "$TERM" = "linux" ]]; then # TTY
-		if command -v eza &>/dev/null; then 
-			alias eza='eza --git --header --group-directories-first --color always --group -b'
-			alias ls='eza'
-			alias lt='\eza -T --color -L 4'
-		else
-			alias ls='ls --color=always --group-directories-first'
-			alias lt='tree -L 4'
-		fi
-		precmd() { echo }
-		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'
-''%F{blue}>%F{reset} '
-
-	else # terminal graphique
-		if command -v eza &>/dev/null; then
-			alias eza='eza --git --header --group-directories-first --color-scale all --color always --icons always --group -b --hyperlink=auto'
-			alias ls='eza'
-			alias lt='eza -T -L 4'
-		else
-			alias ls='ls --color=always --group-directories-first --hyperlink=auto'
-			alias lt='tree -L 4'
-		fi		
-	fi
-
-	alias ll='ls -lh'
-	alias la='ls -Alh'
-	alias l='ls -A1'
-	source <(fzf --zsh)
-}

@@ -1,21 +1,17 @@
 shell = "zsh"
 
-[templates] 
+[templates]
 defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
 fpath = 'fpath=( "{{ dir }}" $fpath )'
 
 [plugins]
-# colorisation des commandes (ne supporte pas 'defer')
-[plugins.grc]
-inline = "source /etc/grc.zsh"
+# NOTE : grc est désormais sourcé dans _load_deferred (cf .zshrc), pas ici :
+# ses 42 wrappers ne sont utiles qu'à la première commande tapée, et le source
+# coûte ~4 ms sur le chemin critique (fork `tty -s` + construction du hash PATH).
 
-# pour déférer les plugins et accélérer le chargement initial
-[plugins.zsh-defer] 
+# zsh-defer : indispensable, utilisé par .zshrc
+[plugins.zsh-defer]
 github = "romkatv/zsh-defer"
-
-# mise en cache des plugins compatibles
-[plugins.evalcache]
-github = "mroth/evalcache"
 
 # ajout de commandes d'auto-completions
 [plugins.zsh-completions]
@@ -23,41 +19,35 @@ github = "zsh-users/zsh-completions"
 apply = ["fpath"]
 dir = "src"
 
+# ---------------------------------------------------------------------------
+# Les plugins ci-dessous ne sont PLUS chargés par sheldon : .zshrc les source
+# dans un unique `zsh-defer _load_deferred` (un seul rendu de prompt au lieu
+# d'un par plugin). Ils restent déclarés ici pour que `sheldon lock --update`
+# continue de les cloner et de les mettre à jour.
+# `apply = []` = déclaré mais non sourcé par sheldon (chargé par _load_deferred).
+# ---------------------------------------------------------------------------
+
 # fzf-tab affiche l'autocompletion avec fzf
-[plugins.fzf-tab] 
+[plugins.fzf-tab]
+apply = []
 github = "Aloxaf/fzf-tab"
-apply = ["defer"]
 
 # suggestions automatiques grises au bout de la commande prétapée
-[plugins.zsh-autosuggestions] 
+[plugins.zsh-autosuggestions]
+apply = []
 github = "zsh-users/zsh-autosuggestions"
-apply = ["defer"]
-
-#double ECHAP rappelle dernière commande et ajoute sudo devant
-#[plugins.sudo] 
-#github = "zap-zsh/sudo"
-#apply = ["defer"]
 
 # remplace cd
-[plugins.zsh-zoxide] 
+[plugins.zsh-zoxide]
+apply = []
 github = "z-shell/zsh-zoxide"
-apply = ["defer"]
 
 # chargement alias & function perso
 [plugins.aliases]
+apply = []
 local = "~/.config/zsh/sheldon/alias"
 use = ["*"]
-apply = ["defer"]
 
-# coloration syntaxique
-[plugins.zsh-patina]
-inline = 'zsh-defer eval "$(zsh-patina activate)"'
-
-# mise
-[plugins.mise]
-#inline = 'zsh-defer eval "$(mise activate zsh)"'
-inline = 'zsh-defer _evalcache mise activate zsh'
-
-# prompt
-[plugins.oh-my-posh] 
-inline = '[[ $TERM != "linux" ]] && zsh-defer _evalcache ~/.local/bin/oh-my-posh init zsh --config $HOME/.config/zsh/ohmyposh/config.json'
+# zsh-patina, mise et oh-my-posh (inline) sont désormais initialisés par
+# _cached_init dans .zshrc : cache versionné sur la mtime du binaire
+# (~/.cache/zsh/initcache), au lieu de _evalcache qui fork md5 à chaque shell.

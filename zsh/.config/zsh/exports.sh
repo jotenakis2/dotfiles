@@ -44,9 +44,10 @@ export FZF_DEFAULT_OPTS="--height 100% --border --ansi --no-info --highlight-lin
 #   --color=separator:#fab387 \
 #   --color=spinner:#cba6f7"
 
-# sudo
+# sudo — séquences ANSI littérales : $(tput …) coûtait ~19 ms de fork au
+# démarrage (5 substitutions de commande à ~3,5 ms), sur le chemin critique.
 if [ -t 1 ] && [ -n "${TERM:-}" ]; then
-  export SUDO_PROMPT="$(tput setab 1 setaf 7 bold)[sudo]$(tput sgr0) $(tput setaf 6)password for$(tput sgr0) $(tput setaf 5)%p$(tput sgr0): "
+  export SUDO_PROMPT=$'\e[41;1m[sudo]\e[0m \e[36mpassword for\e[0m \e[35m%p\e[0m: '
 else
   export SUDO_PROMPT="[sudo] password for %p: "
 fi

@@ -1,13 +1,15 @@
 # shellcheck disable=SC2034
-C_BLACK=$(tput setaf 0)
-C_RED=$(tput setaf 1)
-C_GREEN=$(tput setaf 2)
-C_YELLOW=$(tput setaf 3)
-C_BLUE=$(tput setaf 4)
-C_MAGENTA=$(tput setaf 5)
-C_CYAN=$(tput setaf 6)
-C_WHITE=$(tput setaf 7)
-C_RESET=$(tput sgr0)
+# Couleurs en séquences ANSI littérales : 9 appels $(tput) = 9 forks (~8 ms
+# de chargement en plus). \e[0m = sgr0, \e[3Nm = setaf N.
+C_BLACK=$'\e[30m'
+C_RED=$'\e[31m'
+C_GREEN=$'\e[32m'
+C_YELLOW=$'\e[33m'
+C_BLUE=$'\e[34m'
+C_MAGENTA=$'\e[35m'
+C_CYAN=$'\e[36m'
+C_WHITE=$'\e[37m'
+C_RESET=$'\e[0m'
 
 # ----------------------------------------------------------------------------------------------------------
 distrodate() {
@@ -67,7 +69,26 @@ logerror() { # erreurs dédupliquées sur le boot en cours
 # ----------------------------------------------------------------------------------------------------------
 help() { # help coloré
 	# shellcheck disable=SC2312
-    "$@" --help 2>&1 | bathelp
+	if (( $# == 0 )); then
+		print -r -- "usage: help COMMANDE [ARG…]" >&2
+		return 1
+	fi
+	local cmd=$1
+	shift
+	local -a words
+
+	# On résout l'alias : `help ls` doit documenter ce que `ls` lance réellement
+	# (eza), pas /usr/bin/ls. Les alias composés (`;`, `|`) sont laissés de côté.
+	if [[ -n ${aliases[$cmd]} && ${aliases[$cmd]} != *[';|&<>']* ]]; then
+		words=(${(z)aliases[$cmd]})
+		# pas de risque de ré-entrée : un mot issu d'une expansion de tableau n'est
+		# jamais soumis à l'expansion d'alias
+		"${words[@]}" --help "$@" 2>&1 | \bat --plain --language=help
+	else
+		# commande explicite plutôt que l'alias `bathelp` : une fonction source
+		# depuis un .zwc (zcompile) est parsée hors de la portée des alias.
+		"$cmd" --help "$@" 2>&1 | \bat --plain --language=help
+	fi
 }
 
 # ----------------------------------------------------------------------------------------------------------
@@ -145,32 +166,67 @@ internet() {
 }
 
 # ----------------------------------------------------------------------------------------------------------
-
+# Historique interactif — deux comportements volontairement différents :
+#   Flèche haut → fzf-history (ci-dessous) : n° gris, Tab = insérer sans exécuter ;
+#   CTRL-R      → fzf-history-widget, fourni par l'intégration `fzf --zsh` chargée
+#                 plus loin dans _load_deferred, qui écrase le bind ci-dessous.
 fzf-history() { # historique à la mode atuin sans synchro
-  setopt localoptions noglobsubst noposixstrings pipefail
-  local raw key selected num
-  # modif apporté à raw et num pour avoir l'index en gris
+  setopt localoptions noglobsubst noposixstrings pipefail extendedglob
+  local raw key selected num n
 
-  #ORIGINAL raw=$(fc -rl 1 | fzf --no-sort --exact -n2..,.. --bind='ctrl-r:toggle-sort' --expect=tab,enter --query="${BUFFER}" +m --height=60% --no-scrollbar || true)
-  raw=$(fc -rl 1 | awk '{gsub(/^[[:space:]]+/, ""); match($0, /^[0-9]+/); num=int(substr($0, RSTART, RLENGTH)); cmd=substr($0, RLENGTH+2); formatted=sprintf("%05d", num); print "\033[38;5;238m"formatted"\033[0m "cmd}' | fzf --no-sort --exact -n2..,.. --bind='ctrl-r:toggle-sort' --expect=tab,enter --query="${BUFFER}" +m --height=70% --no-scrollbar --ansi || true)
-  key=$(head -1 <<<"${raw}")
-  selected=$(tail -1 <<<"${raw}")
-  zle reset-prompt
+  # fc -rl 1 affiche une entrée par ligne, les commandes multi-lignes y étant
+  # métafiées en `\n` littéral : l'awk les dé-métafie (vrai retour à la ligne) et
+  # émet chaque entrée séparée par un NUL (--read0), préfixée du n° d'événement et
+  # d'une tabulation. Même mécanisme que l'intégration officielle de fzf, donc les
+  # entrées multi-lignes s'affichent sur plusieurs lignes.
+  #   --with-nth=2..  : la liste n'affiche que la commande (le n° reste dans le
+  #                     champ 1, masqué) ;
+  #   --accept-nth=1  : fzf ne renvoie que le n°, sortie mono-ligne sans ambiguïté
+  #                     avec la ligne de touche de --expect ; la commande est
+  #                     ensuite relue dans ${history[n]}, seule source exacte des \n.
+  raw=$(fc -rl 1 | awk '
+    { cmd = $0; sub(/^[ \t]*[0-9]+[ \t]+/, "", cmd)
+      gsub(/\\n/, "\n", cmd)
+      printf "%04d\t%s%c", $1, cmd, 0 }' |
+    fzf --read0 --with-nth=2.. --accept-nth=1 --delimiter=$'\t' \
+      --no-sort --exact \
+      --bind='ctrl-r:toggle-sort' --expect=tab,enter \
+      --query="${BUFFER}" +m --height=70% --no-scrollbar --ansi || true)
 
-  if [[ -n "${selected}" ]]; then
-    #ORIGINAL num=$(awk '{print $1}' <<< "${selected}")
-    num=$(echo "${selected}" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $1}' | sed 's/^0*//' || true)
-    [[ -n "${num}" ]] || return 0
-    # shellcheck disable=SC2296
-    BUFFER="${(z)history[${num}]}"
-    BUFFER="${BUFFER% }"
-    zle end-of-line
-    zle redisplay
-    [[ ${key} = enter ]] && zle accept-line
+  key=${raw%%$'\n'*}
+  if [[ ${raw} != *$'\n'* ]]; then     # Esc / rien de sélectionné : buffer intact
+    zle reset-prompt
+    return 0
   fi
+  selected=${raw#*$'\n'}
+  zle reset-prompt
+  [[ -z ${selected} ]] && return 0
+
+  # n° depuis le champ 1 (couleurs retirées) puis entrée réellement relue dans
+  # l'historique zsh : c'est ce qui restitue les vrais retours à la ligne des
+  # commandes multi-lignes, que la sortie de fc métafie en `\n`.
+  num=${selected%%$'\t'*}
+  num=${num//$'\033'\[[0-9;]##m/}
+  if [[ ${num} == [0-9]## ]]; then
+    n=$(( 10#${num} ))
+    if [[ -n ${history[$n]} ]]; then
+      BUFFER=${history[$n]}
+      CURSOR=${#BUFFER}
+      zle redisplay
+      [[ ${key} == enter ]] && zle accept-line
+      return 0
+    fi
+  fi
+  # repli : texte affiché tel quel
+  BUFFER=${selected#*$'\t'}
+  CURSOR=${#BUFFER}
+  zle redisplay
+  [[ ${key} == enter ]] && zle accept-line
 }
 zle -N fzf-history                    # définit la fonction fzf-history comme un widget ZSH
-bindkey '^R' fzf-history              # bind sur CTRL R
+# version précédente (lookup par n° + (z)) sauvegardée dans
+# ~/.local/share/zsh-backups/functions.sh-20261113-215345.bak
+bindkey '^R' fzf-history              # écrasé par l'intégration fzf (voir en-tête)
 bindkey '^[[A' fzf-history            # et bind sur Flèche haut
 bindkey "^[[1;5A" up-line-or-history  # CTRL Flèche haut pour fonctionnement normal sans fzf
 
@@ -368,3 +424,7 @@ omarchy-plugins() {
 	' <<<"$json" |
 	column -t -s $'\t'
 }
+
+# ----------------------------------------------------------------------------------------------------------
+
+s() { eval "sudo $(fc -ln -1)" }
