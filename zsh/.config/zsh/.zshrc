@@ -343,7 +343,12 @@ _load_deferred() {
 	_recompile_caches
 
 	# syntax highlighting
-	_cached_init zsh-patina activate
+	# zsh-patina must be started by `activate`: the generated code is explicitly
+	# not meant to be cached ("Do not cache or source this file manually"), and
+	# sourcing a cached copy skipped the daemon startup, so highlighting was dead
+	# after every reboot. It costs ~1.5 ms, and ~2.4 ms when it has to spawn the
+	# daemon (first shell after boot).
+	eval "$(zsh-patina activate)"
 
 	# version manager + prompt
 	_load_mise
