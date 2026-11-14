@@ -30,7 +30,7 @@
 [[ -x /usr/bin/grc ]] || return 0
 
 typeset -ga _GRC_CMDS=(
-	lsblk sensors findmnt id whois nmap lspci ss
+	lsblk sensors findmnt id whois nmap lspci ss mount df
 )
 
 for _grc_c in $_GRC_CMDS; do
