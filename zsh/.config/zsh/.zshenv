@@ -15,7 +15,7 @@ setopt +o nomatch
 ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 
 # zsh-patina
-export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina/config.toml"
+export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina-config.toml"
 
 # Plugin checkouts live under the XDG data dir and are derived in .zshrc;
 # ~/Projects/scripts/zsh-plugins.sh clones and updates them.
