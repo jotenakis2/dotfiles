@@ -288,33 +288,14 @@ _load_deferred() {
 	_compinit_with_ttl
 
 	# plugin checkouts, cloned/updated by ~/Projects/scripts/zsh-plugins.sh
-	# fzf-tab: ~2.7 ms at startup but only needed from the first Tab. The stub
-	# sources the plugin (which then rebinds ^I to its own widget) and dispatches
-	# the current keypress to that widget.
+	# fzf-tab must be sourced BEFORE zsh-autosuggestions: it copies the completion
+	# widgets it wraps (zle -A) at load time, and with ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+	# autosuggestions never re-wraps them later. Loaded lazily on the first Tab this
+	# ordering could not hold, and the first completion of every session fell back to
+	# the plain zsh listing — 2.7 ms are not worth that.
+	source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
 	source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 
-	# fzf-tab with the same lazy treatment: the first Tab loads it, later Tabs go
-	# straight to its widget (see the stub below)
-	_fzf_tab_lazy() {
-		if (( ! ${+_FZF_TAB_LOADED} )); then
-			typeset -g _FZF_TAB_LOADED=1
-			# fzf-tab records whatever ^I is bound to when it loads as its
-			# fallback widget: point it back at the builtin first, otherwise it
-			# records this stub and recurses into it (job table full)
-			bindkey '^I' expand-or-complete
-			source "$_zsh_repos/Aloxaf/fzf-tab/fzf-tab.plugin.zsh" || return
-			# ZSH_AUTOSUGGEST_MANUAL_REBIND=1 (see exports.sh) means autosuggestions
-			# no longer re-wraps widgets by itself: without this, fzf-tab keeps a
-			# stale copy of the completion widget, its diff eats the grey
-			# suggestion and completes garbage (e.g. ".local//share/keyrings")
-			(( $+functions[_zsh_autosuggest_start] )) && _zsh_autosuggest_start
-		fi
-		# fzf-tab hooks _main_complete, so a plain completion widget goes
-		# through it: no need to re-dispatch the key (which inserted garbage)
-		zle expand-or-complete
-	}
-	zle -N _fzf_tab_lazy
-	bindkey '^I' _fzf_tab_lazy
 	# zoxide: the zsh-zoxide plugin only added an evalcache shim around
 	# `zoxide init zsh` (which forks md5 on every shell, ~6 ms). Calling init
 	# directly gives the same z/zi functions and chpwd hook, cached by
