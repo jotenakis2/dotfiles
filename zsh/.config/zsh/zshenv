@@ -34,6 +34,9 @@ export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina-config.toml"
 
 # PATH
 typeset -U PATH
+# fpath : précaution pour compinit, qu'un répertoire en double ferait lire deux
+# fois ; zshrc y ajoute ses deux entrées.
+typeset -U fpath
 #export PATH="$HOME/.local/bin:$HOME/Projects/scripts:$GOROOT/bin:$GOBIN:$CARGO_HOME/bin:${PATH}"
 
 # ENV
