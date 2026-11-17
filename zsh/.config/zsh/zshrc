@@ -312,13 +312,14 @@ _load_deferred() {
 	# regenerates it itself: we recompile here (deferred, so after the prompt)
 	# when a file was edited or replaced. `-nt` is a builtin: no cost
 	# while everything is current; a single zcompile when it just changed.
-	#   - aliases.sh and functions.sh
+	#   - aliases.sh, functions.sh, prompt.zsh, grc-wrappers.zsh
 	# The other .zwc files are maintained where they are produced: those in
 	# ~/.cache/zsh/initcache/*.zsh by _cached_init, zcompdump.zwc by
 	# _compinit_with_ttl.
 	_recompile_caches() {
 		local f
-		for f in "$ZDOTDIR"/aliases.sh "$ZDOTDIR"/functions.sh(N); do
+		for f in "$ZDOTDIR"/aliases.sh "$ZDOTDIR"/functions.sh \
+			"$ZDOTDIR"/prompt.zsh "$ZDOTDIR"/grc-wrappers.zsh(N); do
 			[[ $f.zwc -nt $f ]] || zcompile "$f" 2>/dev/null
 		done
 	}
