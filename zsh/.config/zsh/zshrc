@@ -1,0 +1,351 @@
+# $ZDOTDIR/zshrc — interactive only (the environment lives in $ZDOTDIR/zshenv).
+# zsh only knows the dotted names, so $ZDOTDIR/.zshrc is a symlink to this file.
+
+# zsh/parameter: neither here nor in .zshenv, zsh 5.9 loads it at first access
+# to $commands/$functions/$aliases/… (fzf, patina and friends load it themselves)
+zmodload -F zsh/stat b:zstat    # mtime without forking
+zmodload zsh/datetime           # $EPOCHSECONDS without forking
+setopt interactive_comments
+
+# emacs mode so Home/End can be bound
+bindkey -e
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
+# fpath
+fpath=(~/.local/share/zsh/completions $fpath)
+
+# History & correct
+[[ -d "${HOME}/.local/share/zsh" ]] || mkdir -p "${HOME}/.local/share/zsh"
+HISTFILE="$HOME/.local/share/zsh/zsh_history"
+HISTSIZE=50000      # in-memory list for the session (Ctrl-R search)
+SAVEHIST=5000       # what is written to the file: capped for startup time
+                    # (1 MB of history = ~8 ms more before the prompt)
+setopt EXTENDED_HISTORY
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+
+# auto correction
+setopt correct
+SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B%F{blue}n%f%bo|%B%F{blue}e%f%bdit|%B%F{blue}a%f%bbort]'
+
+# Plugin checkouts. There is no plugin manager at runtime: zsh-defer is sourced
+# straight from its git checkout and the completions directory is added to fpath.
+# ~/.config/zsh/tool/zsh-plugins.sh installs and updates those checkouts.
+# If they are missing (fresh install) a stub keeps the shell usable and says what
+# to run.
+_zsh_data="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
+_zsh_repos="$_zsh_data/repos/github.com"
+_zsh_defer="$_zsh_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
+
+if [[ -r $_zsh_defer ]]; then
+	source "$_zsh_defer"
+	fpath=("$_zsh_repos/zsh-users/zsh-completions/src" $fpath)
+else
+	# run the deferred tasks inline: aliases, mise and the prompt still load,
+	# only the startup saving is lost
+	zsh-defer() { "$@" }
+	print -u2 -- "zsh: plugins zsh absents — lance: ~/.config/zsh/tool/zsh-plugins.sh install"
+fi
+
+# ---------------------------------------------------------------------------
+# Cache for a binary's init script, versioned by the binary's mtime.
+# Replaces _evalcache (which forked md5 on every shell): zstat is a builtin,
+# so the cost is near zero while the cache is fresh.
+#   _cached_init mise activate zsh
+# ---------------------------------------------------------------------------
+_cached_init() {
+	local name=${1:t}
+	local bin
+	bin=$(command -v -- "$1") || { eval "$*"; return }
+	local cache="$ZSH_INIT_CACHE_DIR/$name.zsh"
+	local -a bm cm
+
+	zstat -A bm +mtime -- "$bin" 2>/dev/null || { eval "$*"; return }
+	if [[ -s $cache ]]; then
+		zstat -A cm +mtime -- "$cache" 2>/dev/null
+		if [[ ${cm[1]:-0} -ge ${bm[1]:-0} ]]; then
+			source "$cache"
+			return
+		fi
+	fi
+
+	[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
+	eval "$*" >| "$cache"
+	zcompile "$cache" 2>/dev/null
+	source "$cache"
+}
+
+# ---------------------------------------------------------------------------
+# mise: `mise activate zsh` defines the mise() wrapper plus the precmd/chpwd
+# hooks, and its tail runs `mise hook-env --force` (~30 ms) to seed the
+# environment. We keep the definitions and replay that environment from a
+# cache, regenerated only when the mise config, the binary or the PATH
+# directories change.
+# ---------------------------------------------------------------------------
+_mise_env_write() { # full env for $HOME, minus mise's session state and dead dirs
+	local env="$ZSH_INIT_CACHE_DIR/mise-env.zsh"
+	local dirs="$ZSH_INIT_CACHE_DIR/mise-env.dirs"
+	local raw="$ZSH_INIT_CACHE_DIR/mise-env.raw"
+	local md=${MISE_DATA_DIR:-$HOME/.local/share/mise}
+	local l p
+	local -a lines keep pdirs
+
+	mise hook-env --force -s zsh --cd "$HOME" 2>/dev/null |
+		grep -vE '^export __MISE_(DIFF|SESSION)=' >| "$raw"
+	lines=( ${(f)"$(<$raw)"} )
+	: >| "$env"
+	for l in $lines; do
+		if [[ $l == 'export PATH='* ]]; then
+			# a mise directory that no longer exists (uninstalled tool) must not
+			# enter the cache: the startup existence check would then invalidate
+			# it on every single shell
+			local body=${l#export PATH=\'}
+			body=${body%\'}
+			keep=()
+			for p in ${(s.:.)body}; do
+				[[ $p == $md/* && ! -d $p ]] && continue
+				keep+=( $p )
+			done
+			print -r -- "export PATH='${(j.:.)keep}'" >>| "$env"
+			pdirs+=( ${(M)keep:#$md/*} )
+		else
+			print -r -- "$l" >>| "$env"
+		fi
+	done
+	rm -f "$raw"
+	zcompile "$env" 2>/dev/null
+	print -rl -- ${(u)pdirs} >| "$dirs"
+}
+
+_load_mise() {
+	(( $+commands[mise] )) || return 0
+	local bin=${commands[mise]}
+	local act="$ZSH_INIT_CACHE_DIR/mise-activate.zsh"
+	local env="$ZSH_INIT_CACHE_DIR/mise-env.zsh"
+	local -a deps
+	local f d regen=0
+
+	[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
+
+	# 1) definitions only: drop the seeding hook-env call and the two state
+	#    exports that follow it (we set them ourselves once env is applied).
+	#    The generated script also snapshots PATH, so an install or uninstall
+	#    (which only touches the installs directory) must invalidate it too.
+	if [[ ! -s $act || $bin -nt $act ||
+		${MISE_DATA_DIR:-$HOME/.local/share/mise}/installs -nt $act ]]; then
+		mise activate zsh --cd "$HOME" 2>/dev/null |
+			grep -vE '^(_mise_hook --force$|export __MISE_ZSH_ACTIVATE_(PATH|ENV)=)' >| "$act"
+		zcompile "$act" 2>/dev/null
+	fi
+	source "$act"
+
+	# 2) a mise config in (or above) the current directory makes the cached
+	#    environment wrong: it must be computed for this directory
+	d=$PWD
+	while true; do
+		for f in .mise.toml mise.toml .tool-versions; do
+			[[ -f $d/$f ]] && regen=2
+		done
+		if (( regen == 2 )) || [[ $d == / ]]; then
+			break
+		fi
+		d=${d:h}
+	done
+
+	if (( regen == 2 )); then
+		eval "$(mise hook-env --force -s zsh --shell-pid $$ 2>/dev/null)"
+	else
+		deps=( "$HOME/.config/mise/config.toml" /etc/mise/conf.d/*.toml(N) "$bin" )
+		[[ -s $env ]] || regen=1
+		if (( ! regen )); then
+			for f in $deps; do
+				if [[ -e $f && $f -nt $env ]]; then
+					regen=1
+					break
+				fi
+			done
+		fi
+		(( regen )) && _mise_env_write
+		source "$env"
+
+		# `mise upgrade` can move a tool to a new versioned path
+		# (go/1.27.4 -> go/1.28.0) without touching the watched files, so
+		# check that the PATH entries this env defines still exist
+		local -a mdirs
+		local mdl="$ZSH_INIT_CACHE_DIR/mise-env.dirs"
+		if [[ -s $mdl ]]; then
+			mdirs=( ${(f)"$(<$mdl)"} )
+			for f in $mdirs; do
+				if [[ ! -d $f ]]; then
+					_mise_env_write
+					source "$env"
+					break
+				fi
+			done
+		fi
+	fi
+
+	# 3) state the precmd hook compares against: without it the first prompt
+	#    would run hook-env again and cancel the saving
+	export __MISE_ZSH_ACTIVATE_PATH="$PATH"
+	export __MISE_ZSH_ACTIVATE_ENV="$(_mise_hook_env_state)"
+}
+
+# ---------------------------------------------------------------------------
+# compinit: full rebuild every 2 days, otherwise read the dump
+# (+ compiled .zwc, ~2 ms instead of 5-8).
+# ---------------------------------------------------------------------------
+_compinit_with_ttl() {
+	setopt local_options
+	local zcompdump="$ZDOTDIR/zcompdump"
+	local zcomp_ttl=2880   # minutes
+	local -a mt
+
+	autoload -Uz compinit
+	if [[ -f $zcompdump ]] && zstat -A mt +mtime -- "$zcompdump" 2>/dev/null \
+		&& (( EPOCHSECONDS - mt[1] <= zcomp_ttl * 60 )); then
+		compinit -C -D -d "$zcompdump"
+		return 0
+	fi
+	compinit -d "$zcompdump" && zcompile "$zcompdump" 2>/dev/null
+	return 0
+}
+
+# ---------------------------------------------------------------------------
+# on the VCONSOLE: no icons, plain prompt
+# ---------------------------------------------------------------------------
+_vconsole() {
+	zstyle ':fzf-tab:*' use-fzf-default-opts yes
+	zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza -1 --color=always $realpath'
+
+	if [[ "$TERM" = "linux" ]]; then # TTY
+		if command -v eza &>/dev/null; then
+			alias eza='eza --git --header --group-directories-first --color always --group -b'
+			alias ls='eza'
+			alias lt='\eza -T --color -L 4'
+		else
+			alias ls='ls --color=always --group-directories-first'
+			alias lt='tree -L 4'
+		fi
+		precmd() { echo }
+		PROMPT='%B%F{green}%n%F{white}:%F{blue}%~ '$'\n''%F{blue}>%F{reset} '
+
+	else # graphical terminal
+		if command -v eza &>/dev/null; then
+			alias eza='eza --git --header --group-directories-first --color-scale all --color always --icons always --group -b --hyperlink=auto'
+			alias ls='eza'
+			alias lt='eza -T -L 4'
+		else
+			alias ls='ls --color=always --group-directories-first --hyperlink=auto'
+			alias lt='tree -L 4'
+		fi
+	fi
+
+	alias ll='ls -lh'
+	alias la='ls -Alh'
+	alias l='ls -A1'
+
+	# fzf integration (^R history, ^T files, Alt-C cd) loaded on demand:
+	# sourcing it costs ~5 ms at startup and those keys are rarely used. The
+	# widgets below load it then delegate; the integration then rebinds the
+	# keys to its own widgets (the stub is only used once).
+	# Tab is NOT touched here: the integration captures `bindkey '^I'` on load
+	# for its fallback, so it must still be the fzf-tab binding.
+	_fzf_integration() {
+		(( ${+_FZF_INTEGRATION_LOADED} )) && return 0
+		typeset -g _FZF_INTEGRATION_LOADED=1
+		_cached_init fzf --zsh
+	}
+	_fzf_lazy_history() { _fzf_integration; zle fzf-history-widget }
+	_fzf_lazy_file() { _fzf_integration; zle fzf-file-widget }
+	_fzf_lazy_cd() { _fzf_integration; zle fzf-cd-widget }
+	zle -N _fzf_lazy_history
+	zle -N _fzf_lazy_file
+	zle -N _fzf_lazy_cd
+	bindkey '^R' _fzf_lazy_history
+	bindkey '^T' _fzf_lazy_file
+	bindkey '\ec' _fzf_lazy_cd
+}
+
+# ---------------------------------------------------------------------------
+# Everything deferred goes through ONE SINGLE zsh-defer.
+# Every extra zsh-defer triggers a full prompt render (7-12 ms):
+# 10 tasks = ~70 ms of useless renders at startup.
+# ---------------------------------------------------------------------------
+_load_deferred() {
+	local d=$_zsh_repos
+	local f
+
+	# grc coloring: minimal wrappers (14 commands instead of the 42 from
+	# /etc/grc.zsh), calibrated on the history — see grc-wrappers.zsh.
+	# Deferred because it is useless before the first typed command.
+	source "$ZDOTDIR/grc-wrappers.zsh"
+
+	# completions first (fzf-tab hooks into them)
+	_compinit_with_ttl
+
+	# plugin checkouts, cloned/updated by ~/.config/zsh/tool/zsh-plugins.sh
+	# fzf-tab must be sourced BEFORE zsh-autosuggestions: it copies the completion
+	# widgets it wraps (zle -A) at load time, and with ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+	# autosuggestions never re-wraps them later. Loaded lazily on the first Tab this
+	# ordering could not hold, and the first completion of every session fell back to
+	# the plain zsh listing — 2.7 ms are not worth that.
+	source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
+	source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+
+	# zoxide: the zsh-zoxide plugin only added an evalcache shim around
+	# `zoxide init zsh` (which forks md5 on every shell, ~6 ms). Calling init
+	# directly gives the same z/zi functions and chpwd hook, cached by
+	# _cached_init like the other generated scripts.
+	_cached_init zoxide init zsh
+
+	# aliases + custom functions (every file in the folder)
+	for f in "$ZDOTDIR"/aliases.sh "$ZDOTDIR"/functions.sh(N); do
+		source "$f"
+	done
+
+	# zsh only uses a .zwc when it is newer than the source, and never
+	# regenerates it itself: we recompile here (deferred, so after the prompt)
+	# when a file was edited or replaced. `-nt` is a builtin: no cost
+	# while everything is current; a single zcompile when it just changed.
+	#   - aliases.sh and functions.sh
+	# The other .zwc files are maintained where they are produced: those in
+	# ~/.cache/zsh/initcache/*.zsh by _cached_init, zcompdump.zwc by
+	# _compinit_with_ttl.
+	_recompile_caches() {
+		local f
+		for f in "$ZDOTDIR"/aliases.sh "$ZDOTDIR"/functions.sh(N); do
+			[[ $f.zwc -nt $f ]] || zcompile "$f" 2>/dev/null
+		done
+	}
+	_recompile_caches
+
+	# syntax highlighting
+	# zsh-patina must be started by `activate`: the generated code is explicitly
+	# not meant to be cached ("Do not cache or source this file manually"), and
+	# sourcing a cached copy skipped the daemon startup, so highlighting was dead
+	# after every reboot. It costs ~1.5 ms, and ~2.4 ms when it has to spawn the
+	# daemon (first shell after boot).
+	eval "$(zsh-patina activate)"
+
+	# version manager + prompt
+	_load_mise
+	# prompt: native and fork-free, see prompt.zsh (the TTY branch of _vconsole
+	# keeps its own plain prompt)
+	if [[ $TERM != "linux" ]]; then
+		source "$ZDOTDIR/prompt.zsh"
+	fi
+
+	# eza/ls aliases, fzf --zsh, TTY prompt
+	_vconsole
+}
+
+zsh-defer _load_deferred
+
+# VLC 3 is an X11 client (XWayland): Qt5 therefore ignores Wayland scaling and its
+# UI comes out twice too small. We force the factor, like GDK_SCALE for GTK.
+vlc() { QT_SCALE_FACTOR=${QT_SCALE_FACTOR:-2} command vlc "$@"; }
