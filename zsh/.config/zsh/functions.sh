@@ -42,16 +42,20 @@ nocomm() {
 }
 
 # ----------------------------------------------------------------------------------------------------------
-path() {
-    local p="$1"
-    [[ -z "${p}" ]] && p="${PATH}"
-    echo "${p}" | tr ':' '\n'
+showpath() { # $PATH, or any colon-separated string: one entry per line
+    if (( $# )); then
+        print -rl -- ${(s.:.)1}
+    else
+        print -rl -- ${(s.:.)PATH}
+    fi
 }
 # ----------------------------------------------------------------------------------------------------------
-fpath() {
-    local p="$1"
-    [[ -z "${p}" ]] && p="${fpath}"
-    echo "${p}" | tr ' ' '\n'
+showfpath() { # $fpath, or any space-separated string: one entry per line
+    if (( $# )); then
+        print -rl -- ${=1}
+    else
+        print -rl -- "${(@)fpath}"
+    fi
 }
 
 # ----------------------------------------------------------------------------------------------------------
