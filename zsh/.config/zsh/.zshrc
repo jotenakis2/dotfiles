@@ -33,7 +33,7 @@ SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B
 
 # Plugin checkouts. There is no plugin manager at runtime: zsh-defer is sourced
 # straight from its git checkout and the completions directory is added to fpath.
-# ~/Projects/scripts/zsh-plugins.sh installs and updates those checkouts.
+# ~/.config/zsh/tool/zsh-plugins.sh installs and updates those checkouts.
 # If they are missing (fresh install) a stub keeps the shell usable and says what
 # to run.
 _zsh_data="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
@@ -47,7 +47,7 @@ else
 	# run the deferred tasks inline: aliases, mise and the prompt still load,
 	# only the startup saving is lost
 	zsh-defer() { "$@" }
-	print -u2 -- "zsh: plugins zsh absents — lance: ~/Projects/scripts/zsh-plugins.sh install"
+	print -u2 -- "zsh: plugins zsh absents — lance: ~/.config/zsh/tool/zsh-plugins.sh install"
 fi
 
 # ---------------------------------------------------------------------------
@@ -287,7 +287,7 @@ _load_deferred() {
 	# completions first (fzf-tab hooks into them)
 	_compinit_with_ttl
 
-	# plugin checkouts, cloned/updated by ~/Projects/scripts/zsh-plugins.sh
+	# plugin checkouts, cloned/updated by ~/.config/zsh/tool/zsh-plugins.sh
 	# fzf-tab must be sourced BEFORE zsh-autosuggestions: it copies the completion
 	# widgets it wraps (zle -A) at load time, and with ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 	# autosuggestions never re-wraps them later. Loaded lazily on the first Tab this

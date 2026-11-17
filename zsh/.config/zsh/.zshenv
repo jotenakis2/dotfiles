@@ -18,7 +18,7 @@ ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina-config.toml"
 
 # Plugin checkouts live under the XDG data dir and are derived in .zshrc;
-# ~/Projects/scripts/zsh-plugins.sh clones and updates them.
+# ~/.config/zsh/tool/zsh-plugins.sh clones and updates them.
 
 # RUST
 #export RUSTUP_HOME="${HOME}/.rustup"
