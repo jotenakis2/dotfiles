@@ -34,21 +34,53 @@ SPROMPT='Corriger %B%F{red}%U%R%b%f%u en %F{green}%r%f%u ? [%B%F{blue}y%f%bes|%B
 
 # Plugin checkouts. There is no plugin manager at runtime: zsh-defer is sourced
 # straight from its git checkout and the completions directory is added to fpath.
-# ~/.config/zsh/tool/zsh-plugins.sh installs and updates those checkouts.
-# If they are missing (fresh install) a stub keeps the shell usable and says what
-# to run.
+# ~/.config/zsh/tool/zsh-plugins.sh installs and updates those checkouts, and
+# tool/plugins.list is the shared list of them.
+# If anything is missing (fresh install, interrupted clone) the shell says so and
+# starts ONE background fetch, then stays usable through the stub below.
 _zsh_data="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
 _zsh_repos="$_zsh_data/repos/github.com"
 _zsh_defer="$_zsh_repos/romkatv/zsh-defer/zsh-defer.plugin.zsh"
 
+# A clone takes ~3 s (measured) and git has no timeout — a stalled network once
+# blocked for minutes — so the fetch must never sit in front of the prompt. It
+# runs detached (setsid: it must outlive this terminal, which would otherwise
+# send it SIGHUP) and the script takes a flock, so two shells opened together
+# never clone into the same directory.
+_zsh_plugins_fetch() {
+	local state="${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
+	local log="$state/plugins-install.log"
+
+	[[ -d $state ]] || mkdir -p "$state" 2>/dev/null
+	print -r -- "=== $(date '+%F %T') install : ${(j:, :)_zsh_plugins_missing}" >>"$log"
+	setsid bash "$ZDOTDIR/tool/zsh-plugins.sh" install >>"$log" 2>&1 </dev/null &!
+}
+
+# Existence test only: a builtin file read plus one test per plugin, no fork and
+# no network while the checkouts are in place. A checkout counts as present when
+# its .git is there, which is exactly what an interrupted clone leaves missing.
+_zsh_plugins=( "${(@f)$(<$ZDOTDIR/tool/plugins.list)}" )
+_zsh_plugins_missing=()
+for _zsh_plugin in $_zsh_plugins; do
+	[[ -z $_zsh_plugin || $_zsh_plugin == \#* ]] && continue
+	[[ -d $_zsh_repos/$_zsh_plugin/.git ]] || _zsh_plugins_missing+=( $_zsh_plugin )
+done
+unset _zsh_plugin
+
+if (( $#_zsh_plugins_missing )); then
+	print -u2 -- "zsh: plugins manquants — téléchargement depuis github : ${(j:, :)_zsh_plugins_missing}"
+	print -u2 -- "zsh: relance zsh dans quelques minutes pour les charger."
+	_zsh_plugins_fetch
+fi
+
 if [[ -r $_zsh_defer ]]; then
 	source "$_zsh_defer"
-	fpath=("$_zsh_repos/zsh-users/zsh-completions/src" $fpath)
+	[[ -d $_zsh_repos/zsh-users/zsh-completions/src ]] &&
+		fpath=("$_zsh_repos/zsh-users/zsh-completions/src" $fpath)
 else
 	# run the deferred tasks inline: aliases, mise and the prompt still load,
 	# only the startup saving is lost
 	zsh-defer() { "$@" }
-	print -u2 -- "zsh: plugins zsh absents — lance: ~/.config/zsh/tool/zsh-plugins.sh install"
 fi
 
 # ---------------------------------------------------------------------------
@@ -294,8 +326,12 @@ _load_deferred() {
 	# autosuggestions never re-wraps them later. Loaded lazily on the first Tab this
 	# ordering could not hold, and the first completion of every session fell back to
 	# the plain zsh listing — 2.7 ms are not worth that.
-	source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
-	source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+	# On a fresh machine these checkouts may still be cloning in the background:
+	# skip what is absent instead of printing an error per shell.
+	[[ -r $d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh ]] &&
+		source "$d/Aloxaf/fzf-tab/fzf-tab.plugin.zsh"
+	[[ -r $d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh ]] &&
+		source "$d/zsh-users/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 
 	# zoxide: the zsh-zoxide plugin only added an evalcache shim around
 	# `zoxide init zsh` (which forks md5 on every shell, ~6 ms). Calling init

@@ -1,0 +1,7 @@
+# zsh checkouts under ~/.local/share/zsh/repos/github.com, one owner/repo per
+# line. Read by .zshrc (to detect what is missing) and by tool/zsh-plugins.sh
+# (to clone and update): adding a plugin is a one-line edit here.
+romkatv/zsh-defer
+zsh-users/zsh-completions
+Aloxaf/fzf-tab
+zsh-users/zsh-autosuggestions

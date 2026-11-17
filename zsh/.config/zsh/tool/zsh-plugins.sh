@@ -18,14 +18,11 @@ readonly PROG="${0##*/}"
 readonly DATA_DIR="${XDG_DATA_HOME:-${HOME}/.local/share}/zsh"
 readonly REPO_DIR="${DATA_DIR}/repos/github.com"
 
-# owner/repo — zsh-defer and the completions are loaded at startup, the other
-# two are loaded from the deferred bundle
-readonly PLUGINS=(
-  "romkatv/zsh-defer"
-  "zsh-users/zsh-completions"
-  "Aloxaf/fzf-tab"
-  "zsh-users/zsh-autosuggestions"
-)
+# The list lives next to this script because .zshrc reads the same file to
+# detect what is missing: one source of truth for both sides.
+SCRIPT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")" && pwd)"
+readonly SCRIPT_DIR
+readonly PLUGIN_LIST="${SCRIPT_DIR}/plugins.list"
 
 die() {
   printf 'Erreur : %s\n' "$*" >&2
@@ -41,6 +38,15 @@ usage() {
 
 command -v git >/dev/null 2>&1 || die "git introuvable dans le PATH"
 
+[[ -r ${PLUGIN_LIST} ]] || die "liste de plugins introuvable : ${PLUGIN_LIST}"
+
+PLUGINS=()
+while IFS= read -r line; do
+  [[ -z ${line} || ${line} == \#* ]] && continue
+  PLUGINS+=("${line}")
+done <"${PLUGIN_LIST}"
+(( ${#PLUGINS[@]} )) || die "liste de plugins vide : ${PLUGIN_LIST}"
+
 changed=0   # dépôts qui ont réellement bougé (conditionne l'invalidation du cache)
 
 action="${1:-update}"
@@ -51,6 +57,17 @@ case "${action}" in
 esac
 
 mkdir -p "${REPO_DIR}"
+
+# One install/update at a time: .zshrc starts this detached from every shell that
+# finds plugins missing, so two of them can overlap. flock is released when the
+# process exits, so a killed run never blocks the next one.
+if [[ ${action} != status ]] && command -v flock >/dev/null 2>&1; then
+  exec 9>"${DATA_DIR}/.zsh-plugins.lock"
+  if ! flock -n 9; then
+    printf 'une installation est déjà en cours dans un autre shell — rien à faire\n'
+    exit 0
+  fi
+fi
 
 clone_or_pull() {
   local slug="$1" path="${REPO_DIR}/$1" url="https://github.com/$1"
@@ -64,6 +81,9 @@ clone_or_pull() {
     printf '  %-28s clone…\n' "${slug}"
     git clone --quiet "${url}" "${path}"
     printf '  %-28s cloné\n' "${slug}"
+    # a fresh checkout brings new completions: the dump must be rebuilt, exactly
+    # as after an update
+    changed=$((changed + 1))
     return 0
   fi
 
