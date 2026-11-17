@@ -1,4 +1,13 @@
-# shellcheck disable=SC2034
+# shellcheck disable=SC2034,SC2148,SC2296,SC2250,SC2312,SC2154,SC2004
+# This file is *sourced by zsh* from .zshrc, not executed by sh/bash, and
+# The linter has no zsh mode: the codes above are that mismatch, not defects:
+#   SC2148  no shebang: it is not a script;
+#   SC2296  zsh-only expansions — ${(z)…}, ${(@)…:#}, ${~pat} — are not sh;
+#   SC2250  braces style, a rule for shell scripts (the file predates it);
+#   SC2312  $(cmd | cmd) pipelines: their status is deliberately ignored;
+#   SC2154  zsh's special arrays functions/commands/builtins "not assigned";
+#   SC2004  $ in zsh arithmetic subscripts.
+# Syntax is validated with `zsh -n`, which is the authoritative check here.
 # Colours as literal ANSI sequences: 9 $(tput) calls = 9 forks (~8 ms
 # of extra load time). \e[0m = sgr0, \e[3Nm = setaf N.
 C_BLACK=$'\e[30m'
@@ -9,27 +18,28 @@ C_BLUE=$'\e[34m'
 C_MAGENTA=$'\e[35m'
 C_CYAN=$'\e[36m'
 C_WHITE=$'\e[37m'
+C_BOLD=$'\e[1m'
 C_RESET=$'\e[0m'
 
 # ----------------------------------------------------------------------------------------------------------
 distrodate() {
-	# shellcheck disable=SC2312,SC2012
+	# shellcheck disable=SC2012
 	ls -lct /etc | tail -1 | awk '{print $6, $7, $8}'
 }
 
 # ----------------------------------------------------------------------------------------------------------
 heure() {
 	local hr
-	local date
+	local jour # not `date`: that would shadow the command name inside the function
 	hr=$(date '+%T')
-	date=$(date '+%A %d %B %Y')
-	echo "${hr}, le ${date}"
+	jour=$(date '+%A %d %B %Y')
+	echo "${hr}, le ${jour}"
 }
 
 # ----------------------------------------------------------------------------------------------------------
 nocomm() {
   # shellcheck disable=SC2312
-  rg -v "^\s*(#|//|;)" --color=never "$@" | rg . | bat -p --file-name "$@"
+  rg -v "^\s*(#|//|;)" --color=never "$@" | rg . | bat -p --file-name "$*"
 }
 
 # ----------------------------------------------------------------------------------------------------------
@@ -68,7 +78,7 @@ logerror() { # deduplicated errors for the current boot
 
 # ----------------------------------------------------------------------------------------------------------
 help() { # colored help
-	# shellcheck disable=SC2312
+	#shellcheck disable=SC2312
 	if (( $# == 0 )); then
 		print -r -- "usage: help COMMANDE [ARG…]" >&2
 		return 1
@@ -80,14 +90,29 @@ help() { # colored help
 	# Resolve the alias: `help ls` must document what `ls` really runs
 	# (eza), not /usr/bin/ls. Compound aliases (`;`, `|`) are skipped.
 	if [[ -n ${aliases[$cmd]} && ${aliases[$cmd]} != *[';|&<>']* ]]; then
-		words=(${(z)aliases[$cmd]})
+		words=( "${(@z)aliases[$cmd]}" )
 		# no recursion risk: a word coming from an array expansion is never
 		# subject to alias expansion
 		"${words[@]}" --help "$@" 2>&1 | \bat --plain --language=help
+	elif (( $+functions[$cmd] )); then
+		# shell functions have no --help: `help view` used to run
+		# `view --help`, i.e. an error about a file named "--help".
+		functions "$cmd" | \bat --plain --file-name "functions $cmd"
+	elif (( $+commands[$cmd] )); then
+		# explicit path rather than the `bathelp` alias: a function sourced
+		# from a .zwc (zcompile) is parsed outside alias scope. The full path
+		# also avoids a builtin of the same name shadowing the real command.
+		"${commands[$cmd]}" --help "$@" 2>&1 | \bat --plain --language=help
+	elif (( $+builtins[$cmd] )); then
+		if (( $+functions[run-help] )); then
+			run-help "$cmd" 2>&1 | \bat --plain --language=help
+		else
+			print -u2 "help: $cmd est une commande interne de zsh (voir « man zshbuiltins »)"
+			return 1
+		fi
 	else
-		# explicit command rather than the `bathelp` alias: a function sourced
-		# from a .zwc (zcompile) is parsed outside alias scope.
-		"$cmd" --help "$@" 2>&1 | \bat --plain --language=help
+		print -u2 "help: commande introuvable: $cmd"
+		return 1
 	fi
 }
 
@@ -110,9 +135,9 @@ myip() {
 
 # ----------------------------------------------------------------------------------------------------------
 testping(){
-	local host="$1"
+	local host="$1" out time_ms time_int
 	[[ -z "${host:-}" ]] && host="free.fr"
-	out=$(LANG=LC /usr/bin/ping -c 1 -W 1 "${host}" 2>/dev/null)
+	out=$(LC_ALL=C /usr/bin/ping -c 1 -W 1 "${host}" 2>/dev/null)
 	# shellcheck disable=SC2181
 	if [[ $? -eq 0 ]]; then
 	    time_ms=$(echo "$out" | grep -oP 'time=\K[0-9.]+')
@@ -135,7 +160,7 @@ ipconf(){
 	if [[ -n "${temp}" ]]; then
 		iface=$(echo "${temp}" | awk '{print $1}')
 		ip=$(echo "${temp}" | awk '{print $3}')
-		channel=$(iw dev "${iface}" link | awk '/freq:/ { print $2; exit }')
+		channel=$(iw dev "${iface}" link 2>/dev/null | awk '/freq:/ { print $2; exit }')
 	fi
 	gate=$(ip route | awk '/^default/ {print $3}')
 	[[ -n "${channel}" ]] && str="${channel}Mhz" 
@@ -248,7 +273,7 @@ view() {
         	;;
         *)	
         # shellcheck disable=SC2015
-           	[[ "${nocomm:-}" != "-n" ]] && \bat -pfSn --squeeze-blank -- "${f}" || rg -v "^\s*(#|//|;)" --color=never "$@" | rg . | bat -p --file-name "$@"
+           	[[ "${nocomm:-}" != "-n" ]] && \bat -pfSn --squeeze-blank -- "${f}" || rg -v "^\s*(#|//|;)" --color=never -- "${f}" | rg . | bat -p --file-name "${f}"
            ;;
     esac
 }
@@ -287,11 +312,11 @@ _SECTION() {
     fillertype="$2"
     color="$3"
 
-    local term_cols
-    term_cols="${COLUMNS}" || return 1
+    local term_cols=${COLUMNS:-80}
+    (( term_cols -= 2 ))
+    (( term_cols > 0 )) || term_cols=78
 
     print -- "${color}"
-    (( term_cols -= 2 ))
 
     local str_len=${#msg}
     if (( str_len >= term_cols )); then
@@ -350,31 +375,54 @@ maj(){ # full Omarchy update
 
 # ----------------------------------------------------------------------------------------------------------
 
+# zap only understands its own flags (-c -m -d -t -s -f -r -v,
+# --no-preserve-root, --version). Anything else (`cp -a`, `mv -n`, `cp -t`,
+# `rm -d`, `--preserve=…`) makes it abort with "unknown shorthand flag" or
+# "conflicting modes" where coreutils would have worked, so those calls are
+# handed to the real command instead.
+_zap_safe() { # $1: accepted-options pattern, rest: the user's arguments
+	setopt localoptions extendedglob # for the `##` in the patterns below
+	local pat=$1 a
+	shift
+	for a in "$@"; do
+		[[ $a == -* ]] || continue
+		# ${~pat} is matched as a glob on purpose: it is the allowed-options
+		# pattern, not a literal.
+		# shellcheck disable=SC2053
+		[[ $a == ${~pat} ]] || return 1
+	done
+	return 0
+}
+
+# ----------------------------------------------------------------------------------------------------------
+
 rm(){
-	if command -v zap &>/dev/null; then
+	if command -v zap &>/dev/null && _zap_safe '-[frRv]##|--recursive|--force|--verbose' "$@"; then
 		zap -t -v "$@"
 	else
-		rm -Iv --preserve-root "$@"
+		# `command` is mandatory: a bare `rm` here would call this function again
+		# and abort with "maximum nested function level reached".
+		command rm -Iv --preserve-root "$@"
 	fi
 }
 
 # ----------------------------------------------------------------------------------------------------------
 
 cp(){
-	if command -v zap &>/dev/null; then
+	if command -v zap &>/dev/null && _zap_safe '-[frRv]##|--recursive|--force|--verbose' "$@"; then
 		zap -c -v "$@"
 	else
-		cp -iv "$@"
+		command cp -iv "$@"
 	fi
 }
 
 # ----------------------------------------------------------------------------------------------------------
 
 mv(){
-	if command -v zap &>/dev/null; then
+	if command -v zap &>/dev/null && _zap_safe '-[fv]##|--force|--verbose' "$@"; then
 		zap -m -v "$@"
 	else
-		mv -iv "$@"
+		command mv -iv "$@"
 	fi
 }
 
@@ -427,4 +475,92 @@ omarchy-plugins() {
 
 # ----------------------------------------------------------------------------------------------------------
 
-s() { eval "sudo $(fc -ln -1)" }
+s() { # replay the previous command line with sudo, without eval
+	local line
+	local -a reply
+
+	line=$(fc -ln -1)
+	line=${line#"${line%%[![:blank:]]*}"}
+	_sudo_words "$line" || return 1
+	sudo "${reply[@]}"
+}
+
+# Shared with s(): turn an already-typed command line into the words to hand to
+# sudo. Sets `reply`; prints the reason and returns 1 when the line cannot be
+# replayed under sudo. Kept separate so it can be tested without a tty.
+_sudo_words() {
+	local line=$1
+	local -a words
+	local -a meta
+	local -A seen
+	local w n=0
+
+	words=( "${(@z)line}" )
+	words=( "${(@)words:#}" ) # drop empty words (empty line, trailing blanks)
+	if (( ${#words} == 0 )); then
+		print -u2 's: aucune commande précédente'
+		return 1
+	fi
+
+	# The command word is resolved the way the parser would. `ll` is an alias
+	# for `ls -lh`, itself an alias for eza, and `alias sudo='\sudo '` only
+	# works because its trailing space makes zsh alias-expand the next word —
+	# which is exactly why `sudo ll` typed by hand succeeds. Words rebuilt from
+	# a string are never alias-expanded by zsh, so do it here, one level at a
+	# time; `seen` reproduces zsh's "alias already in use" stop, which is what
+	# keeps `alias eza='eza --git'` from looping forever.
+	while (( n++ < 10 )) && [[ -n ${aliases[${words[1]}]} && -z ${seen[${words[1]}]} ]]; do
+		seen[${words[1]}]=1
+		words=( "${(@z)aliases[${words[1]}]}" "${words[@]:1}" )
+	done
+	# `sudo foo`: rerunning it under sudo means dropping the redundant word.
+	# (`case` rather than `[[ $x == (a|b) ]]`: the latter is a zsh-only glob
+	# that makes shellcheck abort, while `case` is understood by both.)
+	case ${words[1]} in
+		sudo) words=( "${words[@]:1}" ) ;;
+		*) ;;
+	esac
+	if (( ${#words} == 0 )); then
+		print -u2 's: aucune commande à relancer'
+		return 1
+	fi
+
+	# sudo only sees executables: zsh functions and builtins are invisible to
+	# it. So `s` follows sudo's rule: when a binary of that name exists, run it
+	# (that is what makes `s` work after `id`, `ss`, `df`…, whose grc wrappers
+	# are display-only), and refuse only when there is no binary at all.
+	local bin=${commands[${words[1]}]}
+	if [[ -z ${bin} ]]; then
+		print -u2 "s: « ${words[1]} » n'est pas un exécutable : le wrapper s ne peut relancer qu'un binaire"
+		print -u2 '   (sudo ne voit ni les fonctions shell ni les commandes internes)'
+		return 1
+	fi
+	# Explain only when a real function is bypassed. The grc colour wrappers
+	# (`grc --colour=auto <cmd>`, see grc-wrappers.zsh) only add colour, which
+	# nobody expects from a root command. Note that `$functions[…]` hands back
+	# the body indented with a tab, hence the leading-blank stripping.
+	local body=${functions[${words[1]}]}
+	body=${body#"${body%%[![:blank:]]*}"}
+	if [[ -n ${body} && ${body%%$'\n'*} != 'grc --colour=auto '* ]]; then
+		print -u2 "s: fonction shell « ${words[1]} » ignorée, sudo lance ${bin}"
+	fi
+
+	# `eval "sudo …"` only escalated the first word: after `true; rm -rf x`,
+	# the part following `;` ran as the user, without any prompt. Splitting the
+	# words puts everything under sudo, hence a compound line is refused
+	# outright instead of being half-executed.
+	for w in "${words[@]}"; do
+		case $w in
+			';'|';;'|'|'|'||'|'&'|'&&'|'>'|'>>'|'<'|'<<'|'|&'|'('|')') meta=1 ;;
+			*) ;;
+		esac
+	done
+	# '$(' and '`' are searched as literal text here, never expanded.
+	# shellcheck disable=SC2016
+	if (( ${#meta} )) || [[ $line == *'$('* || $line == *'`'* ]]; then
+		print -u2 's: commande composée, relance-la explicitement :'
+		print -u2 "    sudo ${(j: :)words}"
+		return 1
+	fi
+	reply=( "${words[@]}" )
+}
