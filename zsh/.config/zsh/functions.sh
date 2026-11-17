@@ -204,15 +204,31 @@ fzf-history() { # atuin-style history without sync
   # emits each entry NUL-separated (--read0), prefixed with the event number and
   # a tab. Same mechanism as fzf's official integration, so multi-line
   # entries are displayed across several lines.
+  #   Format of a raw line is `%5s%c ` (Src/builtin.c, fclist): the event
+  #   number, then `*` when the entry is HIST_FOREIGN — a command run in
+  #   another shell and imported through SHARE_HISTORY — then a space.
+  #   That asterisk must not reach the list as text, but the information is
+  #   worth keeping: such entries get a discreet grey marker in the displayed
+  #   field instead (grey 244, faint enough to read as a margin mark). Local
+  #   entries get two spaces, so every line stays aligned. The marker lives in
+  #   field 2 only — field 1 stays the bare number, which is all fzf returns.
+  #   The glyph must exist in the terminal font and be one cell wide, or the
+  #   alignment breaks: Maple Mono NF (kitty) has ⇄ U+21C4, ┆ U+2506, ▪, •, ↪,
+  #   but NOT ⧉ U+29C9. Change `mark` to switch; the fallback below knows the
+  #   common ones.
   #   --with-nth=2..  : the list only shows the command (the number stays in
   #                     field 1, hidden);
   #   --accept-nth=1  : fzf returns only the number, single-line output with no
   #                     ambiguity against the --expect key line; the command is
   #                     then re-read from ${history[n]}, the only exact source of \n.
   raw=$(fc -rl 1 | awk '
-    { cmd = $0; sub(/^[ \t]*[0-9]+[ \t]+/, "", cmd)
+    BEGIN { mark = "⇄" }
+    { cmd = $0; sub(/^[ \t]*[0-9]+\*?[ \t]+/, "", cmd)
+      foreign = ($1 ~ /\*$/)
+      num = $1; sub(/\*$/, "", num)
       gsub(/\\n/, "\n", cmd)
-      printf "%04d\t%s%c", $1, cmd, 0 }' |
+      prefix = foreign ? sprintf("%c[38;5;244m%s%c[0m ", 27, mark, 27) : "  "
+      printf "%04d\t%s%s%c", num, prefix, cmd, 0 }' |
     fzf --read0 --with-nth=2.. --accept-nth=1 --delimiter=$'\t' \
       --no-sort --exact \
       --bind='ctrl-r:toggle-sort' --expect=tab,enter \
@@ -242,8 +258,15 @@ fzf-history() { # atuin-style history without sync
       return 0
     fi
   fi
-  # fallback: use the displayed text as is
+  # fallback: use the displayed text as is, minus a leftover `NNNN` / `NNNN*`
+  # prefix or the grey ⧉ marker of a foreign entry
   BUFFER=${selected#*$'\t'}
+  if [[ ${BUFFER} =~ '^[0-9]+[*]? +' ]]; then
+    BUFFER=${BUFFER#${MATCH}}
+  fi
+  if [[ ${BUFFER} =~ $'^(\e\\[[0-9;]*m)*[⇄⧉┆▪▫↪] ' ]]; then
+    BUFFER=${BUFFER#${MATCH}}
+  fi
   CURSOR=${#BUFFER}
   zle redisplay
   [[ ${key} == enter ]] && zle accept-line
