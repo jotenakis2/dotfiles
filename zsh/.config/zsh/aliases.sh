@@ -46,6 +46,10 @@ alias timers='systemctl list-timers --all ; systemctl --user list-timers --all'
 alias cargolist='cargo install --list | rg '\''v[0-9]'\'''
 alias journalctl='grc --colour=auto journalctl --no-hostname'
 alias wifilist='nmcli -f active,ssid,bssid,freq dev wifi'
+# profil NetworkManager actif (MaisonDuRuet-5G = 5 GHz, MaisonDuRuet = filet 2,4 GHz)
+# et bande réelle du lien : freq 5500 = 5 GHz, 2447 = 2,4 GHz, 5975 = 6 GHz
+alias wifi='nmcli -f NAME,DEVICE,TYPE con show --active | grep -v loopback'
+alias wifi-band='iw dev wlan0 link | grep -E "freq|signal|tx bitrate"'
 alias _e='sudo -e '
 alias sudo='\sudo '
 alias o='omarchy '
