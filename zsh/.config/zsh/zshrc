@@ -371,6 +371,12 @@ _load_deferred() {
 
 	# version manager + prompt
 	_load_mise
+	# mise refreshes its environment from chpwd, not from the prompt: its precmd
+	# hook runs a `mise hook-env` fork on every prompt (~1.6-3.6 ms, plus a 21 ms
+	# first run) for a refresh that only matters when the directory changes.
+	# Measured 4 -> 1 ms per prompt with the same `cd` behaviour: a project
+	# .mise.toml still switches versions (concord 2.7.1 -> 2.6.4).
+	precmd_functions=( ${precmd_functions:#_mise_hook_precmd} )
 	# prompt: native and fork-free, see prompt.zsh (the TTY branch of _vconsole
 	# keeps its own plain prompt)
 	if [[ $TERM != "linux" ]]; then
