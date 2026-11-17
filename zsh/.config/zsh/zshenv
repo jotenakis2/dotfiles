@@ -9,6 +9,10 @@
 # access to $commands/$functions/$aliases/… (verified: `zmodload` alone lists only
 # zsh/main, then zsh/parameter shows up after `${+commands[ls]}`).
 
+# Plugin checkouts live under the XDG data dir and are derived in .zshrc;
+# ~/.config/zsh/tool/zsh-plugins.sh clones and updates them.
+
+
 setopt +o nomatch
 
 # cache for generated init scripts (mise, patina, fzf)
@@ -19,9 +23,19 @@ ZSH_INIT_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/initcache"
 # zsh-patina
 export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina-config.toml"
 
-# Plugin checkouts live under the XDG data dir and are derived in .zshrc;
-# ~/.config/zsh/tool/zsh-plugins.sh clones and updates them.
+# PATH/fpath
+typeset -U PATH
+typeset -U fpath
 
+# ENV
+. "$ZDOTDIR/exports.sh"
+
+
+
+
+
+
+# OLD -------------------------------------------------------------
 # RUST
 #export RUSTUP_HOME="${HOME}/.rustup"
 #export CARGO_HOME="${HOME}/.cargo"
@@ -31,13 +45,4 @@ export ZSH_PATINA_CONFIG_PATH="$HOME/.config/zsh/patina-config.toml"
 #export GOROOT="${HOME}/.go"
 #export GOPATH="${HOME}/.go/workspace"
 #export GOBIN="${HOME}/.go/workspace/bin"
-
-# PATH
-typeset -U PATH
-# fpath : précaution pour compinit, qu'un répertoire en double ferait lire deux
-# fois ; zshrc y ajoute ses deux entrées.
-typeset -U fpath
 #export PATH="$HOME/.local/bin:$HOME/Projects/scripts:$GOROOT/bin:$GOBIN:$CARGO_HOME/bin:${PATH}"
-
-# ENV
-. "$ZDOTDIR/exports.sh"
