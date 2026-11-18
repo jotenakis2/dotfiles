@@ -154,8 +154,20 @@ _mise_env_write() { # full env for $HOME, minus mise's session state and dead di
 }
 
 _load_mise() {
-	(( $+commands[mise] )) || return 0
-	local bin=${commands[mise]}
+	# Do NOT look mise up with `(( $+commands[mise] ))`: this is the first line
+	# touching $commands, so zsh builds the whole PATH hash right there — 3.0 ms
+	# measured, the largest single item of the deferred bundle. The resolved
+	# path is cached in a sidecar next to the init caches instead: a builtin read
+	# while it is valid, `command -v` (one fork) only when mise moved, was
+	# reinstalled or the cache is new.
+	local bin
+	IFS= read -r bin < "$ZSH_INIT_CACHE_DIR/mise-bin" 2>/dev/null
+	if [[ -z $bin || ! -x $bin ]]; then
+		bin=$(command -v -- mise) || return 0
+		[[ -n $bin ]] || return 0
+		[[ -d $ZSH_INIT_CACHE_DIR ]] || mkdir -p "$ZSH_INIT_CACHE_DIR"
+		print -r -- "$bin" >| "$ZSH_INIT_CACHE_DIR/mise-bin"
+	fi
 	local act="$ZSH_INIT_CACHE_DIR/mise-activate.zsh"
 	local env="$ZSH_INIT_CACHE_DIR/mise-env.zsh"
 	local -a deps
