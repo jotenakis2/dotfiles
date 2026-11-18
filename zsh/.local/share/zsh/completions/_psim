@@ -1,0 +1,52 @@
+#compdef psim
+#
+# Complétion zsh pour psim (moniteur de processus).
+#
+# Le parseur est plat : aucune sous-commande, aucun argument positionnel, et
+# toutes les options sont acceptées dans n'importe quel ordre — d'où un seul
+# _arguments, sans état ni dispatch. Relevé sur PARSE_ARGS, pas sur --help.
+#
+# Deux options prennent une valeur : --watch (secondes) et --filter (ERE awk,
+# texte libre). Les options courtes se groupent (-pn, -w5, -gfirefox) grâce à
+# `-s`. `-k`/`-K` et `-M`/`--per-core` s'excluent ; les clés de tri, non :
+# la dernière gagne, donc les proposer à nouveau après un autre tri est voulu.
+#
+# Installation : le fichier doit être dans $fpath
+#   ~/.local/share/zsh/completions/   (ajouté au fpath par ~/.config/zsh/zshrc)
+# depuis ~/Projects/dotfiles (paquet zsh, stow) ; un nouveau shell charge la
+# complétion (compinit est déjà fait par la configuration).
+#
+# Après tout ajout ou retrait d'option dans psim, refaire l'aller-retour :
+# cette table d'un côté, le `case` de PARSE_ARGS de l'autre.
+
+_psim() {
+	local curcontext="${curcontext:-}" state line
+	typeset -A opt_args
+
+	_arguments -s -S \
+		'(-p --pid)'{-p,--pid}'[tri par PID]' \
+		'(-P --ppid)'{-P,--ppid}'[tri par PPID]' \
+		'(-c --cpu)'{-c,--cpu}'[tri par %CPU]' \
+		'(-N --nice)'{-N,--nice}'[tri par valeur nice]' \
+		'(-m --mem)'{-m,--mem}'[tri par mémoire résidente]' \
+		'(-u --user)'{-u,--user}'[tri par propriétaire]' \
+		'(-C --cmd)'{-C,--cmd}'[tri par commande]' \
+		'(-t --tree)'{-t,--tree}'[hiérarchie des processus (arbre des ppid)]' \
+		'(-n --newbie)'{-n,--newbie}'[affichage simplifié]' \
+		'(-k --kernel)'{-k,--kernel}'[inclure les threads noyau]' \
+		'(-K --kernel-only)'{-K,--kernel-only}'[uniquement les threads noyau]' \
+		'(-g --filter)'{-g,--filter}'[filtre ERE (utilisateur, commande, arguments)]:motif:' \
+		'(-w --watch)'{-w,--watch}'[rafraîchir toutes les N secondes (0 = statique)]:secondes:(0 1 2 3 5 10 30 60)' \
+		'(-H --no-header)'{-H,--no-header}'[masquer l’entête]' \
+		'(-F --no-footer)'{-F,--no-footer}'[masquer le pied de page]' \
+		'(-O --fullcmd)'{-O,--fullcmd}'[chemin complet et arguments]' \
+		'(-0 --no-color)'{-0,--no-color}'[sans couleurs]' \
+		'(-M --machine-cpu --per-core)'{-M,--machine-cpu}'[%CPU en % de la machine]' \
+		'(--machine-cpu --per-core)--per-core[%CPU des lignes par cœur (défaut)]' \
+		'--no-config[ignorer le fichier de configuration]' \
+		'--debug[ne pas masquer les erreurs ps/awk]' \
+		'(-v --version)'{-v,--version}'[afficher la version]' \
+		'(-h --help)'{-h,--help}'[afficher l’aide]'
+}
+
+_psim "$@"
