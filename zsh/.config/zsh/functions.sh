@@ -395,6 +395,9 @@ maj(){ # full Omarchy update
 	_SECTION "  Mise à jour des FLATPAK  " "*" "${C_MAGENTA}"
 	flatpak update -y
 	echo
+	_SECTION "  Mise à jour de HERMES  " "*" "${C_MAGENTA}"
+	hermes update -y
+	echo
 	_SECTION "  Mise à jour d'OMARCHY  " "*" "${C_MAGENTA}"
 	omarchy update -y
 	echo
