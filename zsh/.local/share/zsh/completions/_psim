@@ -37,7 +37,8 @@ _psim() {
 		'(-u --user)'{-u,--user}'[tri par propriétaire]' \
 		'(-C --cmd)'{-C,--cmd}'[tri par commande]' \
 		'(-t --tree)'{-t,--tree}'[hiérarchie des processus (arbre des ppid)]' \
-		'(-n --newbie)'{-n,--newbie}'[affichage simplifié]' \
+		'(-n --newbie --normal)'{-n,--newbie}'[affichage simplifié]' \
+		'(-n --newbie --normal)--normal[colonnes complètes (annule --newbie)]' \
 		'(-k --kernel)'{-k,--kernel}'[inclure les threads noyau]' \
 		'(-K --kernel-only)'{-K,--kernel-only}'[uniquement les threads noyau]' \
 		'(-g --filter)'{-g,--filter}'[filtre ERE (utilisateur, commande, arguments)]:motif:' \
