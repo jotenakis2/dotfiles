@@ -1,0 +1,33 @@
+#compdef freeim
+#
+# Complétion zsh pour freeim (occupation de la mémoire, lue dans /proc et /sys).
+#
+# Le parseur est un getopts : aucune sous-commande, aucun argument positionnel
+# (un argument en trop est refusé), aucune option à valeur — donc un seul
+# _arguments, sans état ni dispatch. Chaque option longue a deux formes courtes
+# équivalentes (-f/-F/--free) ; `-s` permet de les grouper comme getopts (-sn).
+# Relevé sur parse_options() et la table de show_help(), pas l'inverse.
+#
+# Installation : le fichier doit être dans $fpath
+#   ~/.local/share/zsh/completions/   (ajouté au fpath par ~/.config/zsh/zshrc)
+# depuis ~/Projects/dotfiles (paquet zsh, stow) ; un nouveau shell charge la
+# complétion (compinit est déjà fait par la configuration).
+#
+# Après tout ajout ou retrait d'option dans freeim, refaire l'aller-retour :
+# cette table d'un côté, le case de parse_options() de l'autre.
+
+_freeim() {
+	local curcontext="${curcontext:-}" state line
+	typeset -A opt_args
+
+	_arguments -s -S \
+		'(-f -F --free)'{-f,-F,--free}'[affichage comme la commande free]' \
+		'(-s -S --simple)'{-s,-S,--simple}'[affichage concis]' \
+		'(-n -N --nocolor)'{-n,-N,--nocolor}'[affichage non coloré (ou NO_COLOR)]' \
+		'(-0 --noexplain)'{-0,--noexplain}'[affichage sans explication]' \
+		'(-m -M --mib)'{-m,-M,--mib}'[affichage forcé en MiB]' \
+		'(-h -H --help)'{-h,-H,--help}'[afficher l’aide]' \
+		'(-v -V --version)'{-v,-V,--version}'[afficher la version]'
+}
+
+_freeim "$@"
