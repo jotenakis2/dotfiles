@@ -23,9 +23,11 @@ typeset -g _NP_IT_OFF=$'%{\e[23m%}'
 typeset -g _NP_LINK_OFF=$'%{\e[24m\e]8;;\a%}'
 
 # black block, blue icons and host (italic), cyan user, blue path
+# The user name turns red for root (prompt conditional # = euid 0), so a root
+# shell never looks like a normal one.
 # The path lives between HEAD and TAIL because its hyperlink is built at each
 # prompt from $PWD; HEAD brings its own foreground/background.
-typeset -g _NP_BLOCK_HEAD="%F{blue}${_NP_IC_USER}%f%F{cyan} %n%f%F{blue}@${_NP_IT_ON}%m${_NP_IT_OFF} %f%F{black}${_NP_SEP}%K{black}%F{blue}${_NP_IC_DIR}  "
+typeset -g _NP_BLOCK_HEAD="%F{blue}${_NP_IC_USER}%f%F{%(#.red.cyan)} %n%f%F{blue}@${_NP_IT_ON}%m${_NP_IT_OFF} %f%F{black}${_NP_SEP}%K{black}%F{blue}${_NP_IC_DIR}  "
 typeset -g _NP_BLOCK_TAIL=" %f%F{black}${_NP_SEP}%k%f"
 
 # transient prompt: "❯ " in the theme's accent colour
