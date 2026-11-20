@@ -30,8 +30,7 @@ alias hl='rg --passthru'
 alias watch='watch --color -n 1'
 alias ping='grc --colour=auto ping -i 0.2 -w 1'
 alias glances='glances -0 -b --fs-free-space --disable-webui'
-alias duf='duf -theme ansi'
-# diff: GNU diffutils native colour (0 ms), replaces the grc wrapper
+alias duf="duf -theme ansi -hide-mp /home,/var/log,/var/cache/pacman/pkg,/dev,/dev/shm,/run/c*,*firm*,*fw*"
 alias diff='\diff --color=auto'
 
 # Pkg & system mngt
@@ -59,7 +58,7 @@ alias pkgr='omarchy-pkg-remove'
 
 # misc
 alias btm='btm --hide_k_threads'
-# btop, une seule boîte à l'écran (presets 4-7 de ~/.config/btop/btop.conf)
+alias btop-all='btop -p 0'
 alias btop-cpu='btop -p 4'
 alias btop-mem='btop -p 5'
 alias btop-net='btop -p 6'

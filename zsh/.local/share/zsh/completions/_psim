@@ -8,8 +8,9 @@
 #
 # Deux options prennent une valeur : --watch (secondes) et --filter (ERE awk,
 # texte libre). Les options courtes se groupent (-pn, -w5, -gfirefox) grâce à
-# `-s`. `-k`/`-K` et `-M`/`--per-core` s'excluent ; les clés de tri, non :
-# la dernière gagne, donc les proposer à nouveau après un autre tri est voulu.
+# `-s`. `-k`/`-K`, `-M`/`--per-core` et `-t`/`--no-tree` s'excluent ; les clés
+# de tri, non : la dernière gagne, donc les proposer à nouveau après un autre
+# tri est voulu.
 #
 # La limite « --N » n'est pas un nom d'option mais un suffixe numérique : le
 # parseur accepte tout --<chiffres> (jusqu'à 10000). Trois valeurs usuelles
@@ -17,9 +18,9 @@
 # Tab ; une valeur plus exotique se tape à la main.
 #
 # Installation : le fichier doit être dans $fpath
-#   ~/.local/share/zsh/completions/   (ajouté au fpath par ~/.config/zsh/zshrc)
-# depuis ~/Projects/dotfiles (paquet zsh, stow) ; un nouveau shell charge la
-# complétion (compinit est déjà fait par la configuration).
+#   install -Dm644 completions/_psim ~/.local/share/zsh/completions/_psim
+# (répertoire ajouté au fpath par la configuration zsh) ; un nouveau shell
+# charge la complétion (compinit est déjà fait par la configuration).
 #
 # Après tout ajout ou retrait d'option dans psim, refaire l'aller-retour :
 # cette table d'un côté, le `case` de PARSE_ARGS de l'autre.
@@ -36,7 +37,8 @@ _psim() {
 		'(-m --mem)'{-m,--mem}'[tri par mémoire résidente]' \
 		'(-u --user)'{-u,--user}'[tri par propriétaire]' \
 		'(-C --cmd)'{-C,--cmd}'[tri par commande]' \
-		'(-t --tree)'{-t,--tree}'[hiérarchie des processus (arbre des ppid)]' \
+		'(-t --tree --no-tree)'{-t,--tree}'[hiérarchie des processus (arbre des ppid)]' \
+		'(-t --tree --no-tree)--no-tree[annuler --tree]' \
 		'(-n --newbie --normal)'{-n,--newbie}'[affichage simplifié]' \
 		'(-n --newbie --normal)--normal[colonnes complètes (annule --newbie)]' \
 		'(-k --kernel)'{-k,--kernel}'[inclure les threads noyau]' \

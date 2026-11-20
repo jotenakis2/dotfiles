@@ -6,3 +6,4 @@ zsh/.config/zsh/zcompdump
 zsh/.local/share/zsh/zsh_history
 zsh/.local/share/zsh/.zsh-plugins.lock
 zsh/.local/share/zsh/repos/
+zsh/.config/zsh/.zcompdump

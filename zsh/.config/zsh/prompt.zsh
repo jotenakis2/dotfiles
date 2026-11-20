@@ -89,6 +89,25 @@ _np_precmd() {
 
 _np_preexec() { _NP_LEAD=1 }
 
+# kitty tab title. kitty's own shell integration is not loaded here
+# (shell_integration includes no-rc), so the shell publishes the title itself
+# with OSC 2: the command while it runs, the directory name once the prompt is
+# back. kitty redraws the tab on every title change, which is what keeps the
+# label from going stale after a command exits.
+_kitty_tab_title() {
+	[[ -t 1 ]] || return 0
+	local label
+	if [[ -n ${1-} ]]; then
+		local -a words=( ${(z)1} )
+		label=${words[1]-}
+	fi
+	if [[ -z $label ]]; then
+		label=${PWD:t}
+		[[ $PWD == $HOME ]] && label='~'
+	fi
+	printf '\e]2;%s\a' "$label" >/dev/tty
+}
+
 # called when the line is accepted: redraw it with the transient prompt, which
 # is what makes the long prompt collapse before the command runs. The leading
 # newline is repeated here once commands have run, so the blank line stays above
@@ -103,5 +122,7 @@ _np_line_finish() {
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _np_precmd
 add-zsh-hook preexec _np_preexec
+[[ -n ${KITTY_WINDOW_ID-} ]] && add-zsh-hook precmd _kitty_tab_title
+[[ -n ${KITTY_WINDOW_ID-} ]] && add-zsh-hook preexec _kitty_tab_title
 zle -N zle-line-finish _np_line_finish
 _np_precmd
